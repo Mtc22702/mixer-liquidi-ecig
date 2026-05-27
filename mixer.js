@@ -350,17 +350,7 @@ function initCalculator() {
     render();
   }
 
-function resetRecipe() {
-    ingredients = DEFAULT_RECIPE.map((ing) => ({ ...ing }));
-    finalVolumeInput.value = "60";
-    targetPresetInput.value = "50";
-    customTarget.hidden = true;
-    setInputValue(targetVgInput, 50, 1);
-    nicotineRatioInput.value = "70vg";
-    resetBasesAndRender();
-  }
-
-  function applyAmountChange(input) {
+function applyAmountChange(input) {
     const changedId = input.closest(".component-row").dataset.id;
     const finalVolume = readSettings().finalVolume;
     const parsedValue = parseInput(input.value);
@@ -546,9 +536,7 @@ function resetRecipe() {
 
   form.addEventListener("submit", (event) => event.preventDefault());
 
-  document.querySelector("#reset-btn")?.addEventListener("click", resetRecipe);
-
-  syncInputs();
+syncInputs();
   resetBasesAndRender();
 }
 
