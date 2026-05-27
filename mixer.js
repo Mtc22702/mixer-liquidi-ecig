@@ -191,6 +191,9 @@ function initCalculator() {
   const stickyVg = document.querySelector("#sticky-vg");
   const stickyPg = document.querySelector("#sticky-pg");
   const stickyDeltaEl = document.querySelector("#sticky-delta");
+  const stickyRatioVg = document.querySelector("#sticky-ratio-vg");
+  const stickyNicotine = document.querySelector("#sticky-nicotine");
+  const stickyNoteEl = document.querySelector("#sticky-note");
 
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
 
@@ -336,11 +339,24 @@ function initCalculator() {
         stickyDeltaEl.textContent = deltaText;
         stickyDeltaEl.className = "sticky-delta " + (calculation.isExact ? "sticky-ok" : "sticky-warn");
       }
+      if (stickyRatioVg) stickyRatioVg.style.width = calculation.actualVg + "%";
+      if (stickyNicotine) stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
+      if (stickyNoteEl) {
+        stickyNoteEl.textContent = calculation.isExact
+          ? "Composizione precisa"
+          : "Rapporto differisce dal target";
+        stickyNoteEl.className = "sticky-note-text" + (calculation.isExact ? "" : " changed");
+      }
     } catch (error) {
       result.classList.add("error");
 
       document.querySelector("#result-note").className = "result-note changed";
       document.querySelector("#result-note").textContent = error.message;
+
+      if (stickyNoteEl) {
+        stickyNoteEl.textContent = error.message;
+        stickyNoteEl.className = "sticky-note-text error";
+      }
     }
   }
 

@@ -474,16 +474,25 @@
       </form>
 
 <div class="sticky-result" id="sticky-result" aria-live="polite">
-        <div class="sticky-pair">
-          <span class="sticky-label">VG</span>
-          <strong id="sticky-vg">–</strong>
+        <div class="sticky-ratio-wrap">
+          <div class="sticky-ratio-vg" id="sticky-ratio-vg" style="width:50%"></div>
         </div>
-        <div class="sticky-divider"></div>
-        <div class="sticky-pair">
-          <span class="sticky-label">PG</span>
-          <strong id="sticky-pg">–</strong>
+        <div class="sticky-stats">
+          <div class="sticky-stat sticky-stat--vg">
+            <span class="sticky-stat-label">VG</span>
+            <strong class="sticky-stat-value" id="sticky-vg">–</strong>
+          </div>
+          <div class="sticky-stat sticky-stat--pg">
+            <span class="sticky-stat-label">PG</span>
+            <strong class="sticky-stat-value" id="sticky-pg">–</strong>
+          </div>
+          <div class="sticky-stat sticky-stat--nic">
+            <span class="sticky-stat-label">Nicotina</span>
+            <strong class="sticky-stat-value" id="sticky-nicotine">–</strong>
+          </div>
+          <span id="sticky-delta" class="sticky-delta sticky-ok">–</span>
         </div>
-        <span id="sticky-delta" class="sticky-delta sticky-ok">–</span>
+        <p id="sticky-note" class="sticky-note-text">–</p>
       </div>
     </main>
     <script src="mixer.js"></script>
