@@ -361,6 +361,16 @@ function initCalculator() {
   }
 
   function resetBasesAndRender() {
+    const { finalVolume } = readSettings();
+    if (Number.isFinite(finalVolume) && finalVolume > 0) {
+      const parsedBottles = parseInput(nicotineBottlesInput.value);
+      if (Number.isFinite(parsedBottles) && parsedBottles >= 0) {
+        const aromaVol = ingredients.find(i => i.id === "aroma").volume;
+        const maxBottles = Math.floor((Math.max(0, finalVolume - aromaVol) / NICOTINE_BOTTLE_VOLUME) * 2) / 2;
+        const bottles = clamp(roundToStep(parsedBottles, 0.5), 0, maxBottles);
+        ingredients = updateFixedVolume(ingredients, "nicotine", bottles * NICOTINE_BOTTLE_VOLUME, finalVolume);
+      }
+    }
     syncComposition();
     fitBasesToTarget();
     render();
