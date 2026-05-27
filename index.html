@@ -2,7 +2,10 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -72,10 +75,12 @@
                       <input
                         id="final-volume"
                         class="center-value"
-                        type="number"
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
                         value="60"
-                        min="0.1"
-                        step="0.1"
+                        min="1"
+                        step="10"
                       />
                       <b>ml</b>
                     </span>
@@ -116,7 +121,8 @@
                       <input
                         id="target-vg"
                         class="center-value"
-                        type="number"
+                        type="text"
+                        inputmode="decimal"
                         value="50"
                         min="0"
                         max="100"
@@ -191,7 +197,8 @@
                     <input
                       id="aroma-amount"
                       class="amount center-value"
-                      type="number"
+                      type="text"
+                      inputmode="decimal"
                       value="3"
                       min="0"
                       step="0.1"
@@ -262,7 +269,8 @@
                     <input
                       id="nicotine-bottles"
                       class="center-value"
-                      type="number"
+                      type="text"
+                      inputmode="decimal"
                       value="1"
                       min="0"
                       step="0.5"
@@ -317,7 +325,7 @@
                     type="button"
                     class="adjust"
                     data-target="base-pg-amount"
-                    data-delta="-1"
+                    data-delta="-0.1"
                     aria-label="Diminuisci base PG"
                   >
                     -
@@ -326,7 +334,8 @@
                     <input
                       id="base-pg-amount"
                       class="amount center-value"
-                      type="number"
+                      type="text"
+                      inputmode="decimal"
                       value="24"
                       min="0"
                       step="0.1"
@@ -337,7 +346,7 @@
                     type="button"
                     class="adjust"
                     data-target="base-pg-amount"
-                    data-delta="1"
+                    data-delta="0.1"
                     aria-label="Aumenta base PG"
                   >
                     +
@@ -379,7 +388,7 @@
                     type="button"
                     class="adjust"
                     data-target="base-vg-amount"
-                    data-delta="-1"
+                    data-delta="-0.1"
                     aria-label="Diminuisci base VG"
                   >
                     -
@@ -388,7 +397,8 @@
                     <input
                       id="base-vg-amount"
                       class="amount center-value"
-                      type="number"
+                      type="text"
+                      inputmode="decimal"
                       value="23"
                       min="0"
                       step="0.1"
@@ -399,7 +409,7 @@
                     type="button"
                     class="adjust"
                     data-target="base-vg-amount"
-                    data-delta="1"
+                    data-delta="0.1"
                     aria-label="Aumenta base VG"
                   >
                     +
@@ -459,11 +469,13 @@
     </main>
     <script src="mixer.js"></script>
     <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
-      });
-    }
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>
