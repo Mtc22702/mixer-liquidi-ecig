@@ -1,4 +1,4 @@
-const CACHE_NAME = "vg-mixer-v2";
+const CACHE_NAME = "vg-mixer-v3";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",

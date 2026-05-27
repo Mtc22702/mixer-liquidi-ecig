@@ -295,36 +295,56 @@ function initCalculator() {
     render();
   }
 
-  document.querySelectorAll(".amount").forEach((input) => {
-    input.addEventListener("input", (event) => {
-      const changedId = event.target.closest(".component-row").dataset.id;
-      const finalVolume = readSettings().finalVolume;
+  function applyAmountChange(input) {
+    const changedId = input.closest(".component-row").dataset.id;
+    const finalVolume = readSettings().finalVolume;
+    const value = parseInput(input.value);
 
-      if (changedId === "aroma" || changedId === "nicotine") {
-        ingredients = updateFixedVolume(
-          ingredients,
-          changedId,
-          parseInput(event.target.value),
-          finalVolume
-        );
-
-        syncComposition();
-        fitBasesToTarget();
-      } else {
-        ingredients = updateBaseVolume(
-          ingredients,
-          changedId,
-          parseInput(event.target.value),
-          finalVolume
-        );
-      }
-
-      syncInputs();
+    if (!Number.isFinite(value)) {
       render();
+      return;
+    }
+
+    if (changedId === "aroma" || changedId === "nicotine") {
+      ingredients = updateFixedVolume(
+        ingredients,
+        changedId,
+        value,
+        finalVolume
+      );
+
+      syncComposition();
+      fitBasesToTarget();
+    } else {
+      ingredients = updateBaseVolume(
+        ingredients,
+        changedId,
+        value,
+        finalVolume
+      );
+    }
+
+    syncInputs();
+    render();
+  }
+
+  document.querySelectorAll(".amount").forEach((input) => {
+    input.addEventListener("change", () => {
+      applyAmountChange(input);
+    });
+
+    input.addEventListener("blur", () => {
+      applyAmountChange(input);
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        input.blur();
+      }
     });
   });
 
-  nicotineBottlesInput.addEventListener("input", () => {
+  nicotineBottlesInput.addEventListener("change", () => {
     const finalVolume = readSettings().finalVolume;
 
     const aromaVolume = ingredients.find(
@@ -354,7 +374,11 @@ function initCalculator() {
     resetBasesAndRender();
   });
 
-  finalVolumeInput.addEventListener("input", () => {
+  nicotineBottlesInput.addEventListener("blur", () => {
+    nicotineBottlesInput.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
+  finalVolumeInput.addEventListener("change", () => {
     const finalVolume = parseInput(finalVolumeInput.value);
 
     if (!Number.isFinite(finalVolume) || finalVolume <= 0) {
@@ -365,7 +389,13 @@ function initCalculator() {
     resetBasesAndRender();
   });
 
-  targetVgInput.addEventListener("input", resetBasesAndRender);
+  finalVolumeInput.addEventListener("blur", () => {
+    finalVolumeInput.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+
+  targetVgInput.addEventListener("change", resetBasesAndRender);
+  targetVgInput.addEventListener("blur", resetBasesAndRender);
+
   targetPresetInput.addEventListener("change", resetBasesAndRender);
   nicotineRatioInput.addEventListener("change", resetBasesAndRender);
 
@@ -377,7 +407,7 @@ function initCalculator() {
     const currentValue = parseInput(input.value) || 0;
 
     input.value = round(clamp(currentValue + delta, minimum, maximum));
-    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
   document.querySelectorAll(".adjust").forEach((button) => {
