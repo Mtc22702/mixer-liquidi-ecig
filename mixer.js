@@ -350,42 +350,7 @@ function initCalculator() {
     render();
   }
 
-  function copyRecipe() {
-    const { finalVolume } = readSettings();
-    const vg = document.querySelector("#result-vg").textContent;
-    const pg = document.querySelector("#result-pg").textContent;
-    const nic = document.querySelector("#result-nicotine").textContent;
-    const labels = { aroma: "Aroma", nicotine: "Nicotina", basePg: "Base PG", baseVg: "Base VG" };
-    const lines = [
-      `Ricetta ${formatMl(finalVolume)} — ${vg} VG / ${pg} PG`,
-      ...ingredients.map((ing) => `• ${labels[ing.id]}: ${formatMl(ing.volume)}`),
-      `Nicotina finale: ${nic}`
-    ];
-    const text = lines.join("\n");
-    const btn = document.querySelector("#copy-btn");
-    const done = () => {
-      btn.textContent = "Copiato ✓";
-      btn.classList.add("copied");
-      setTimeout(() => { btn.textContent = "Copia ricetta"; btn.classList.remove("copied"); }, 2000);
-    };
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-    } else {
-      fallbackCopy(text, done);
-    }
-  }
-
-  function fallbackCopy(text, callback) {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand("copy"); callback(); } catch (_) {}
-    document.body.removeChild(ta);
-  }
-
-  function resetRecipe() {
+function resetRecipe() {
     ingredients = DEFAULT_RECIPE.map((ing) => ({ ...ing }));
     finalVolumeInput.value = "60";
     targetPresetInput.value = "50";
@@ -581,7 +546,6 @@ function initCalculator() {
 
   form.addEventListener("submit", (event) => event.preventDefault());
 
-  document.querySelector("#copy-btn")?.addEventListener("click", copyRecipe);
   document.querySelector("#reset-btn")?.addEventListener("click", resetRecipe);
 
   syncInputs();

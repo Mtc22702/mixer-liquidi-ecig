@@ -1,4 +1,4 @@
-const CACHE_NAME = "vg-mixer-v10";
+const CACHE_NAME = "vg-mixer-v12";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
@@ -7,7 +7,7 @@ const FILES_TO_CACHE = [
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
-  "./mixer-assets/flacone-graduato-60ml.jpg"
+  "./mixer-assets/flacone-graduato-60ml.svg"
 ];
 
 self.addEventListener("install", (event) => {

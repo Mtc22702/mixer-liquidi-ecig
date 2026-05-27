@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 210" fill="none">
+  <defs>
+    <linearGradient id="gb" gradientUnits="userSpaceOnUse" x1="11" y1="0" x2="63" y2="0">
+      <stop offset="0%"   stop-color="#c6dcc8"/>
+      <stop offset="14%"  stop-color="#f0f8f2"/>
+      <stop offset="62%"  stop-color="#e6f3e8"/>
+      <stop offset="100%" stop-color="#c0d8c2"/>
+    </linearGradient>
+    <linearGradient id="gc" gradientUnits="userSpaceOnUse" x1="18" y1="0" x2="56" y2="0">
+      <stop offset="0%"   stop-color="#a4bcaa"/>
+      <stop offset="40%"  stop-color="#c2d8c6"/>
+      <stop offset="100%" stop-color="#8aa492"/>
+    </linearGradient>
+    <linearGradient id="gs" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="white" stop-opacity="0.04"/>
+      <stop offset="35%"  stop-color="white" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="fs" x="-30%" y="-4%" width="160%" height="112%">
+      <feDropShadow dx="1.5" dy="2" stdDeviation="2.5"
+        flood-color="#6a9870" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- Body -->
+  <rect x="11" y="38" width="52" height="164" rx="15"
+    fill="url(#gb)" stroke="#accab0" stroke-width="1.5"
+    filter="url(#fs)"/>
+
+  <!-- Neck (no stroke — same gradient as body, seamless) -->
+  <rect x="24" y="19" width="26" height="23" rx="5"
+    fill="url(#gb)"/>
+  <!-- Neck border outline only on sides/top -->
+  <path d="M24 41 L24 23 Q24 19 29 19 L45 19 Q50 19 50 23 L50 41"
+    stroke="#accab0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Cap -->
+  <rect x="18" y="5" width="38" height="17" rx="6"
+    fill="url(#gc)" stroke="#96ac9e" stroke-width="1.5"/>
+  <!-- Cap top shine -->
+  <ellipse cx="31" cy="10" rx="9" ry="3.5"
+    fill="white" fill-opacity="0.24"/>
+
+  <!-- ── Graduation marks ── -->
+  <!-- Major marks (10ml intervals): x1=40→x2=57, text at x=38 -->
+  <!-- Minor marks (5ml): x1=47→x2=57 -->
+  <!-- Scale: 60ml y=58, 10ml y=195 · spacing 27.4px/10ml -->
+
+  <!-- 60 ml -->
+  <line x1="40" y1="58"  x2="57" y2="58"  stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="61.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">60</text>
+
+  <!-- 55 ml -->
+  <line x1="47" y1="72"  x2="57" y2="72"  stroke="#96b898" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 50 ml -->
+  <line x1="40" y1="85"  x2="57" y2="85"  stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="88.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">50</text>
+
+  <!-- 45 ml -->
+  <line x1="47" y1="99"  x2="57" y2="99"  stroke="#96b898" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 40 ml -->
+  <line x1="40" y1="113" x2="57" y2="113" stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="116.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">40</text>
+
+  <!-- 35 ml -->
+  <line x1="47" y1="126" x2="57" y2="126" stroke="#96b898" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 30 ml -->
+  <line x1="40" y1="140" x2="57" y2="140" stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="143.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">30</text>
+
+  <!-- 25 ml -->
+  <line x1="47" y1="154" x2="57" y2="154" stroke="#96b898" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 20 ml -->
+  <line x1="40" y1="167" x2="57" y2="167" stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="170.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">20</text>
+
+  <!-- 15 ml -->
+  <line x1="47" y1="181" x2="57" y2="181" stroke="#96b898" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- 10 ml -->
+  <line x1="40" y1="195" x2="57" y2="195" stroke="#82a484" stroke-width="1.3" stroke-linecap="round"/>
+  <text x="38" y="198.5" font-family="system-ui,-apple-system,sans-serif"
+    font-size="7.5" font-weight="600" fill="#618262" text-anchor="end">10</text>
+
+  <!-- Glass shine strip (left-side reflection) -->
+  <rect x="14" y="42" width="10" height="153" rx="5"
+    fill="url(#gs)" opacity="0.85"/>
+</svg>

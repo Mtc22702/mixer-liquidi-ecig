@@ -267,21 +267,21 @@ h1 {
 
 .bottle-media {
   align-items: center;
-  background: #fff;
+  background: #f6fbf7;
   border: 1px solid #e9efeb;
   border-radius: 12px;
   display: flex;
   height: 132px;
   justify-content: center;
   overflow: hidden;
+  padding: 8px;
   width: 94px;
 }
 
 .bottle-media img {
-  height: 142px;
-  mix-blend-mode: multiply;
+  height: 114px;
   object-fit: contain;
-  width: 92px;
+  width: 76px;
 }
 
 .bottle-controls {
@@ -757,36 +757,6 @@ select:focus {
   color: var(--danger);
 }
 
-.bottom-actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  padding-bottom: 24px;
-}
-
-.copy-btn {
-  align-items: center;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--muted);
-  cursor: pointer;
-  display: flex;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  height: 40px;
-  justify-content: center;
-  padding: 0 20px;
-  transition: background 0.16s, border-color 0.16s, color 0.16s;
-}
-
-.copy-btn:hover,
-.copy-btn.copied {
-  background: var(--green-soft);
-  border-color: #cae2d4;
-  color: var(--green-dark);
-}
 
 .reset-btn {
   align-items: center;
@@ -842,19 +812,29 @@ select:focus {
 
 @media (max-width: 900px) {
   .combined-top {
-    grid-template-columns: 1fr;
+    display: contents;
   }
 
   .combined-left {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 18px;
-    padding-right: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    order: 1;
+    padding: 18px;
   }
 
   .combined-right {
-    border-left: none;
-    padding-left: 0;
-    padding-top: 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    order: 3;
+    padding: 18px;
+  }
+
+  .ingredients {
+    order: 2;
   }
 
   .sticky-result {
@@ -966,15 +946,15 @@ select:focus {
     padding: 7px 12px 7px 8px;
   }
 
-  .bottle-media,
-  .bottle-media img {
+  .bottle-media {
     height: 124px;
+    padding: 8px;
     width: 86px;
-    padding: 10px;
   }
 
   .bottle-media img {
-    height: 134px;
+    height: 106px;
+    width: 68px;
   }
 
   .target-grid {
