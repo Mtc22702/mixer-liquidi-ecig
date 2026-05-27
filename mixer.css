@@ -158,12 +158,14 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 0;
-  align-items: start;
+  align-items: stretch;
 }
 
 .combined-left {
   min-width: 0;
   padding-right: 22px;
+  display: flex;
+  flex-direction: column;
 }
 
 .combined-right {
@@ -254,9 +256,10 @@ h1 {
 
 .target-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
   align-items: stretch;
   gap: 12px;
+  flex: 1;
 }
 
 .target-grid {
@@ -265,7 +268,7 @@ h1 {
   border-radius: 16px;
   box-shadow: inset 0 1px 0 #fff;
   display: grid;
-  grid-template-columns: minmax(190px, 1fr);
+  grid-template-columns: minmax(130px, 1fr);
   gap: 10px;
   padding: 14px;
   min-height: 150px;
@@ -303,8 +306,8 @@ h1 {
   box-shadow: inset 0 1px 0 #fff;
   display: grid;
   gap: 12px;
-  grid-template-columns: 94px minmax(0, 1fr);
-  min-height: 150px;
+  grid-template-columns: 96px minmax(0, 1fr);
+  min-height: 212px;
   padding: 9px 14px 9px 10px;
 }
 
@@ -323,17 +326,22 @@ h1 {
   border: 1px solid #e9efeb;
   border-radius: 12px;
   display: flex;
-  height: 132px;
+  height: 200px;
   justify-content: center;
   overflow: hidden;
   padding: 8px;
-  width: 94px;
+  width: 92px;
 }
 
-.bottle-media img {
-  height: 114px;
+.bottle-media img,
+.bottle-media svg {
+  height: 184px;
   object-fit: contain;
-  width: 76px;
+  width: 74px;
+}
+
+.btl-liq {
+  transition: y 0.45s ease, height 0.45s ease;
 }
 
 .bottle-controls {
@@ -453,6 +461,10 @@ select {
   top: 15px;
 }
 
+.ingredients .adjust {
+  width: 50px;
+}
+
 .bottle-stepper {
   gap: 5px;
 }
@@ -515,18 +527,18 @@ select:focus {
 
 .component-row {
   display: grid;
-  grid-template-columns: minmax(300px, 1fr) 186px 106px;
+  grid-template-columns: minmax(300px, 1fr) 272px 106px;
   align-items: end;
-  gap: 9px;
+  gap: 40px;
 }
 
 .component-row.nicotine {
-  grid-template-columns: minmax(300px, 1fr) 186px 106px;
+  grid-template-columns: minmax(300px, 1fr) 272px 106px;
 }
 
 .component-row {
   background: linear-gradient(90deg, #fffcf7 0, #fff 17%);
-  border: 1px solid #ebeee9;
+  border: 1px solid #d2dbd0c4;
   border-left: 4px solid #e1ae55;
   border-radius: 14px;
   margin-bottom: 8px;
@@ -740,29 +752,57 @@ select:focus {
   margin: 15px 0 8px;
 }
 
-.ratio-visual {
-  background: var(--blue-soft);
-  border-radius: 6px;
-  height: 6px;
-  margin: 0 0 12px;
-  overflow: hidden;
-}
-
-.ratio-visual-vg {
-  background: var(--green);
-  border-radius: 6px;
-  height: 100%;
-  transition: width 0.4s ease;
-}
-
 .ratio-result div {
-  background: var(--green-soft);
-  border-radius: 13px;
-  padding: 11px 8px;
+  border-radius: 14px;
+  padding: 14px 8px 13px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
-.ratio-result span,
+#result-vg-box {
+  background: linear-gradient(150deg, #e4f5ec 0%, #ceeadb 100%);
+  border: 1px solid #b4d9c4;
+}
+
+#result-pg-box {
+  background: linear-gradient(150deg, #e8effe 0%, #d6e4fb 100%);
+  border: 1px solid #b6c9f0;
+}
+
+.ratio-result .component-icon {
+  height: 34px;
+  width: 34px;
+  border-radius: 10px;
+  margin-bottom: 3px;
+}
+
+#result-vg-box .component-icon {
+  background: rgba(18, 104, 73, 0.14);
+  color: var(--green);
+}
+
+#result-pg-box .component-icon {
+  background: rgba(53, 107, 179, 0.14);
+  color: var(--blue);
+}
+
+.ratio-result .component-icon svg {
+  height: 18px;
+  width: 18px;
+}
+
+.ratio-result > div > span:not(.component-icon) {
+  color: var(--muted);
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
 .result-details span {
   color: var(--muted);
   display: block;
@@ -771,9 +811,17 @@ select:focus {
 }
 
 .ratio-result strong {
+  font-size: 28px;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+#result-vg-box strong {
   color: var(--green-dark);
-  font-size: 24px;
-  letter-spacing: -0.04em;
+}
+
+#result-pg-box strong {
+  color: var(--blue);
 }
 
 .result-details {
@@ -904,20 +952,6 @@ select:focus {
     position: fixed;
     right: 0;
     z-index: 100;
-  }
-
-  .sticky-ratio-wrap {
-    background: var(--blue-soft);
-    border-radius: 8px;
-    height: 10px;
-    overflow: hidden;
-  }
-
-  .sticky-ratio-vg {
-    background: var(--green);
-    border-radius: 8px;
-    height: 100%;
-    transition: width 0.4s ease;
   }
 
   .sticky-stats {
@@ -1061,21 +1095,22 @@ select:focus {
   }
 
   .bottle-card {
-    grid-template-columns: 86px minmax(0, 1fr);
+    grid-template-columns: 92px minmax(0, 1fr);
     justify-self: stretch;
-    min-height: 110px;
+    min-height: 174px;
     padding: 6px 10px 6px 8px;
   }
 
   .bottle-media {
-    height: 94px;
+    height: 160px;
     padding: 6px;
     width: 86px;
   }
 
-  .bottle-media img {
-    height: 80px;
-    width: 62px;
+  .bottle-media img,
+  .bottle-media svg {
+    height: 146px;
+    width: 54px;
   }
 
   .target-grid {
@@ -1110,14 +1145,14 @@ select:focus {
 
   .component-row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
+    gap: 12px;
     min-width: 0;
-    padding: 8px 10px;
+    padding: 18px 10px;
   }
 
   .component-row.nicotine {
     grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
+    gap: 12px;
   }
 
   .component-name {

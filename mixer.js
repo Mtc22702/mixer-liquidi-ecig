@@ -195,7 +195,31 @@ function initCalculator() {
   const stickyNicotine = document.querySelector("#sticky-nicotine");
   const stickyNoteEl = document.querySelector("#sticky-note");
 
+  const BTL_LAYERS = ["baseVg", "basePg", "nicotine", "aroma"];
+  const btlLiqEls = Object.fromEntries(
+    BTL_LAYERS.map((id) => [id, document.querySelector(`#btl-liq-${id}`)])
+  );
+
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
+
+  function updateBottleFill() {
+    const BODY_BOTTOM = 208;
+    const BODY_HEIGHT = 160;
+    const totalVol = ingredients.reduce((s, i) => s + (i.volume || 0), 0);
+    const totalFillH =
+      totalVol > 0 ? Math.min(totalVol / 100, 1) * BODY_HEIGHT : 0;
+    let currentBottom = BODY_BOTTOM;
+    for (const id of BTL_LAYERS) {
+      const el = btlLiqEls[id];
+      if (!el) continue;
+      const ing = ingredients.find((i) => i.id === id);
+      const vol = ing && Number.isFinite(ing.volume) ? ing.volume : 0;
+      const segH = totalVol > 0 ? (vol / totalVol) * totalFillH : 0;
+      el.style.y = currentBottom - segH;
+      el.style.height = segH;
+      currentBottom -= segH;
+    }
+  }
 
   function flashEl(id) {
     const el = document.querySelector(id);
@@ -285,6 +309,8 @@ function initCalculator() {
 
   function render() {
     const settings = readSettings();
+
+    updateBottleFill();
 
     customTarget.hidden = targetPresetInput.value !== "custom";
     targetPgOutput.textContent = Number.isFinite(settings.targetVg)
