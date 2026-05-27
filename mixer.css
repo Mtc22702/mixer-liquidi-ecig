@@ -35,11 +35,31 @@ body {
 }
 
 .hero {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .hero > div {
-  max-width: 710px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.live-bar {
+  align-items: center;
+  background: var(--green-soft);
+  border: 1px solid rgba(18, 104, 73, 0.14);
+  border-radius: 14px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding: 10px 18px;
+}
+
+.live-bar-text {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .eyebrow,
@@ -52,30 +72,53 @@ body {
 }
 
 h1 {
-  font-size: clamp(36px, 4vw, 48px);
-  letter-spacing: -0.065em;
-  line-height: 1;
-  margin: 0 0 10px;
+  font-size: clamp(40px, 5vw, 58px);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  margin: 0 0 16px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--green-dark) 10%, var(--green) 55%, #1aaa74 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.h1-accent {
+  font-style: italic;
 }
 
 .intro {
   color: var(--muted);
-  font-size: 16px;
-  line-height: 1.48;
-  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+  margin: 0 auto;
+  max-width: 520px;
+  text-align: center;
 }
 
 .workspace {
   display: grid;
-  grid-template-columns: minmax(670px, 1fr) 296px;
+  grid-template-columns: 1fr;
   gap: 14px;
   align-items: start;
 }
 
-.editor {
+.combined-top {
   display: grid;
-  gap: 14px;
+  grid-template-columns: 1fr 300px;
+  gap: 0;
+  align-items: start;
+}
+
+.combined-left {
   min-width: 0;
+  padding-right: 22px;
+}
+
+.combined-right {
+  border-left: 1px solid var(--border);
+  min-width: 0;
+  padding-left: 22px;
 }
 
 .panel {
@@ -121,12 +164,37 @@ h1 {
 }
 
 .live-pill {
+  align-items: center;
   border-radius: 100px;
   color: var(--green);
   background: var(--green-soft);
+  border: 1px solid rgba(18, 104, 73, 0.18);
+  display: inline-flex;
   font-size: 12px;
   font-weight: 600;
-  padding: 7px 11px;
+  gap: 7px;
+  padding: 6px 14px;
+}
+
+.live-pill::before {
+  background: var(--green);
+  border-radius: 50%;
+  content: "";
+  display: block;
+  flex: none;
+  height: 7px;
+  width: 7px;
+  animation: live-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .target-layout {
@@ -604,11 +672,6 @@ select:focus {
   text-align: center;
 }
 
-.result {
-  position: sticky;
-  top: 20px;
-}
-
 .result .step {
   margin-bottom: 7px;
 }
@@ -681,14 +744,21 @@ select:focus {
   padding: 14px 2px 0;
 }
 
-@media (max-width: 1000px) {
-  .workspace {
+@media (max-width: 900px) {
+  .combined-top {
     grid-template-columns: 1fr;
-    min-width: 0;
   }
 
-  .result {
-    position: static;
+  .combined-left {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 18px;
+    padding-right: 0;
+  }
+
+  .combined-right {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 18px;
   }
 }
 
@@ -703,7 +773,9 @@ select:focus {
   }
 
   .workspace,
-  .editor,
+  .combined-top,
+  .combined-left,
+  .combined-right,
   .panel,
   .ingredients,
   .result,
@@ -757,6 +829,7 @@ select:focus {
 
   .panel-title {
     align-items: start;
+    display: flex;
     flex-direction: column;
     gap: 10px;
     margin-bottom: 12px;

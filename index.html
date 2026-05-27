@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="mixer.css" />
     <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#126849" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="VG Mixer" />
@@ -25,7 +26,7 @@
     <main class="page">
       <header class="hero">
         <div>
-          <h1>Calcolatore VG / PG</h1>
+          <h1>Calcolatore <span class="h1-accent">VG / PG</span></h1>
           <p class="intro">
             Imposta boccetta e rapporto di riferimento, poi regola ogni
             componente. Il totale rimane sempre uguale al volume finale.
@@ -33,9 +34,14 @@
         </div>
       </header>
 
+      <div class="live-bar">
+        <span class="live-pill">Aggiornamento live</span>
+        <span class="live-bar-text">Il risultato si aggiorna ad ogni modifica</span>
+      </div>
+
       <form id="mixer-form" class="workspace" novalidate>
-        <div class="editor">
-          <section class="panel target-panel" aria-label="Impostazioni ricetta">
+        <div class="combined-top panel">
+          <section class="combined-left" aria-label="Impostazioni ricetta">
             <div class="panel-title">
               <div>
                 <p class="step">01</p>
@@ -51,7 +57,6 @@
                   Imposta l'obiettivo
                 </h2>
               </div>
-              <span class="live-pill">Aggiornamento live</span>
             </div>
             <div class="target-layout">
               <label class="bottle-card">
@@ -147,323 +152,322 @@
               </div>
             </div>
           </section>
-
-          <section class="panel ingredients" aria-label="Componenti">
-            <div class="panel-title">
+          <section id="result" class="combined-right result" aria-live="polite">
+            <p class="step">03</p>
+            <h2>
+              <svg class="heading-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+              Risultato finale
+            </h2>
+            <div class="ratio-result">
               <div>
-                <p class="step">02</p>
-                <h2>
-                  <svg
-                    class="heading-icon"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path d="M7 3v7a5 5 0 1 0 10 0V3" />
-                    <path d="M7 6h10M12 15v6" />
-                  </svg>
-                  Regola i componenti
-                </h2>
+                <span>VG finale</span>
+                <strong id="result-vg">50%</strong>
               </div>
-              <p class="hint">
-                Aroma e nicotina restano fissi; compensano solo le basi.
-              </p>
-            </div>
-
-            <div class="component-row aroma" data-id="aroma">
-              <div class="component-name">
-                <span class="component-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
-                  </svg>
-                </span>
-                <div>
-                  <strong>Aroma / liquido</strong>
-                  <small>Concentrato in PG</small>
-                </div>
+              <div>
+                <span>PG finale</span>
+                <strong id="result-pg">50%</strong>
               </div>
-              <label class="field compact">
-                <span>Quantita (ml)</span>
-                <span class="stepper">
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="aroma-amount"
-                    data-delta="-0.1"
-                    aria-label="Diminuisci aroma"
-                  >
-                    -
-                  </button>
-                  <span class="input-with-unit">
-                    <input
-                      id="aroma-amount"
-                      class="amount center-value"
-                      type="text"
-                      inputmode="decimal"
-                      value="3"
-                      min="0"
-                      step="0.1"
-                    />
-                    <b>ml</b>
-                  </span>
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="aroma-amount"
-                    data-delta="0.1"
-                    aria-label="Aumenta aroma"
-                  >
-                    +
-                  </button>
-                </span>
-              </label>
-              <details class="component-details">
-                <summary>Dettagli</summary>
-                <div class="detail-grid">
-                  <div class="display-field">
-                    <span>Composizione</span>
-                    <strong>100% PG</strong>
-                  </div>
-                  <div class="display-field">
-                    <span>VG / PG</span>
-                    <output class="ratio">0% VG / 100% PG</output>
-                  </div>
-                </div>
-              </details>
             </div>
-
-            <div class="component-row nicotine" data-id="nicotine">
-              <div class="component-name">
-                <span class="component-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M9 3h6v4l2 2v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9l2-2V3Z"
-                    />
-                    <path d="M9 12h6M12 9v6" />
-                  </svg>
-                </span>
-                <div>
-                  <strong>Nicotina</strong>
-                  <small>Shot da miscelare</small>
-                </div>
-                <label class="nicotine-type">
-                  Tipo nicotina
-                  <select id="nicotine-ratio" class="center-select">
-                    <option value="70vg" selected>70 VG / 30 PG</option>
-                    <option value="50vg">50 VG / 50 PG</option>
-                  </select>
-                </label>
+            <div class="result-details">
+              <div>
+                <span>Nicotina finale</span>
+                <strong id="result-nicotine">3,33 mg/ml</strong>
               </div>
-              <label class="field compact">
-                <span>Boccette</span>
-                <span class="stepper">
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="nicotine-bottles"
-                    data-delta="-0.5"
-                    aria-label="Diminuisci mezza boccetta di nicotina"
-                  >
-                    -
-                  </button>
-                  <span class="input-with-unit">
-                    <input
-                      id="nicotine-bottles"
-                      class="center-value"
-                      type="text"
-                      inputmode="decimal"
-                      value="1"
-                      min="0"
-                      step="0.5"
-                    />
-                    <b>pz</b>
-                  </span>
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="nicotine-bottles"
-                    data-delta="0.5"
-                    aria-label="Aumenta mezza boccetta di nicotina"
-                  >
-                    +
-                  </button>
-                </span>
-              </label>
-              <details class="component-details">
-                <summary>Dettagli</summary>
-                <div class="detail-grid nicotine-settings">
-                  <div class="display-field shot-field">
-                    <span>Dose fissa</span>
-                    <strong>10 ml · 20 mg/ml</strong>
-                  </div>
-                  <div class="display-field full-detail">
-                    <span>VG / PG</span>
-                    <output class="ratio" id="nicotine-composition"
-                      >70% VG / 30% PG</output
-                    >
-                  </div>
-                </div>
-              </details>
-            </div>
-
-            <div class="component-row pg" data-id="basePg">
-              <div class="component-name">
-                <span class="component-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
-                    <path d="M9 15h6" />
-                  </svg>
-                </span>
-                <div>
-                  <strong>Base neutra full PG</strong>
-                  <small>Diluente fluido</small>
-                </div>
+              <div>
+                <span>Scostamento target</span>
+                <strong id="result-delta">Preciso</strong>
               </div>
-              <label class="field compact">
-                <span>Quantita (ml)</span>
-                <span class="stepper">
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="base-pg-amount"
-                    data-delta="-0.1"
-                    aria-label="Diminuisci base PG"
-                  >
-                    -
-                  </button>
-                  <span class="input-with-unit">
-                    <input
-                      id="base-pg-amount"
-                      class="amount center-value"
-                      type="text"
-                      inputmode="decimal"
-                      value="24"
-                      min="0"
-                      step="0.1"
-                    />
-                    <b>ml</b>
-                  </span>
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="base-pg-amount"
-                    data-delta="0.1"
-                    aria-label="Aumenta base PG"
-                  >
-                    +
-                  </button>
-                </span>
-              </label>
-              <details class="component-details">
-                <summary>Dettagli</summary>
-                <div class="detail-grid">
-                  <div class="display-field">
-                    <span>Composizione</span>
-                    <strong>100% PG</strong>
-                  </div>
-                  <div class="display-field">
-                    <span>VG / PG</span>
-                    <output class="ratio">0% VG / 100% PG</output>
-                  </div>
-                </div>
-              </details>
             </div>
-
-            <div class="component-row vg" data-id="baseVg">
-              <div class="component-name">
-                <span class="component-icon">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
-                    <path d="M9 13h6M9 16h6" />
-                  </svg>
-                </span>
-                <div>
-                  <strong>Base neutra full VG</strong>
-                  <small>Diluente denso</small>
-                </div>
-              </div>
-              <label class="field compact">
-                <span>Quantita (ml)</span>
-                <span class="stepper">
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="base-vg-amount"
-                    data-delta="-0.1"
-                    aria-label="Diminuisci base VG"
-                  >
-                    -
-                  </button>
-                  <span class="input-with-unit">
-                    <input
-                      id="base-vg-amount"
-                      class="amount center-value"
-                      type="text"
-                      inputmode="decimal"
-                      value="23"
-                      min="0"
-                      step="0.1"
-                    />
-                    <b>ml</b>
-                  </span>
-                  <button
-                    type="button"
-                    class="adjust"
-                    data-target="base-vg-amount"
-                    data-delta="0.1"
-                    aria-label="Aumenta base VG"
-                  >
-                    +
-                  </button>
-                </span>
-              </label>
-              <details class="component-details">
-                <summary>Dettagli</summary>
-                <div class="detail-grid">
-                  <div class="display-field">
-                    <span>Composizione</span>
-                    <strong>100% VG</strong>
-                  </div>
-                  <div class="display-field">
-                    <span>VG / PG</span>
-                    <output class="ratio">100% VG / 0% PG</output>
-                  </div>
-                </div>
-              </details>
-            </div>
+            <p id="result-note" class="result-note">
+              La composizione corrisponde al rapporto impostato.
+            </p>
           </section>
         </div>
 
-        <section id="result" class="panel result" aria-live="polite">
-          <p class="step">03</p>
-          <h2>
-            <svg class="heading-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m5 12 4 4L19 6" />
-            </svg>
-            Risultato finale
-          </h2>
-          <div class="ratio-result">
+        <section class="panel ingredients" aria-label="Componenti">
+          <div class="panel-title">
             <div>
-              <span>VG finale</span>
-              <strong id="result-vg">50%</strong>
+              <p class="step">02</p>
+              <h2>
+                <svg
+                  class="heading-icon"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M7 3v7a5 5 0 1 0 10 0V3" />
+                  <path d="M7 6h10M12 15v6" />
+                </svg>
+                Regola i componenti
+              </h2>
             </div>
-            <div>
-              <span>PG finale</span>
-              <strong id="result-pg">50%</strong>
-            </div>
+            <p class="hint">
+              Aroma e nicotina restano fissi; compensano solo le basi.
+            </p>
           </div>
-          <div class="result-details">
-            <div>
-              <span>Nicotina finale</span>
-              <strong id="result-nicotine">3,33 mg/ml</strong>
+
+          <div class="component-row aroma" data-id="aroma">
+            <div class="component-name">
+              <span class="component-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                </svg>
+              </span>
+              <div>
+                <strong>Aroma / liquido</strong>
+                <small>Concentrato in PG</small>
+              </div>
             </div>
-            <div>
-              <span>Scostamento target</span>
-              <strong id="result-delta">Preciso</strong>
-            </div>
+            <label class="field compact">
+              <span>Quantita (ml)</span>
+              <span class="stepper">
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="aroma-amount"
+                  data-delta="-0.1"
+                  aria-label="Diminuisci aroma"
+                >
+                  -
+                </button>
+                <span class="input-with-unit">
+                  <input
+                    id="aroma-amount"
+                    class="amount center-value"
+                    type="text"
+                    inputmode="decimal"
+                    value="3"
+                    min="0"
+                    step="0.1"
+                  />
+                  <b>ml</b>
+                </span>
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="aroma-amount"
+                  data-delta="0.1"
+                  aria-label="Aumenta aroma"
+                >
+                  +
+                </button>
+              </span>
+            </label>
+            <details class="component-details">
+              <summary>Dettagli</summary>
+              <div class="detail-grid">
+                <div class="display-field">
+                  <span>Composizione</span>
+                  <strong>100% PG</strong>
+                </div>
+                <div class="display-field">
+                  <span>VG / PG</span>
+                  <output class="ratio">0% VG / 100% PG</output>
+                </div>
+              </div>
+            </details>
           </div>
-          <p id="result-note" class="result-note">
-            La composizione corrisponde al rapporto impostato.
-          </p>
+
+          <div class="component-row nicotine" data-id="nicotine">
+            <div class="component-name">
+              <span class="component-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M9 3h6v4l2 2v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9l2-2V3Z"
+                  />
+                  <path d="M9 12h6M12 9v6" />
+                </svg>
+              </span>
+              <div>
+                <strong>Nicotina</strong>
+                <small>Shot da miscelare</small>
+              </div>
+              <label class="nicotine-type">
+                Tipo nicotina
+                <select id="nicotine-ratio" class="center-select">
+                  <option value="70vg" selected>70 VG / 30 PG</option>
+                  <option value="50vg">50 VG / 50 PG</option>
+                </select>
+              </label>
+            </div>
+            <label class="field compact">
+              <span>Boccette</span>
+              <span class="stepper">
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="nicotine-bottles"
+                  data-delta="-0.5"
+                  aria-label="Diminuisci mezza boccetta di nicotina"
+                >
+                  -
+                </button>
+                <span class="input-with-unit">
+                  <input
+                    id="nicotine-bottles"
+                    class="center-value"
+                    type="text"
+                    inputmode="decimal"
+                    value="1"
+                    min="0"
+                    step="0.5"
+                  />
+                  <b>pz</b>
+                </span>
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="nicotine-bottles"
+                  data-delta="0.5"
+                  aria-label="Aumenta mezza boccetta di nicotina"
+                >
+                  +
+                </button>
+              </span>
+            </label>
+            <details class="component-details">
+              <summary>Dettagli</summary>
+              <div class="detail-grid nicotine-settings">
+                <div class="display-field shot-field">
+                  <span>Dose fissa</span>
+                  <strong>10 ml · 20 mg/ml</strong>
+                </div>
+                <div class="display-field full-detail">
+                  <span>VG / PG</span>
+                  <output class="ratio" id="nicotine-composition"
+                    >70% VG / 30% PG</output
+                  >
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="component-row pg" data-id="basePg">
+            <div class="component-name">
+              <span class="component-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                  <path d="M9 15h6" />
+                </svg>
+              </span>
+              <div>
+                <strong>Base neutra full PG</strong>
+                <small>Diluente fluido</small>
+              </div>
+            </div>
+            <label class="field compact">
+              <span>Quantita (ml)</span>
+              <span class="stepper">
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="base-pg-amount"
+                  data-delta="-0.1"
+                  aria-label="Diminuisci base PG"
+                >
+                  -
+                </button>
+                <span class="input-with-unit">
+                  <input
+                    id="base-pg-amount"
+                    class="amount center-value"
+                    type="text"
+                    inputmode="decimal"
+                    value="24"
+                    min="0"
+                    step="0.1"
+                  />
+                  <b>ml</b>
+                </span>
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="base-pg-amount"
+                  data-delta="0.1"
+                  aria-label="Aumenta base PG"
+                >
+                  +
+                </button>
+              </span>
+            </label>
+            <details class="component-details">
+              <summary>Dettagli</summary>
+              <div class="detail-grid">
+                <div class="display-field">
+                  <span>Composizione</span>
+                  <strong>100% PG</strong>
+                </div>
+                <div class="display-field">
+                  <span>VG / PG</span>
+                  <output class="ratio">0% VG / 100% PG</output>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="component-row vg" data-id="baseVg">
+            <div class="component-name">
+              <span class="component-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                  <path d="M9 13h6M9 16h6" />
+                </svg>
+              </span>
+              <div>
+                <strong>Base neutra full VG</strong>
+                <small>Diluente denso</small>
+              </div>
+            </div>
+            <label class="field compact">
+              <span>Quantita (ml)</span>
+              <span class="stepper">
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="base-vg-amount"
+                  data-delta="-0.1"
+                  aria-label="Diminuisci base VG"
+                >
+                  -
+                </button>
+                <span class="input-with-unit">
+                  <input
+                    id="base-vg-amount"
+                    class="amount center-value"
+                    type="text"
+                    inputmode="decimal"
+                    value="23"
+                    min="0"
+                    step="0.1"
+                  />
+                  <b>ml</b>
+                </span>
+                <button
+                  type="button"
+                  class="adjust"
+                  data-target="base-vg-amount"
+                  data-delta="0.1"
+                  aria-label="Aumenta base VG"
+                >
+                  +
+                </button>
+              </span>
+            </label>
+            <details class="component-details">
+              <summary>Dettagli</summary>
+              <div class="detail-grid">
+                <div class="display-field">
+                  <span>Composizione</span>
+                  <strong>100% VG</strong>
+                </div>
+                <div class="display-field">
+                  <span>VG / PG</span>
+                  <output class="ratio">100% VG / 0% PG</output>
+                </div>
+              </div>
+            </details>
+          </div>
         </section>
       </form>
     </main>
