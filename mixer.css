@@ -757,6 +757,13 @@ select:focus {
   color: var(--danger);
 }
 
+.bottom-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  padding-bottom: 24px;
+}
+
 .copy-btn {
   align-items: center;
   background: transparent;
@@ -766,14 +773,12 @@ select:focus {
   cursor: pointer;
   display: flex;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  height: 36px;
+  height: 40px;
   justify-content: center;
-  margin-top: 12px;
-  padding: 0 12px;
+  padding: 0 20px;
   transition: background 0.16s, border-color 0.16s, color 0.16s;
-  width: 100%;
 }
 
 .copy-btn:hover,
