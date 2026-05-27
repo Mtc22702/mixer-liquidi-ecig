@@ -824,8 +824,8 @@ select:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-/* Fix zoom automatico su iPhone quando premi velocemente + / - */
 
+/* Fix zoom automatico su iPhone quando premi velocemente + / - */
 html,
 body {
   touch-action: manipulation;
@@ -834,20 +834,18 @@ body {
 button,
 input,
 select,
-.adjust {
+.adjust,
+.stepper {
   touch-action: manipulation;
 }
 
 .adjust {
   user-select: none;
-
   -webkit-user-select: none;
-
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Evita anche lo zoom automatico quando tocchi input/select su iPhone */
-
+/* Evita lo zoom automatico quando tocchi input/select su iPhone */
 @media (max-width: 740px) {
   input,
   select {
