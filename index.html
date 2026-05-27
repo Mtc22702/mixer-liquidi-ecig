@@ -389,7 +389,14 @@
     </script>
     <main class="page">
       <header class="hero">
-        <div>
+        <div class="vapor-cloud" aria-hidden="true">
+          <span class="vapor vapor-1"></span>
+          <span class="vapor vapor-2"></span>
+          <span class="vapor vapor-3"></span>
+          <span class="vapor vapor-4"></span>
+          <span class="vapor vapor-5"></span>
+        </div>
+        <div class="hero-copy">
           <h1>Calcolatore <span class="h1-accent">VG / PG</span></h1>
           <p class="intro">
             Strumento per miscelare liquidi per sigarette elettroniche in modo
@@ -399,10 +406,7 @@
       </header>
 
       <div class="live-bar">
-        <span class="live-pill">Aggiornamento live</span>
-        <span class="live-bar-text"
-          >Il risultato si aggiorna ad ogni modifica</span
-        >
+        <span class="live-pill">Aggiornamento live dei dati</span>
       </div>
 
       <form id="mixer-form" class="workspace" novalidate>
@@ -628,11 +632,11 @@
               <summary>Dettagli</summary>
               <div class="detail-grid">
                 <div class="display-field">
-                  <span>Composizione</span>
-                  <strong>100% PG</strong>
+                  <span>Base</span>
+                  <strong>PG puro</strong>
                 </div>
                 <div class="display-field">
-                  <span>VG / PG</span>
+                  <span>Rapporto</span>
                   <output class="ratio">0% VG / 100% PG</output>
                 </div>
               </div>
@@ -698,13 +702,13 @@
             </label>
             <details class="component-details">
               <summary>Dettagli</summary>
-              <div class="detail-grid nicotine-settings">
-                <div class="display-field shot-field">
-                  <span>Dose fissa</span>
+              <div class="detail-grid">
+                <div class="display-field">
+                  <span>Shot</span>
                   <strong>10 ml · 20 mg/ml</strong>
                 </div>
-                <div class="display-field full-detail">
-                  <span>VG / PG</span>
+                <div class="display-field">
+                  <span>Tipo base</span>
                   <output class="ratio" id="nicotine-composition"
                     >70% VG / 30% PG</output
                   >
@@ -765,11 +769,11 @@
               <summary>Dettagli</summary>
               <div class="detail-grid">
                 <div class="display-field">
-                  <span>Composizione</span>
-                  <strong>100% PG</strong>
+                  <span>Base</span>
+                  <strong>PG puro</strong>
                 </div>
                 <div class="display-field">
-                  <span>VG / PG</span>
+                  <span>Rapporto</span>
                   <output class="ratio">0% VG / 100% PG</output>
                 </div>
               </div>
@@ -828,11 +832,11 @@
               <summary>Dettagli</summary>
               <div class="detail-grid">
                 <div class="display-field">
-                  <span>Composizione</span>
-                  <strong>100% VG</strong>
+                  <span>Base</span>
+                  <strong>VG puro</strong>
                 </div>
                 <div class="display-field">
-                  <span>VG / PG</span>
+                  <span>Rapporto</span>
                   <output class="ratio">100% VG / 0% PG</output>
                 </div>
               </div>
