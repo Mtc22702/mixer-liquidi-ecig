@@ -37,11 +37,11 @@ body {
 .hero {
   background:
     radial-gradient(
-      ellipse at 50% 0,
-      rgba(35, 154, 112, 0.26),
-      transparent 48%
+      ellipse at 50% 0%,
+      rgba(100, 245, 185, 0.22),
+      transparent 50%
     ),
-    linear-gradient(145deg, #073d2d 0%, #0c5940 57%, #126849 100%);
+    linear-gradient(145deg, #1e9e78 0%, #29b08a 55%, #31c898 100%);
   border-radius: 24px;
   box-shadow: 0 14px 34px rgba(9, 63, 45, 0.18);
   margin-bottom: 16px;
@@ -62,139 +62,32 @@ body {
   background: none;
   color: #fff;
   -webkit-text-fill-color: #fff;
+  text-shadow:
+    0 2px 22px rgba(5, 55, 35, 0.38),
+    0 1px 5px rgba(5, 55, 35, 0.22);
 }
 
 .hero .h1-accent {
-  color: #bcebd7;
-  -webkit-text-fill-color: #bcebd7;
+  color: #d8f7eb;
+  -webkit-text-fill-color: #d8f7eb;
 }
 
 .hero .intro {
-  color: rgba(240, 251, 246, 0.8);
+  color: rgba(255, 255, 255, 0.90);
+  font-size: 16px;
+  font-weight: 500;
+  text-shadow: 0 1px 12px rgba(5, 55, 35, 0.32);
+  letter-spacing: 0.01em;
 }
 
-.vapor-cloud {
-  height: 142px;
-  left: 50%;
+.vapor-bg {
+  height: 100%;
+  left: 0;
   pointer-events: none;
   position: absolute;
-  top: 1px;
-  transform: translateX(-50%);
-  width: min(540px, 100%);
-}
-
-.vapor-cloud::before {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0) 70%
-  );
-  bottom: 0;
-  content: "";
-  height: 76px;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
-  width: 260px;
-}
-
-.vapor {
-  animation: vapor-rise 6.4s ease-in-out infinite;
-  background:
-    radial-gradient(
-      ellipse at 58% 84%,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(255, 255, 255, 0.36) 17%,
-      transparent 48%
-    ),
-    radial-gradient(
-      ellipse at 39% 56%,
-      rgba(255, 255, 255, 0.66) 0%,
-      rgba(255, 255, 255, 0.28) 16%,
-      transparent 46%
-    ),
-    radial-gradient(
-      ellipse at 62% 27%,
-      rgba(255, 255, 255, 0.53) 0%,
-      rgba(255, 255, 255, 0.22) 17%,
-      transparent 44%
-    ),
-    linear-gradient(
-      100deg,
-      transparent 28%,
-      rgba(255, 255, 255, 0.2) 48%,
-      rgba(255, 255, 255, 0.08) 60%,
-      transparent 73%
-    );
-  border-radius: 48% 52% 45% 55% / 64% 58% 42% 36%;
-  bottom: -3px;
-  filter: blur(6px);
-  height: 112px;
-  opacity: 0;
-  position: absolute;
-  transform-origin: bottom center;
-  width: 72px;
-}
-
-.vapor-1 {
-  animation-delay: -1.2s;
-  height: 84px;
-  left: 37%;
-  width: 60px;
-}
-
-.vapor-2 {
-  animation-delay: -4.1s;
-  height: 119px;
-  left: 43%;
-  width: 78px;
-}
-
-.vapor-3 {
-  animation-delay: -0.25s;
-  height: 126px;
-  left: 50%;
-  width: 82px;
-}
-
-.vapor-4 {
-  animation-delay: -5.1s;
-  height: 91px;
-  left: 57%;
-  width: 62px;
-}
-
-.vapor-5 {
-  animation-delay: -2.5s;
-  height: 76px;
-  left: 47%;
-  width: 56px;
-}
-
-@keyframes vapor-rise {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) translateX(0) scaleX(0.66) scaleY(0.48)
-      rotate(-4deg);
-  }
-  18% {
-    opacity: 0.7;
-  }
-  47% {
-    opacity: 0.48;
-    transform: translateY(-10px) translateX(12px) scaleX(1.02) scaleY(1.06)
-      rotate(5deg);
-  }
-  72% {
-    opacity: 0.26;
-    transform: translateY(-42px) translateX(-8px) scaleX(1.22) scaleY(1.28)
-      rotate(-5deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-74px) translateX(13px) scaleX(1.46) scaleY(1.42)
-      rotate(6deg);
-  }
+  top: 0;
+  width: 100%;
+  z-index: 0;
 }
 
 .live-bar {
@@ -1135,15 +1028,6 @@ select:focus {
     padding: 70px 14px 24px;
   }
 
-  .vapor-cloud {
-    height: 112px;
-  }
-
-  .vapor {
-    height: 90px;
-    width: 58px;
-  }
-
   .page {
     padding: 12px 12px calc(120px + env(safe-area-inset-bottom, 0px));
     width: 100%;
@@ -1300,16 +1184,9 @@ select,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vapor,
   .live-pill::before,
   .value-flash {
     animation: none;
-  }
-
-  .vapor-2,
-  .vapor-3 {
-    opacity: 0.72;
-    transform: translateY(-10px);
   }
 }
 

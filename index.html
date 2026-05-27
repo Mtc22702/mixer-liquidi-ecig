@@ -389,13 +389,60 @@
     </script>
     <main class="page">
       <header class="hero">
-        <div class="vapor-cloud" aria-hidden="true">
-          <span class="vapor vapor-1"></span>
-          <span class="vapor vapor-2"></span>
-          <span class="vapor vapor-3"></span>
-          <span class="vapor vapor-4"></span>
-          <span class="vapor vapor-5"></span>
-        </div>
+        <svg class="vapor-bg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <filter id="vf1"><feGaussianBlur stdDeviation="28"/></filter>
+            <filter id="vf2"><feGaussianBlur stdDeviation="16"/></filter>
+            <filter id="vf3"><feGaussianBlur stdDeviation="8"/></filter>
+          </defs>
+          <!-- base ambientale: banda larga bassa, massima diffusione -->
+          <g fill="white" filter="url(#vf1)">
+            <ellipse opacity="0.30" cx="600" cy="218" rx="720" ry="52"/>
+            <ellipse opacity="0.17" cx="280" cy="162" rx="350" ry="98"/>
+            <ellipse opacity="0.17" cx="920" cy="156" rx="335" ry="94"/>
+          </g>
+          <!-- nuvole principali: forme organiche con leggera rotazione -->
+          <g fill="white" filter="url(#vf2)">
+            <ellipse opacity="0.25" cx="88"   cy="188" rx="132" ry="50" transform="rotate(-5 88 188)"/>
+            <ellipse opacity="0.20" cx="162"  cy="154" rx="92"  ry="55"/>
+            <ellipse opacity="0.15" cx="118"  cy="116" rx="70"  ry="58" transform="rotate(9 118 116)"/>
+            <ellipse opacity="0.23" cx="368"  cy="182" rx="118" ry="48" transform="rotate(4 368 182)"/>
+            <ellipse opacity="0.18" cx="445"  cy="148" rx="82"  ry="53" transform="rotate(-7 445 148)"/>
+            <ellipse opacity="0.13" cx="405"  cy="110" rx="64"  ry="55"/>
+            <ellipse opacity="0.26" cx="600"  cy="185" rx="138" ry="52"/>
+            <ellipse opacity="0.20" cx="638"  cy="150" rx="98"  ry="57" transform="rotate(-4 638 150)"/>
+            <ellipse opacity="0.14" cx="608"  cy="112" rx="76"  ry="60" transform="rotate(6 608 112)"/>
+            <ellipse opacity="0.23" cx="838"  cy="178" rx="120" ry="49" transform="rotate(6 838 178)"/>
+            <ellipse opacity="0.18" cx="798"  cy="145" rx="85"  ry="54"/>
+            <ellipse opacity="0.13" cx="828"  cy="108" rx="67"  ry="56" transform="rotate(-8 828 108)"/>
+            <ellipse opacity="0.25" cx="1098" cy="186" rx="130" ry="51" transform="rotate(-4 1098 186)"/>
+            <ellipse opacity="0.20" cx="1052" cy="152" rx="90"  ry="56" transform="rotate(7 1052 152)"/>
+            <ellipse opacity="0.14" cx="1078" cy="115" rx="72"  ry="58"/>
+          </g>
+          <!-- wisps in cima: fili sottili con rotazione, si dissolvono verso l'alto -->
+          <g fill="white" filter="url(#vf3)">
+            <ellipse opacity="0.19" cx="104"  cy="88"  rx="50" ry="34" transform="rotate(-12 104 88)"/>
+            <ellipse opacity="0.12" cx="128"  cy="60"  rx="35" ry="24"/>
+            <ellipse opacity="0.07" cx="112"  cy="35"  rx="22" ry="17" transform="rotate(14 112 35)"/>
+            <ellipse opacity="0.18" cx="374"  cy="86"  rx="46" ry="32" transform="rotate(9 374 86)"/>
+            <ellipse opacity="0.11" cx="395"  cy="58"  rx="31" ry="21"/>
+            <ellipse opacity="0.06" cx="380"  cy="33"  rx="19" ry="14"/>
+            <ellipse opacity="0.20" cx="596"  cy="85"  rx="54" ry="36" transform="rotate(-6 596 85)"/>
+            <ellipse opacity="0.13" cx="618"  cy="56"  rx="38" ry="26"/>
+            <ellipse opacity="0.07" cx="600"  cy="29"  rx="25" ry="17" transform="rotate(11 600 29)"/>
+            <ellipse opacity="0.18" cx="820"  cy="82"  rx="48" ry="33" transform="rotate(8 820 82)"/>
+            <ellipse opacity="0.11" cx="840"  cy="54"  rx="33" ry="22"/>
+            <ellipse opacity="0.07" cx="824"  cy="30"  rx="20" ry="14" transform="rotate(-10 824 30)"/>
+            <ellipse opacity="0.19" cx="1068" cy="87"  rx="50" ry="35" transform="rotate(-10 1068 87)"/>
+            <ellipse opacity="0.12" cx="1086" cy="59"  rx="35" ry="24"/>
+            <ellipse opacity="0.07" cx="1070" cy="33"  rx="22" ry="16" transform="rotate(12 1070 33)"/>
+            <!-- fili orizzontali trasversali tra i cluster -->
+            <ellipse opacity="0.10" cx="236"  cy="72"  rx="62" ry="16" transform="rotate(-3 236 72)"/>
+            <ellipse opacity="0.09" cx="498"  cy="66"  rx="55" ry="14" transform="rotate(5 498 66)"/>
+            <ellipse opacity="0.10" cx="726"  cy="64"  rx="58" ry="15" transform="rotate(-4 726 64)"/>
+            <ellipse opacity="0.09" cx="954"  cy="70"  rx="56" ry="15" transform="rotate(3 954 70)"/>
+          </g>
+        </svg>
         <div class="hero-copy">
           <h1>Calcolatore <span class="h1-accent">VG / PG</span></h1>
           <p class="intro">
