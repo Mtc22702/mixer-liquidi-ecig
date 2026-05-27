@@ -341,7 +341,7 @@ h1 {
 }
 
 .btl-liq {
-  transition: y 0.45s ease, height 0.45s ease;
+  transition: none;
 }
 
 .bottle-controls {

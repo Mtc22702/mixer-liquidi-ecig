@@ -215,8 +215,11 @@ function initCalculator() {
       const ing = ingredients.find((i) => i.id === id);
       const vol = ing && Number.isFinite(ing.volume) ? ing.volume : 0;
       const segH = totalVol > 0 ? (vol / totalVol) * totalFillH : 0;
-      el.setAttribute("y", currentBottom - segH);
+      const yVal = currentBottom - segH;
+      el.setAttribute("y", yVal);
       el.setAttribute("height", segH);
+      el.style.y = yVal + "px";
+      el.style.height = segH + "px";
       currentBottom -= segH;
     }
   }
