@@ -53,12 +53,12 @@ body {
   gap: 10px;
   justify-content: center;
   margin-bottom: 18px;
-  padding: 10px 18px;
+  padding: 10px 2px;
 }
 
 .live-bar-text {
   color: var(--green);
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
 }
 
@@ -77,7 +77,12 @@ h1 {
   line-height: 1.08;
   margin: 0 0 16px;
   text-align: center;
-  background: linear-gradient(135deg, var(--green-dark) 10%, var(--green) 55%, #1aaa74 100%);
+  background: linear-gradient(
+    135deg,
+    var(--green-dark) 10%,
+    var(--green) 55%,
+    #1aaa74 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -170,7 +175,7 @@ h1 {
   background: var(--green-soft);
   border: 1px solid rgba(18, 104, 73, 0.18);
   display: inline-flex;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   gap: 7px;
   padding: 6px 14px;
@@ -810,6 +815,7 @@ select:focus {
   .bottle-media img {
     height: 124px;
     width: 86px;
+    padding: 10px;
   }
 
   .bottle-media img {
