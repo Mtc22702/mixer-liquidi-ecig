@@ -224,15 +224,21 @@ function initCalculator() {
   function syncInputs() {
     ingredients.forEach((ingredient) => {
       if (ingredient.id === "nicotine") {
-        setInputValue(
-          nicotineBottlesInput,
-          roundToStep(ingredient.volume / NICOTINE_BOTTLE_VOLUME, 0.5),
-          1
-        );
+        if (document.activeElement !== nicotineBottlesInput) {
+          setInputValue(
+            nicotineBottlesInput,
+            roundToStep(ingredient.volume / NICOTINE_BOTTLE_VOLUME, 0.5),
+            1
+          );
+        }
         return;
       }
 
-      setInputValue(getAmountInput(ingredient.id), roundToStep(ingredient.volume, 0.1), 1);
+      const input = getAmountInput(ingredient.id);
+
+      if (document.activeElement !== input) {
+        setInputValue(input, roundToStep(ingredient.volume, 0.1), 1);
+      }
     });
   }
 
@@ -356,10 +362,6 @@ function initCalculator() {
   }
 
   document.querySelectorAll(".amount").forEach((input) => {
-    input.addEventListener("change", () => {
-      applyAmountChange(input);
-    });
-
     input.addEventListener("blur", () => {
       applyAmountChange(input);
     });
@@ -371,7 +373,7 @@ function initCalculator() {
     });
   });
 
-  nicotineBottlesInput.addEventListener("change", () => {
+  function applyNicotineBottlesChange() {
     const finalVolume = readSettings().finalVolume;
 
     const aromaVolume = ingredients.find(
@@ -400,13 +402,16 @@ function initCalculator() {
     );
 
     resetBasesAndRender();
+  }
+
+  nicotineBottlesInput.addEventListener("blur", applyNicotineBottlesChange);
+  nicotineBottlesInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      nicotineBottlesInput.blur();
+    }
   });
 
-  nicotineBottlesInput.addEventListener("blur", () => {
-    nicotineBottlesInput.dispatchEvent(new Event("change", { bubbles: true }));
-  });
-
-  finalVolumeInput.addEventListener("change", () => {
+  function applyFinalVolumeChange() {
     const parsedFinalVolume = parseInput(finalVolumeInput.value);
 
     if (!Number.isFinite(parsedFinalVolume) || parsedFinalVolume <= 0) {
@@ -418,10 +423,13 @@ function initCalculator() {
     finalVolumeInput.value = String(finalVolume);
 
     resetBasesAndRender();
-  });
+  }
 
-  finalVolumeInput.addEventListener("blur", () => {
-    finalVolumeInput.dispatchEvent(new Event("change", { bubbles: true }));
+  finalVolumeInput.addEventListener("blur", applyFinalVolumeChange);
+  finalVolumeInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      finalVolumeInput.blur();
+    }
   });
 
   function applyTargetVgChange() {
@@ -436,8 +444,12 @@ function initCalculator() {
     resetBasesAndRender();
   }
 
-  targetVgInput.addEventListener("change", applyTargetVgChange);
   targetVgInput.addEventListener("blur", applyTargetVgChange);
+  targetVgInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      targetVgInput.blur();
+    }
+  });
 
   targetPresetInput.addEventListener("change", resetBasesAndRender);
   nicotineRatioInput.addEventListener("change", resetBasesAndRender);
@@ -466,7 +478,15 @@ function initCalculator() {
       setInputValue(input, nextValue, 1);
     }
 
-    input.dispatchEvent(new Event("change", { bubbles: true }));
+    if (input.classList.contains("amount")) {
+      applyAmountChange(input);
+    } else if (input === nicotineBottlesInput) {
+      applyNicotineBottlesChange();
+    } else if (input === finalVolumeInput) {
+      applyFinalVolumeChange();
+    } else if (input === targetVgInput) {
+      applyTargetVgChange();
+    }
   }
 
   document.querySelectorAll(".adjust").forEach((button) => {
