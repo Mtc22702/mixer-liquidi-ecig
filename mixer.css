@@ -757,7 +757,6 @@ select:focus {
   color: var(--danger);
 }
 
-
 .reset-btn {
   align-items: center;
   background: transparent;
@@ -770,7 +769,10 @@ select:focus {
   height: 34px;
   justify-content: center;
   padding: 0;
-  transition: background 0.16s, border-color 0.16s, color 0.16s;
+  transition:
+    background 0.16s,
+    border-color 0.16s,
+    color 0.16s;
   width: 34px;
 }
 
@@ -791,8 +793,12 @@ select:focus {
 }
 
 @keyframes value-flash {
-  0% { opacity: 0.35; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.35;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .value-flash {

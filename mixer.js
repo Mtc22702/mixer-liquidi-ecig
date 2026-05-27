@@ -337,15 +337,18 @@ function initCalculator() {
       if (stickyPg) stickyPg.textContent = formatPercent(calculation.actualPg);
       if (stickyDeltaEl) {
         stickyDeltaEl.textContent = deltaText;
-        stickyDeltaEl.className = "sticky-delta " + (calculation.isExact ? "sticky-ok" : "sticky-warn");
+        stickyDeltaEl.className =
+          "sticky-delta " + (calculation.isExact ? "sticky-ok" : "sticky-warn");
       }
       if (stickyRatioVg) stickyRatioVg.style.width = calculation.actualVg + "%";
-      if (stickyNicotine) stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
+      if (stickyNicotine)
+        stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
       if (stickyNoteEl) {
         stickyNoteEl.textContent = calculation.isExact
           ? "Composizione precisa"
           : "Rapporto differisce dal target";
-        stickyNoteEl.className = "sticky-note-text" + (calculation.isExact ? "" : " changed");
+        stickyNoteEl.className =
+          "sticky-note-text" + (calculation.isExact ? "" : " changed");
       }
     } catch (error) {
       result.classList.add("error");
@@ -365,10 +368,18 @@ function initCalculator() {
     if (Number.isFinite(finalVolume) && finalVolume > 0) {
       const parsedBottles = parseInput(nicotineBottlesInput.value);
       if (Number.isFinite(parsedBottles) && parsedBottles >= 0) {
-        const aromaVol = ingredients.find(i => i.id === "aroma").volume;
-        const maxBottles = Math.floor((Math.max(0, finalVolume - aromaVol) / NICOTINE_BOTTLE_VOLUME) * 2) / 2;
+        const aromaVol = ingredients.find((i) => i.id === "aroma").volume;
+        const maxBottles =
+          Math.floor(
+            (Math.max(0, finalVolume - aromaVol) / NICOTINE_BOTTLE_VOLUME) * 2
+          ) / 2;
         const bottles = clamp(roundToStep(parsedBottles, 0.5), 0, maxBottles);
-        ingredients = updateFixedVolume(ingredients, "nicotine", bottles * NICOTINE_BOTTLE_VOLUME, finalVolume);
+        ingredients = updateFixedVolume(
+          ingredients,
+          "nicotine",
+          bottles * NICOTINE_BOTTLE_VOLUME,
+          finalVolume
+        );
       }
     }
     syncComposition();
@@ -376,7 +387,7 @@ function initCalculator() {
     render();
   }
 
-function applyAmountChange(input) {
+  function applyAmountChange(input) {
     const changedId = input.closest(".component-row").dataset.id;
     const finalVolume = readSettings().finalVolume;
     const parsedValue = parseInput(input.value);
@@ -490,7 +501,11 @@ function applyAmountChange(input) {
       return;
     }
 
-    setInputValue(targetVgInput, clamp(roundToStep(parsedTarget, 0.1), 0, 100), 1);
+    setInputValue(
+      targetVgInput,
+      clamp(roundToStep(parsedTarget, 0.1), 0, 100),
+      1
+    );
     resetBasesAndRender();
   }
 
@@ -511,11 +526,12 @@ function applyAmountChange(input) {
     const maximum = input.max === "" ? Infinity : parseInput(input.max);
     const currentValue = parseInput(input.value) || 0;
 
-    const step = input.id === "final-volume"
-      ? 10
-      : input.id === "nicotine-bottles"
-        ? 0.5
-        : 0.1;
+    const step =
+      input.id === "final-volume"
+        ? 10
+        : input.id === "nicotine-bottles"
+          ? 0.5
+          : 0.1;
 
     const nextValue = roundToStep(
       clamp(currentValue + delta, minimum, maximum),
@@ -562,7 +578,7 @@ function applyAmountChange(input) {
 
   form.addEventListener("submit", (event) => event.preventDefault());
 
-syncInputs();
+  syncInputs();
   resetBasesAndRender();
 }
 

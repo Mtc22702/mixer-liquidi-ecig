@@ -34,7 +34,8 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
-  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") return;
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    return;
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
