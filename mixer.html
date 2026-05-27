@@ -73,6 +73,7 @@
                         id="final-volume"
                         class="center-value"
                         type="number"
+                        inputmode="decimal"
                         value="60"
                         min="0.1"
                         step="0.1"
@@ -117,6 +118,7 @@
                         id="target-vg"
                         class="center-value"
                         type="number"
+                        inputmode="decimal"
                         value="50"
                         min="0"
                         max="100"
@@ -192,6 +194,7 @@
                       id="aroma-amount"
                       class="amount center-value"
                       type="number"
+                      inputmode="decimal"
                       value="3"
                       min="0"
                       step="0.1"
@@ -263,6 +266,7 @@
                       id="nicotine-bottles"
                       class="center-value"
                       type="number"
+                      inputmode="decimal"
                       value="1"
                       min="0"
                       step="0.5"
@@ -327,6 +331,7 @@
                       id="base-pg-amount"
                       class="amount center-value"
                       type="number"
+                      inputmode="decimal"
                       value="24"
                       min="0"
                       step="0.1"
@@ -389,6 +394,7 @@
                       id="base-vg-amount"
                       class="amount center-value"
                       type="number"
+                      inputmode="decimal"
                       value="23"
                       min="0"
                       step="0.1"
@@ -459,11 +465,13 @@
     </main>
     <script src="mixer.js"></script>
     <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
-      });
-    }
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>
