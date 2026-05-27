@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+      content="width=device-width, initial-scale=1.0"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,7 +27,7 @@
       <header class="hero">
         <div>
           <h1>Calcolatore <span class="h1-accent">VG / PG</span></h1>
-          <p>
+          <p class="intro">
             Strumento per miscelare liquidi per sigarette elettroniche in modo
             semplice e preciso.
           </p>
@@ -59,6 +59,12 @@
                   Imposta l'obiettivo
                 </h2>
               </div>
+              <button type="button" id="reset-btn" class="reset-btn" title="Ripristina valori predefiniti">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+              </button>
             </div>
             <div class="target-layout">
               <label class="bottle-card">
@@ -163,14 +169,17 @@
               Risultato finale
             </h2>
             <div class="ratio-result">
-              <div>
+              <div id="result-vg-box">
                 <span>VG finale</span>
                 <strong id="result-vg">50%</strong>
               </div>
-              <div>
+              <div id="result-pg-box">
                 <span>PG finale</span>
                 <strong id="result-pg">50%</strong>
               </div>
+            </div>
+            <div class="ratio-visual" aria-hidden="true">
+              <div class="ratio-visual-vg" id="ratio-visual-vg" style="width:50%"></div>
             </div>
             <div class="result-details">
               <div>
@@ -185,6 +194,7 @@
             <p id="result-note" class="result-note">
               La composizione corrisponde al rapporto impostato.
             </p>
+            <button type="button" id="copy-btn" class="copy-btn">Copia ricetta</button>
           </section>
         </div>
 
@@ -469,6 +479,18 @@
           </div>
         </section>
       </form>
+      <div class="sticky-result" id="sticky-result" aria-live="polite">
+        <div class="sticky-pair">
+          <span class="sticky-label">VG</span>
+          <strong id="sticky-vg">–</strong>
+        </div>
+        <div class="sticky-divider"></div>
+        <div class="sticky-pair">
+          <span class="sticky-label">PG</span>
+          <strong id="sticky-pg">–</strong>
+        </div>
+        <span id="sticky-delta" class="sticky-delta sticky-ok">–</span>
+      </div>
     </main>
     <script src="mixer.js"></script>
     <script>

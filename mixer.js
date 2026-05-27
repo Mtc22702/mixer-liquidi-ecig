@@ -187,8 +187,20 @@ function initCalculator() {
   const nicotineBottlesInput = document.querySelector("#nicotine-bottles");
   const nicotineComposition = document.querySelector("#nicotine-composition");
   const result = document.querySelector("#result");
+  const ratioVisualVg = document.querySelector("#ratio-visual-vg");
+  const stickyVg = document.querySelector("#sticky-vg");
+  const stickyPg = document.querySelector("#sticky-pg");
+  const stickyDeltaEl = document.querySelector("#sticky-delta");
 
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
+
+  function flashEl(id) {
+    const el = document.querySelector(id);
+    if (!el) return;
+    el.classList.remove("value-flash");
+    void el.offsetWidth;
+    el.classList.add("value-flash");
+  }
 
   function getAmountInput(id) {
     return document.querySelector(`[data-id="${id}"] .amount`);
@@ -312,6 +324,18 @@ function initCalculator() {
       document.querySelector("#result-note").textContent = calculation.isExact
         ? "La composizione corrisponde al rapporto impostato."
         : "Hai modificato la ricetta: il totale e rispettato, mentre il rapporto finale differisce dal riferimento.";
+
+      flashEl("#result-vg-box");
+      flashEl("#result-pg-box");
+
+      if (ratioVisualVg) ratioVisualVg.style.width = calculation.actualVg + "%";
+
+      if (stickyVg) stickyVg.textContent = formatPercent(calculation.actualVg);
+      if (stickyPg) stickyPg.textContent = formatPercent(calculation.actualPg);
+      if (stickyDeltaEl) {
+        stickyDeltaEl.textContent = deltaText;
+        stickyDeltaEl.className = "sticky-delta " + (calculation.isExact ? "sticky-ok" : "sticky-warn");
+      }
     } catch (error) {
       result.classList.add("error");
 
@@ -324,6 +348,51 @@ function initCalculator() {
     syncComposition();
     fitBasesToTarget();
     render();
+  }
+
+  function copyRecipe() {
+    const { finalVolume } = readSettings();
+    const vg = document.querySelector("#result-vg").textContent;
+    const pg = document.querySelector("#result-pg").textContent;
+    const nic = document.querySelector("#result-nicotine").textContent;
+    const labels = { aroma: "Aroma", nicotine: "Nicotina", basePg: "Base PG", baseVg: "Base VG" };
+    const lines = [
+      `Ricetta ${formatMl(finalVolume)} — ${vg} VG / ${pg} PG`,
+      ...ingredients.map((ing) => `• ${labels[ing.id]}: ${formatMl(ing.volume)}`),
+      `Nicotina finale: ${nic}`
+    ];
+    const text = lines.join("\n");
+    const btn = document.querySelector("#copy-btn");
+    const done = () => {
+      btn.textContent = "Copiato ✓";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copia ricetta"; btn.classList.remove("copied"); }, 2000);
+    };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, callback) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); callback(); } catch (_) {}
+    document.body.removeChild(ta);
+  }
+
+  function resetRecipe() {
+    ingredients = DEFAULT_RECIPE.map((ing) => ({ ...ing }));
+    finalVolumeInput.value = "60";
+    targetPresetInput.value = "50";
+    customTarget.hidden = true;
+    setInputValue(targetVgInput, 50, 1);
+    nicotineRatioInput.value = "70vg";
+    resetBasesAndRender();
   }
 
   function applyAmountChange(input) {
@@ -511,6 +580,9 @@ function initCalculator() {
   });
 
   form.addEventListener("submit", (event) => event.preventDefault());
+
+  document.querySelector("#copy-btn")?.addEventListener("click", copyRecipe);
+  document.querySelector("#reset-btn")?.addEventListener("click", resetRecipe);
 
   syncInputs();
   resetBasesAndRender();
