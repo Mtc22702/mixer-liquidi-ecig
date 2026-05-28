@@ -1,12 +1,15 @@
-const CACHE_NAME = "vg-mixer-v18";
+const CACHE_NAME = "vg-mixer-v20";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./mixer.css",
+  "./pin.css",
+  "./pin.js",
   "./mixer.js",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
+  "./mixer-assets/steam-hero.jpg",
   "./mixer-assets/flacone-graduato-60ml.svg"
 ];
 

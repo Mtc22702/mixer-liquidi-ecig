@@ -43,6 +43,17 @@ function setInputValue(input, value, maximumFractionDigits = 1) {
   input.value = formatInputValue(value, maximumFractionDigits);
 }
 
+function hasValidRecipeSettings({ finalVolume, targetVg, nicotineRatio }) {
+  return (
+    Number.isFinite(finalVolume) &&
+    finalVolume > 0 &&
+    Number.isFinite(targetVg) &&
+    targetVg >= 0 &&
+    targetVg <= 100 &&
+    Boolean(nicotineRatio)
+  );
+}
+
 function calculateRecipe({ finalVolume, targetVg, ingredients }) {
   if (!Number.isFinite(finalVolume) || finalVolume <= 0) {
     throw new Error("La quantita totale deve essere maggiore di zero.");
@@ -287,11 +298,22 @@ function initCalculator() {
   function fitBasesToTarget() {
     const settings = readSettings();
 
+    if (!hasValidRecipeSettings(settings)) {
+      return;
+    }
+
     const aroma = ingredients.find((ingredient) => ingredient.id === "aroma");
 
     const nicotine = ingredients.find(
       (ingredient) => ingredient.id === "nicotine"
     );
+
+    if (
+      !Number.isFinite(aroma.volume) ||
+      !Number.isFinite(nicotine.volume)
+    ) {
+      return;
+    }
 
     const bases = recommendBases({
       finalVolume: settings.finalVolume,
@@ -421,7 +443,11 @@ function initCalculator() {
     const finalVolume = readSettings().finalVolume;
     const parsedValue = parseInput(input.value);
 
-    if (!Number.isFinite(parsedValue)) {
+    if (
+      !Number.isFinite(parsedValue) ||
+      !Number.isFinite(finalVolume) ||
+      finalVolume <= 0
+    ) {
       render();
       return;
     }
@@ -465,6 +491,11 @@ function initCalculator() {
 
   function applyNicotineBottlesChange() {
     const finalVolume = readSettings().finalVolume;
+
+    if (!Number.isFinite(finalVolume) || finalVolume <= 0) {
+      render();
+      return;
+    }
 
     const aromaVolume = ingredients.find(
       (ingredient) => ingredient.id === "aroma"
