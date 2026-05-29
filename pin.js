@@ -51,14 +51,18 @@
   }
 
   function sha256hex(str) {
-    var buf = new TextEncoder().encode(str);
-    return crypto.subtle.digest("SHA-256", buf).then(function (hash) {
-      return Array.from(new Uint8Array(hash))
-        .map(function (b) {
-          return b.toString(16).padStart(2, "0");
-        })
-        .join("");
-    });
+    try {
+      var buf = new TextEncoder().encode(str);
+      return crypto.subtle.digest("SHA-256", buf).then(function (hash) {
+        return Array.from(new Uint8Array(hash))
+          .map(function (b) {
+            return b.toString(16).padStart(2, "0");
+          })
+          .join("");
+      });
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   function submit() {
