@@ -664,7 +664,9 @@ h1 {
 .bottle-controls {
   display: grid;
   gap: 7px;
+  justify-items: center;
   min-width: 0;
+  text-align: center;
 }
 
 .bottle-helper {
@@ -677,7 +679,7 @@ h1 {
 .bottle-input {
   display: block;
   position: relative;
-  width: 84px;
+  width: 100px;
 }
 
 .bottle-input input {
@@ -798,6 +800,7 @@ select {
 
 .bottle-stepper {
   gap: 5px;
+  justify-content: center;
 }
 
 .bottle-stepper .adjust {
@@ -1136,9 +1139,10 @@ select:focus {
 
 .result-details span {
   color: var(--muted);
-  display: block;
+  flex: 1 1 auto;
   font-size: 11px;
-  margin-bottom: 6px;
+  font-weight: 600;
+  min-width: 0;
 }
 
 .ratio-result strong {
@@ -1158,14 +1162,30 @@ select:focus {
 .result-details {
   border-top: 1px solid var(--border);
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  grid-template-columns: 1fr;
   margin-top: 12px;
   padding-top: 12px;
 }
 
+.result-details > div {
+  align-items: center;
+  background: #f7faf8;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+}
+
 .result-details strong {
-  font-size: 14px;
+  color: var(--ink);
+  flex: none;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .result-note {
