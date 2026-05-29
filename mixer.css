@@ -114,7 +114,11 @@ body {
 .live-bar {
   align-items: center;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(237, 248, 242, 0.94)),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(237, 248, 242, 0.94)
+    ),
     radial-gradient(circle at 16% 20%, rgba(18, 104, 73, 0.12), transparent 28%);
   border: 1px solid rgba(18, 104, 73, 0.18);
   border-radius: 18px;
@@ -366,7 +370,9 @@ h1 {
   line-height: 1;
   margin-left: 6px;
   opacity: 0.6;
-  transition: transform 0.16s ease, opacity 0.16s ease;
+  transition:
+    transform 0.16s ease,
+    opacity 0.16s ease;
 }
 
 .price-menu-toggle[aria-expanded="true"] {
@@ -1296,7 +1302,11 @@ select:focus {
   .sticky-result {
     align-items: stretch;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 251, 248, 0.98)),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.94),
+        rgba(247, 251, 248, 0.98)
+      ),
       var(--panel);
     border: 1px solid rgba(18, 104, 73, 0.14);
     border-bottom: 0;
@@ -1706,7 +1716,7 @@ select,
   }
 
   body.price-panel-open .price-panel {
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
   }
 
   .price-currency {
