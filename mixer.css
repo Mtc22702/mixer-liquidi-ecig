@@ -100,6 +100,7 @@ body {
 .hero .h1-accent {
   color: #168a64;
   -webkit-text-fill-color: #168a64;
+  margin-right: 0.18em;
 }
 
 .hero .intro {
@@ -339,47 +340,50 @@ h1 {
 
 .price-menu-toggle {
   align-items: center;
-  background: var(--green);
-  border: 1px solid var(--green);
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(18, 104, 73, 0.2);
   border-radius: 14px;
-  box-shadow: 0 10px 22px rgba(18, 104, 73, 0.18);
-  color: #fff;
+  box-shadow: none;
+  color: var(--green-dark);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  font-size: 14px;
-  font-weight: 800;
-  height: 52px;
-  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  height: 44px;
+  padding: 0 14px;
   transition:
     background 0.16s ease,
     border-color 0.16s ease,
-    box-shadow 0.16s ease,
+    color 0.16s ease,
     transform 0.16s ease;
 }
 
 .price-menu-toggle::after {
-  content: "+";
-  font-size: 17px;
-  font-weight: 500;
+  content: "›";
+  font-size: 15px;
+  font-weight: 400;
   line-height: 1;
-  margin-left: 8px;
+  margin-left: 6px;
+  opacity: 0.6;
+  transition: transform 0.16s ease, opacity 0.16s ease;
 }
 
 .price-menu-toggle[aria-expanded="true"] {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
-  color: #fff;
-  box-shadow: 0 12px 24px rgba(18, 104, 73, 0.22);
+  background: rgba(18, 104, 73, 0.07);
+  border-color: rgba(18, 104, 73, 0.28);
+  color: var(--green-dark);
 }
 
 .price-menu-toggle[aria-expanded="true"]::after {
-  content: "-";
+  content: "›";
+  opacity: 0.6;
+  transform: rotate(90deg);
 }
 
 .price-menu-toggle:hover {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
+  background: rgba(18, 104, 73, 0.07);
+  border-color: rgba(18, 104, 73, 0.28);
 }
 
 .price-menu-toggle:active {
@@ -1644,15 +1648,10 @@ select,
 @media (max-width: 740px) {
   .live-bar {
     align-items: stretch;
-    flex-direction: column;
+    display: grid;
     gap: 8px;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     padding: 9px;
-  }
-
-  .price-menu-toggle {
-    justify-content: center;
-    width: 100%;
   }
 
   .live-status {
@@ -1665,10 +1664,10 @@ select,
 
   .language-control {
     align-items: center;
-    grid-template-columns: 1fr 104px;
+    grid-template-columns: auto auto;
     min-height: 44px;
     padding: 7px 10px;
-    text-align: left;
+    text-align: center;
   }
 
   .language-control select {
@@ -1676,12 +1675,15 @@ select,
   }
 
   .price-menu {
+    grid-column: 1 / -1;
     width: 100%;
   }
 
   .price-menu-toggle {
     border-radius: 13px;
-    height: 46px;
+    height: 44px;
+    justify-content: center;
+    width: 100%;
   }
 
   .price-panel {
