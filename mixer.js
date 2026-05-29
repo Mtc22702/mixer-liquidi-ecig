@@ -579,7 +579,7 @@ function initCalculator() {
     setHeadingText(".combined-left .panel-title h2", "setGoal");
     setText(".bottle-label", "totalBottle");
     setText(".bottle-helper", "finalVolume");
-    setLabelText(".target-grid > label", "targetRatio");
+    setLabelText(".target-ratio-label", "targetRatio");
     setLabelText("#custom-target label", "customVg");
     setText(".read-only-value span", "calculatedPg");
 

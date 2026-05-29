@@ -361,7 +361,7 @@
               </div>
             </div>
             <div class="target-layout">
-              <label class="bottle-card">
+              <div class="bottle-card">
                 <span class="bottle-media" aria-hidden="true">
                   <svg id="bottle-svg" viewBox="0 0 78 210" fill="none">
                     <defs>
@@ -815,7 +815,7 @@
                     />
                   </svg>
                 </span>
-                <span class="bottle-controls">
+                <div class="bottle-controls">
                   <span class="bottle-label">Totale flacone</span>
                   <span class="bottle-helper">Volume finale</span>
                   <span class="stepper bottle-stepper">
@@ -851,54 +851,54 @@
                       +
                     </button>
                   </span>
-                </span>
-              </label>
-              <div class="target-grid">
-                <label>
-                  Rapporto obiettivo
-                  <select id="target-preset" class="center-select">
-                    <option value="50" selected>50 VG / 50 PG</option>
-                    <option value="70">70 VG / 30 PG</option>
-                    <option value="custom">Personalizzato</option>
-                  </select>
-                </label>
-                <div id="custom-target" class="custom-target" hidden>
-                  <label>
-                    VG personalizzato (%)
-                    <span class="stepper">
-                      <button
-                        type="button"
-                        class="adjust"
-                        data-target="target-vg"
-                        data-delta="-1"
-                        aria-label="Diminuisci VG"
-                      >
-                        -
-                      </button>
-                      <input
-                        id="target-vg"
-                        class="center-value"
-                        type="text"
-                        inputmode="decimal"
-                        value="50"
-                        min="0"
-                        max="100"
-                        step="0.1"
-                      />
-                      <button
-                        type="button"
-                        class="adjust"
-                        data-target="target-vg"
-                        data-delta="1"
-                        aria-label="Aumenta VG"
-                      >
-                        +
-                      </button>
-                    </span>
-                  </label>
-                  <div class="read-only-value">
-                    <span>PG calcolato</span>
-                    <strong id="target-pg">50%</strong>
+                  <div class="bottle-ratio-wrap">
+                    <label class="target-ratio-label">
+                      Rapporto obiettivo
+                      <select id="target-preset" class="center-select">
+                        <option value="50" selected>50 VG / 50 PG</option>
+                        <option value="70">70 VG / 30 PG</option>
+                        <option value="custom">Personalizzato</option>
+                      </select>
+                    </label>
+                    <div id="custom-target" class="custom-target" hidden>
+                      <label>
+                        VG personalizzato (%)
+                        <span class="stepper">
+                          <button
+                            type="button"
+                            class="adjust"
+                            data-target="target-vg"
+                            data-delta="-1"
+                            aria-label="Diminuisci VG"
+                          >
+                            -
+                          </button>
+                          <input
+                            id="target-vg"
+                            class="center-value"
+                            type="text"
+                            inputmode="decimal"
+                            value="50"
+                            min="0"
+                            max="100"
+                            step="0.1"
+                          />
+                          <button
+                            type="button"
+                            class="adjust"
+                            data-target="target-vg"
+                            data-delta="1"
+                            aria-label="Aumenta VG"
+                          >
+                            +
+                          </button>
+                        </span>
+                      </label>
+                      <div class="read-only-value">
+                        <span>PG calcolato</span>
+                        <strong id="target-pg">50%</strong>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
