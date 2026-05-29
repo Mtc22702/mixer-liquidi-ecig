@@ -1689,12 +1689,14 @@ select,
   .price-panel {
     border-radius: 14px;
     gap: 7px;
-    left: 0;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    position: fixed;
     max-height: min(76vh, 760px);
     overflow-y: auto;
     padding: 8px;
-    right: auto;
-    width: 100%;
+    width: auto;
   }
 
   .price-list {
