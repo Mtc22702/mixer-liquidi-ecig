@@ -3,8 +3,9 @@ const NICOTINE_RATIOS = {
   "50vg": { pg: 50, vg: 50 }
 };
 
-const NICOTINE_BOTTLE_VOLUME = 10;
-const NICOTINE_STRENGTH = 20;
+const DEFAULT_NICOTINE_BOTTLE_VOLUME = 10;
+const DEFAULT_NICOTINE_STRENGTH = 20;
+const PRICE_SETTINGS_STORAGE_KEY = "mixer-price-settings";
 
 const DEFAULT_RECIPE = [
   { id: "aroma", volume: 3, pg: 100, vg: 0, nicotine: 0 },
@@ -185,6 +186,10 @@ function formatPercent(value) {
   return `${formatNumber(value, 1)}%`;
 }
 
+function formatMoney(value, currency) {
+  return `${formatNumber(round(value), 2)} ${currency}`;
+}
+
 function initCalculator() {
   const form = document.querySelector("#mixer-form");
   if (!form) return;
@@ -197,6 +202,14 @@ function initCalculator() {
   const nicotineRatioInput = document.querySelector("#nicotine-ratio");
   const nicotineBottlesInput = document.querySelector("#nicotine-bottles");
   const nicotineComposition = document.querySelector("#nicotine-composition");
+  const nicotineShotDetails = document.querySelector("#nicotine-shot-details");
+  const priceToggle = document.querySelector("#component-prices-toggle");
+  const priceBackdrop = document.querySelector("#component-prices-backdrop");
+  const pricePanel = document.querySelector("#component-prices-panel");
+  const priceSaveButton = document.querySelector("#component-prices-save");
+  const priceCurrencyInput = document.querySelector("#price-currency");
+  const priceCurrencyUnits = document.querySelectorAll(".price-currency-unit");
+  const resultCost = document.querySelector("#result-cost");
   const result = document.querySelector("#result");
   const ratioVisualVg = document.querySelector("#ratio-visual-vg");
   const stickyVg = document.querySelector("#sticky-vg");
@@ -204,6 +217,7 @@ function initCalculator() {
   const stickyDeltaEl = document.querySelector("#sticky-delta");
   const stickyRatioVg = document.querySelector("#sticky-ratio-vg");
   const stickyNicotine = document.querySelector("#sticky-nicotine");
+  const stickyCost = document.querySelector("#sticky-cost");
   const stickyNoteEl = document.querySelector("#sticky-note");
 
   const BTL_LAYERS = ["baseVg", "basePg", "nicotine", "aroma"];
@@ -212,6 +226,176 @@ function initCalculator() {
   );
 
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
+
+  function getPriceSettings() {
+    const currency = priceCurrencyInput ? priceCurrencyInput.value : "RON";
+    const components = {};
+
+    document.querySelectorAll("[data-price-id]").forEach((row) => {
+      const id = row.dataset.priceId;
+      const bottleVolume = row.querySelector(".price-bottle-volume");
+      const bottleTotal = row.querySelector(".price-bottle-total");
+      const nicotineStrength = row.querySelector(".price-nicotine-strength");
+
+      components[id] = {
+        bottleVolume: parseInput(bottleVolume ? bottleVolume.value : ""),
+        bottleTotal: parseInput(bottleTotal ? bottleTotal.value : ""),
+        nicotineStrength: parseInput(
+          nicotineStrength ? nicotineStrength.value : ""
+        )
+      };
+    });
+
+    return { currency, components };
+  }
+
+  function applySavedPriceSettings() {
+    if (typeof localStorage === "undefined") return;
+
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(PRICE_SETTINGS_STORAGE_KEY) || "null"
+      );
+
+      if (!saved || typeof saved !== "object") return;
+
+      if (priceCurrencyInput && saved.currency) {
+        priceCurrencyInput.value = saved.currency;
+      }
+
+      Object.entries(saved.components || {}).forEach(([id, values]) => {
+        const row = document.querySelector(`[data-price-id="${id}"]`);
+        if (!row || !values || typeof values !== "object") return;
+
+        const bottleVolume = row.querySelector(".price-bottle-volume");
+        const bottleTotal = row.querySelector(".price-bottle-total");
+        const nicotineStrength = row.querySelector(".price-nicotine-strength");
+
+        if (bottleVolume && values.bottleVolume !== undefined) {
+          bottleVolume.value = values.bottleVolume;
+        }
+
+        if (bottleTotal && values.bottleTotal !== undefined) {
+          bottleTotal.value = values.bottleTotal;
+        }
+
+        if (nicotineStrength && values.nicotineStrength !== undefined) {
+          nicotineStrength.value = values.nicotineStrength;
+        }
+      });
+    } catch (error) {
+      localStorage.removeItem(PRICE_SETTINGS_STORAGE_KEY);
+    }
+  }
+
+  function savePriceSettings() {
+    if (typeof localStorage === "undefined") return;
+
+    const settings = getPriceSettings();
+    const payload = {
+      currency: settings.currency,
+      components: {}
+    };
+
+    Object.entries(settings.components).forEach(([id, values]) => {
+      payload.components[id] = {
+        bottleVolume: Number.isFinite(values.bottleVolume)
+          ? formatInputValue(values.bottleVolume, 1)
+          : "",
+        bottleTotal: Number.isFinite(values.bottleTotal)
+          ? formatInputValue(values.bottleTotal, 2)
+          : "",
+        nicotineStrength: Number.isFinite(values.nicotineStrength)
+          ? formatInputValue(values.nicotineStrength, 1)
+          : ""
+      };
+    });
+
+    localStorage.setItem(PRICE_SETTINGS_STORAGE_KEY, JSON.stringify(payload));
+  }
+
+  function closePricePanel({ restoreFocus = false } = {}) {
+    if (!priceToggle || !pricePanel) return;
+
+    pricePanel.hidden = true;
+    if (priceBackdrop) priceBackdrop.hidden = true;
+    priceToggle.setAttribute("aria-expanded", "false");
+
+    if (restoreFocus) {
+      priceToggle.focus();
+    }
+  }
+
+  function getNicotineBottleVolume() {
+    const nicotinePrice = getPriceSettings().components.nicotine;
+
+    if (
+      nicotinePrice &&
+      Number.isFinite(nicotinePrice.bottleVolume) &&
+      nicotinePrice.bottleVolume > 0
+    ) {
+      return nicotinePrice.bottleVolume;
+    }
+
+    return DEFAULT_NICOTINE_BOTTLE_VOLUME;
+  }
+
+  function getNicotineStrength() {
+    const nicotinePrice = getPriceSettings().components.nicotine;
+
+    if (
+      nicotinePrice &&
+      Number.isFinite(nicotinePrice.nicotineStrength) &&
+      nicotinePrice.nicotineStrength >= 0
+    ) {
+      return nicotinePrice.nicotineStrength;
+    }
+
+    return DEFAULT_NICOTINE_STRENGTH;
+  }
+
+  function calculateCost() {
+    const priceSettings = getPriceSettings();
+    let total = 0;
+    let isComplete = true;
+
+    ingredients.forEach((ingredient) => {
+      const price = priceSettings.components[ingredient.id];
+
+      if (
+        !price ||
+        !Number.isFinite(price.bottleVolume) ||
+        price.bottleVolume <= 0 ||
+        !Number.isFinite(price.bottleTotal) ||
+        price.bottleTotal < 0
+      ) {
+        isComplete = false;
+        return;
+      }
+
+      total += (ingredient.volume / price.bottleVolume) * price.bottleTotal;
+    });
+
+    return {
+      total: round(total),
+      currency: priceSettings.currency,
+      isComplete
+    };
+  }
+
+  function renderCost() {
+    const cost = calculateCost();
+    const text = cost.isComplete
+      ? formatMoney(cost.total, cost.currency)
+      : "Completa prezzi";
+
+    if (resultCost) resultCost.textContent = text;
+    if (stickyCost) stickyCost.textContent = text;
+
+    priceCurrencyUnits.forEach((unit) => {
+      unit.textContent = cost.currency;
+    });
+  }
 
   function updateBottleFill() {
     const BODY_BOTTOM = 208;
@@ -262,6 +446,8 @@ function initCalculator() {
 
   function syncComposition() {
     const { nicotineRatio } = readSettings();
+    const nicotineBottleVolume = getNicotineBottleVolume();
+    const nicotineStrength = getNicotineStrength();
 
     const nicotine = ingredients.find(
       (ingredient) => ingredient.id === "nicotine"
@@ -269,9 +455,13 @@ function initCalculator() {
 
     nicotine.pg = nicotineRatio.pg;
     nicotine.vg = nicotineRatio.vg;
-    nicotine.nicotine = NICOTINE_STRENGTH;
+    nicotine.nicotine = nicotineStrength;
 
     nicotineComposition.textContent = `${nicotineRatio.vg}% VG / ${nicotineRatio.pg}% PG`;
+    if (nicotineShotDetails) {
+      nicotineShotDetails.textContent =
+        `${formatMl(nicotineBottleVolume)} · ${formatNumber(nicotineStrength, 1)} mg/ml`;
+    }
   }
 
   function syncInputs() {
@@ -280,7 +470,7 @@ function initCalculator() {
         if (document.activeElement !== nicotineBottlesInput) {
           setInputValue(
             nicotineBottlesInput,
-            roundToStep(ingredient.volume / NICOTINE_BOTTLE_VOLUME, 0.5),
+            roundToStep(ingredient.volume / getNicotineBottleVolume(), 0.5),
             1
           );
         }
@@ -343,6 +533,7 @@ function initCalculator() {
       : "-";
 
     syncComposition();
+    renderCost();
 
     try {
       const calculation = calculateRecipe({
@@ -396,8 +587,8 @@ function initCalculator() {
         stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
       if (stickyNoteEl) {
         stickyNoteEl.textContent = calculation.isExact
-          ? "Composizione precisa"
-          : "Rapporto differisce dal target";
+          ? "Preciso: composizione in linea con il target"
+          : `${deltaText}: rapporto differisce dal target`;
         stickyNoteEl.className =
           "sticky-note-text" + (calculation.isExact ? "" : " changed");
       }
@@ -416,19 +607,21 @@ function initCalculator() {
 
   function resetBasesAndRender() {
     const { finalVolume } = readSettings();
+    const nicotineBottleVolume = getNicotineBottleVolume();
+
     if (Number.isFinite(finalVolume) && finalVolume > 0) {
       const parsedBottles = parseInput(nicotineBottlesInput.value);
       if (Number.isFinite(parsedBottles) && parsedBottles >= 0) {
         const aromaVol = ingredients.find((i) => i.id === "aroma").volume;
         const maxBottles =
           Math.floor(
-            (Math.max(0, finalVolume - aromaVol) / NICOTINE_BOTTLE_VOLUME) * 2
+            (Math.max(0, finalVolume - aromaVol) / nicotineBottleVolume) * 2
           ) / 2;
         const bottles = clamp(roundToStep(parsedBottles, 0.5), 0, maxBottles);
         ingredients = updateFixedVolume(
           ingredients,
           "nicotine",
-          bottles * NICOTINE_BOTTLE_VOLUME,
+          bottles * nicotineBottleVolume,
           finalVolume
         );
       }
@@ -491,6 +684,7 @@ function initCalculator() {
 
   function applyNicotineBottlesChange() {
     const finalVolume = readSettings().finalVolume;
+    const nicotineBottleVolume = getNicotineBottleVolume();
 
     if (!Number.isFinite(finalVolume) || finalVolume <= 0) {
       render();
@@ -503,7 +697,7 @@ function initCalculator() {
 
     const maximumBottles =
       Math.floor(
-        (Math.max(0, finalVolume - aromaVolume) / NICOTINE_BOTTLE_VOLUME) * 2
+        (Math.max(0, finalVolume - aromaVolume) / nicotineBottleVolume) * 2
       ) / 2;
 
     const parsedBottles = parseInput(nicotineBottlesInput.value);
@@ -518,7 +712,7 @@ function initCalculator() {
     ingredients = updateFixedVolume(
       ingredients,
       "nicotine",
-      bottles * NICOTINE_BOTTLE_VOLUME,
+      bottles * nicotineBottleVolume,
       finalVolume
     );
 
@@ -531,6 +725,82 @@ function initCalculator() {
       nicotineBottlesInput.blur();
     }
   });
+
+  function applyPriceChange(input) {
+    const row = input.closest("[data-price-id]");
+
+    if (
+      row &&
+      row.dataset.priceId === "nicotine" &&
+      input.classList.contains("price-bottle-volume")
+    ) {
+      resetBasesAndRender();
+      return;
+    }
+
+    render();
+  }
+
+  document
+    .querySelectorAll(
+      ".price-bottle-volume, .price-bottle-total, .price-nicotine-strength"
+    )
+    .forEach((input) => {
+      input.addEventListener("input", () => applyPriceChange(input));
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          input.blur();
+        }
+      });
+    });
+
+  if (priceCurrencyInput) {
+    priceCurrencyInput.addEventListener("change", render);
+  }
+
+  if (priceToggle && pricePanel) {
+    priceToggle.addEventListener("click", () => {
+      const nextOpen = pricePanel.hidden;
+
+      pricePanel.hidden = !nextOpen;
+      if (priceBackdrop) priceBackdrop.hidden = !nextOpen;
+      priceToggle.setAttribute("aria-expanded", String(nextOpen));
+    });
+
+    if (priceBackdrop) {
+      priceBackdrop.addEventListener("click", () => {
+        closePricePanel({ restoreFocus: true });
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      if (
+        pricePanel.hidden ||
+        (priceBackdrop && priceBackdrop.contains(event.target)) ||
+        pricePanel.contains(event.target) ||
+        priceToggle.contains(event.target)
+      ) {
+        return;
+      }
+
+      closePricePanel();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || pricePanel.hidden) return;
+
+      closePricePanel({ restoreFocus: true });
+    });
+  }
+
+  if (priceSaveButton) {
+    priceSaveButton.addEventListener("click", () => {
+      savePriceSettings();
+      closePricePanel({ restoreFocus: true });
+      render();
+    });
+  }
 
   function applyFinalVolumeChange() {
     const parsedFinalVolume = parseInput(finalVolumeInput.value);
@@ -638,7 +908,7 @@ function initCalculator() {
 
   form.addEventListener("submit", (event) => event.preventDefault());
 
-  syncInputs();
+  applySavedPriceSettings();
   resetBasesAndRender();
 }
 

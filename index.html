@@ -78,7 +78,177 @@
       </header>
 
       <div class="live-bar">
-        <span class="live-pill">Aggiornamento live dei dati</span>
+        <div class="live-status" aria-label="Stato calcolo ricetta">
+          <span class="live-dot" aria-hidden="true"></span>
+          <div>
+            <strong>Ricetta in tempo reale</strong>
+            <small>VG, PG, nicotina e costo si aggiornano mentre modifichi i valori</small>
+          </div>
+        </div>
+        <div class="price-menu">
+          <button
+            type="button"
+            class="price-menu-toggle"
+            id="component-prices-toggle"
+            aria-expanded="false"
+            aria-controls="component-prices-panel"
+          >
+            Costi componenti
+          </button>
+          <button
+            type="button"
+            class="price-backdrop"
+            id="component-prices-backdrop"
+            aria-label="Chiudi costi componenti"
+            hidden
+          ></button>
+          <div
+            class="price-panel"
+            id="component-prices-panel"
+            aria-label="Prezzi componenti"
+            hidden
+          >
+            <label class="price-currency">
+              Valuta
+              <select id="price-currency" class="center-select">
+                <option value="RON" selected>RON</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </label>
+
+            <div class="price-list">
+              <div class="price-row aroma" data-price-id="aroma">
+                <div class="price-select">
+                  <span class="component-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                    </svg>
+                  </span>
+                  <span>
+                    <strong>Aroma</strong>
+                    <small>Concentrato in PG</small>
+                  </span>
+                </div>
+                <span class="price-empty" aria-hidden="true"></span>
+                <label class="price-field price-field-volume">
+                  Flacone
+                  <span class="input-with-unit">
+                    <input class="price-bottle-volume center-value" type="text" inputmode="decimal" value="10" min="0" step="0.1" required />
+                    <b>ml</b>
+                  </span>
+                </label>
+                <label class="price-field price-field-total">
+                  Prezzo
+                  <span class="input-with-unit">
+                    <input class="price-bottle-total center-value" type="text" inputmode="decimal" value="" min="0" step="0.01" required />
+                    <b class="price-currency-unit">RON</b>
+                  </span>
+                </label>
+              </div>
+
+              <div class="price-row nicotine" data-price-id="nicotine">
+                <div class="price-select">
+                  <span class="component-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M9 3h6v4l2 2v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9l2-2V3Z" />
+                      <path d="M9 12h6M12 9v6" />
+                    </svg>
+                  </span>
+                  <span>
+                    <strong>Nicotina</strong>
+                    <small>Shot da miscelare</small>
+                  </span>
+                </div>
+                <label class="price-field price-field-strength">
+                  Concentrazione
+                  <span class="input-with-unit">
+                    <input class="price-nicotine-strength center-value" type="text" inputmode="decimal" value="20" min="0" step="0.1" required />
+                    <b>mg/ml</b>
+                  </span>
+                </label>
+                <label class="price-field price-field-volume">
+                  Flacone
+                  <span class="input-with-unit">
+                    <input class="price-bottle-volume center-value" type="text" inputmode="decimal" value="10" min="0" step="0.1" required />
+                    <b>ml</b>
+                  </span>
+                </label>
+                <label class="price-field price-field-total">
+                  Prezzo
+                  <span class="input-with-unit">
+                    <input class="price-bottle-total center-value" type="text" inputmode="decimal" value="" min="0" step="0.01" required />
+                    <b class="price-currency-unit">RON</b>
+                  </span>
+                </label>
+              </div>
+
+              <div class="price-row pg" data-price-id="basePg">
+                <div class="price-select">
+                  <span class="component-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                      <path d="M9 15h6" />
+                    </svg>
+                  </span>
+                  <span>
+                    <strong>Base neutra full PG</strong>
+                    <small>Propilene Glicole</small>
+                  </span>
+                </div>
+                <span class="price-empty" aria-hidden="true"></span>
+                <label class="price-field price-field-volume">
+                  Flacone
+                  <span class="input-with-unit">
+                    <input class="price-bottle-volume center-value" type="text" inputmode="decimal" value="100" min="0" step="0.1" required />
+                    <b>ml</b>
+                  </span>
+                </label>
+                <label class="price-field price-field-total">
+                  Prezzo
+                  <span class="input-with-unit">
+                    <input class="price-bottle-total center-value" type="text" inputmode="decimal" value="" min="0" step="0.01" required />
+                    <b class="price-currency-unit">RON</b>
+                  </span>
+                </label>
+              </div>
+
+              <div class="price-row vg" data-price-id="baseVg">
+                <div class="price-select">
+                  <span class="component-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z" />
+                      <path d="M9 13h6M9 16h6" />
+                    </svg>
+                  </span>
+                  <span>
+                    <strong>Base neutra full VG</strong>
+                    <small>Glicerina Vegetale</small>
+                  </span>
+                </div>
+                <span class="price-empty" aria-hidden="true"></span>
+                <label class="price-field price-field-volume">
+                  Flacone
+                  <span class="input-with-unit">
+                    <input class="price-bottle-volume center-value" type="text" inputmode="decimal" value="100" min="0" step="0.1" required />
+                    <b>ml</b>
+                  </span>
+                </label>
+                <label class="price-field price-field-total">
+                  Prezzo
+                  <span class="input-with-unit">
+                    <input class="price-bottle-total center-value" type="text" inputmode="decimal" value="" min="0" step="0.01" required />
+                    <b class="price-currency-unit">RON</b>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="price-actions">
+              <button type="button" class="price-save" id="component-prices-save">
+                Salva
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <form id="mixer-form" class="workspace" novalidate>
@@ -306,6 +476,10 @@
                 <strong id="result-nicotine">3,33 mg/ml</strong>
               </div>
               <div>
+                <span>Costo totale</span>
+                <strong id="result-cost">Completa prezzi</strong>
+              </div>
+              <div>
                 <span>Scostamento target</span>
                 <strong id="result-delta">Preciso</strong>
               </div>
@@ -458,7 +632,7 @@
               <div class="detail-grid">
                 <div class="display-field">
                   <span>Shot</span>
-                  <strong>10 ml · 20 mg/ml</strong>
+                  <strong id="nicotine-shot-details">10 ml · 20 mg/ml</strong>
                 </div>
                 <div class="display-field">
                   <span>Tipo base</span>
@@ -611,6 +785,10 @@
           <div class="sticky-stat sticky-stat--nic">
             <span class="sticky-stat-label">Nicotina</span>
             <strong class="sticky-stat-value" id="sticky-nicotine">–</strong>
+          </div>
+          <div class="sticky-stat sticky-stat--cost">
+            <span class="sticky-stat-label">Costo</span>
+            <strong class="sticky-stat-value" id="sticky-cost">–</strong>
           </div>
           <span id="sticky-delta" class="sticky-delta sticky-ok">–</span>
         </div>
