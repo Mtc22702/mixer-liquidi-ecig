@@ -769,6 +769,7 @@ function initCalculator() {
     pricePanel.hidden = true;
     if (priceBackdrop) priceBackdrop.hidden = true;
     priceToggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("price-panel-open");
 
     if (restoreFocus) {
       priceToggle.focus();
@@ -1231,6 +1232,7 @@ function initCalculator() {
       pricePanel.hidden = !nextOpen;
       if (priceBackdrop) priceBackdrop.hidden = !nextOpen;
       priceToggle.setAttribute("aria-expanded", String(nextOpen));
+      document.body.classList.toggle("price-panel-open", nextOpen);
     });
 
     if (priceBackdrop) {

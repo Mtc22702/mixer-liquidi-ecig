@@ -1701,6 +1701,14 @@ select,
     width: auto;
   }
 
+  body.price-panel-open .sticky-result {
+    display: none !important;
+  }
+
+  body.price-panel-open .price-panel {
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
   .price-currency {
     flex-shrink: 0;
   }
