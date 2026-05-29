@@ -1688,25 +1688,34 @@ select,
 
   .price-panel {
     border-radius: 14px;
+    bottom: calc(128px + env(safe-area-inset-bottom, 0px) + 10px);
+    display: flex;
+    flex-direction: column;
     gap: 7px;
     left: 10px;
+    overflow: hidden;
+    padding: 8px;
+    position: fixed;
     right: 10px;
     top: 10px;
-    position: fixed;
-    max-height: min(76vh, 760px);
-    overflow-y: auto;
-    padding: 8px;
     width: auto;
   }
 
+  .price-currency {
+    flex-shrink: 0;
+  }
+
   .price-list {
-    padding-bottom: 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 4px;
   }
 
   .price-row {
-    gap: 7px;
+    gap: 6px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 8px;
+    padding: 6px 7px;
   }
 
   .price-row.nicotine {
@@ -1758,8 +1767,9 @@ select,
   }
 
   .price-actions {
+    flex-shrink: 0;
     margin: 0 -8px -8px;
-    padding-top: 8px;
+    padding: 8px;
   }
 
   .price-save {
@@ -1768,7 +1778,7 @@ select,
 
   .price-row input,
   .price-currency select {
-    height: 40px;
+    height: 36px;
   }
 
   input,
