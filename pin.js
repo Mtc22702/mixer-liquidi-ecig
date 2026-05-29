@@ -24,7 +24,7 @@
     }
     dots.setAttribute(
       "aria-label",
-      "Codice inserito: " + entered.length + " di 4 cifre"
+      "Cod introdus: " + entered.length + " din 4 cifre"
     );
   }
 
@@ -69,14 +69,14 @@
         if (hex === HASH) {
           unlock();
         } else {
-          showError("Codice non corretto. Riprova.");
+          showError("Cod incorect. Încearcă din nou.");
           entered = "";
           isChecking = false;
           updateDots();
         }
       })
       .catch(function () {
-        showError("Verifica non riuscita. Riprova.");
+        showError("Verificarea nu a reușit. Încearcă din nou.");
         entered = "";
         isChecking = false;
         updateDots();

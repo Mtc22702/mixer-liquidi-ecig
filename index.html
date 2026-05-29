@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="ro">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,10 +30,10 @@
           </svg>
         </div>
         <h2>Mixer VG / PG</h2>
-        <p>Inserisci il codice di accesso</p>
+        <p>Introdu codul de acces</p>
         <div
           id="pin-dots"
-          aria-label="Codice inserito: 0 di 4 cifre"
+          aria-label="Cod introdus: 0 din 4 cifre"
           role="status"
         >
           <div class="pin-dot" id="d0"></div>
@@ -58,7 +58,7 @@
             type="button"
             class="pin-key key-del"
             data-v="del"
-            aria-label="Cancella ultima cifra"
+            aria-label="Șterge ultima cifră"
           >
             ⌫
           </button>
@@ -85,6 +85,14 @@
             <small>VG, PG, nicotina e costo si aggiornano mentre modifichi i valori</small>
           </div>
         </div>
+        <label class="language-control">
+          <span>Lingua</span>
+          <select id="language-select" class="center-select">
+            <option value="ro" selected>RO</option>
+            <option value="it">IT</option>
+            <option value="en">EN</option>
+          </select>
+        </label>
         <div class="price-menu">
           <button
             type="button"

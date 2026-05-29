@@ -74,7 +74,7 @@ assert.deepEqual(
 
 assert.throws(
   () => calculateRecipe({ finalVolume: 0, targetVg: 50, ingredients }),
-  /maggiore di zero/
+  /mai mare decât zero/
 );
 
 console.log("All mixer tests passed");

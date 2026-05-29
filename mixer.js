@@ -6,6 +6,258 @@ const NICOTINE_RATIOS = {
 const DEFAULT_NICOTINE_BOTTLE_VOLUME = 10;
 const DEFAULT_NICOTINE_STRENGTH = 20;
 const PRICE_SETTINGS_STORAGE_KEY = "mixer-price-settings";
+const LANGUAGE_STORAGE_KEY = "mixer-language";
+
+let currentLanguage = "ro";
+
+const LANGUAGE_LOCALES = {
+  ro: "ro-RO",
+  it: "it-IT",
+  en: "en-US"
+};
+
+const TRANSLATIONS = {
+  ro: {
+    documentTitle: "Mixer VG / PG",
+    heroTitle: 'Calculator <span class="h1-accent">VG / PG</span>',
+    intro:
+      "Instrument pentru amestecarea lichidelor pentru țigări electronice simplu și precis.",
+    liveAria: "Starea calculului rețetei",
+    liveTitle: "Rețetă în timp real",
+    liveText:
+      "VG, PG, nicotina și costul se actualizează când modifici valorile",
+    language: "Limbă",
+    costsButton: "Costuri componente",
+    closeCosts: "Închide costurile componentelor",
+    pricePanel: "Prețuri componente",
+    currency: "Valută",
+    bottle: "Flacon",
+    price: "Preț",
+    save: "Salvează",
+    flavor: "Aromă",
+    flavorSub: "Concentrat în PG",
+    nicotine: "Nicotină",
+    nicotineSub: "Shot pentru amestec",
+    concentration: "Concentrație",
+    basePg: "Bază neutră full PG",
+    basePgSub: "Propilen glicol",
+    basePgSubLong: "Propilen glicol · fluid",
+    baseVg: "Bază neutră full VG",
+    baseVgSub: "Glicerină vegetală",
+    baseVgSubLong: "Glicerină vegetală · densă",
+    recipeSettings: "Setări rețetă",
+    setGoal: "Setează obiectivul",
+    totalBottle: "Total flacon",
+    finalVolume: "Volum final",
+    targetRatio: "Raport obiectiv",
+    custom: "Personalizat",
+    customVg: "VG personalizat (%)",
+    calculatedPg: "PG calculat",
+    finalResult: "Rezultat final",
+    finalVg: "VG final",
+    finalPg: "PG final",
+    finalNicotine: "Nicotină finală",
+    totalCost: "Cost total",
+    completePrices: "Completează prețurile",
+    targetDelta: "Abatere target",
+    precise: "Precis",
+    regulateComponents: "Reglează componentele",
+    quantityMl: "Cantitate (ml)",
+    details: "Detalii",
+    base: "Bază",
+    purePg: "PG pur",
+    pureVg: "VG pur",
+    ratio: "Raport",
+    nicotineType: "Tip nicotină",
+    bottles: "Flacoane",
+    pieces: "buc",
+    shot: "Shot",
+    baseType: "Tip bază",
+    stickyNicotine: "Nicotină",
+    stickyCost: "Cost",
+    noteExact: "Compoziția corespunde raportului setat.",
+    noteChanged:
+      "Ai modificat rețeta: totalul este respectat, dar raportul final diferă de referință.",
+    stickyExact: "Precis: compoziție aliniată cu targetul",
+    stickyChanged: "{delta}: raportul diferă de target",
+    errorFinalVolume: "Cantitatea totală trebuie să fie mai mare decât zero.",
+    errorTargetVg: "Procentul VG trebuie să fie între 0 și 100.",
+    errorIngredientsPositive:
+      "Cantitățile componentelor trebuie să fie pozitive.",
+    errorTotal: "Componentele trebuie să totalizeze {value}.",
+    decreaseFinalVolume: "Scade volumul final",
+    increaseFinalVolume: "Crește volumul final",
+    decreaseVg: "Scade VG",
+    increaseVg: "Crește VG",
+    decreaseFlavor: "Scade aroma",
+    increaseFlavor: "Crește aroma",
+    decreaseNicotine: "Scade jumătate de flacon de nicotină",
+    increaseNicotine: "Crește jumătate de flacon de nicotină",
+    decreasePgBase: "Scade baza PG",
+    increasePgBase: "Crește baza PG",
+    decreaseVgBase: "Scade baza VG",
+    increaseVgBase: "Crește baza VG"
+  },
+  it: {
+    documentTitle: "Mixer VG / PG",
+    heroTitle: 'Calcolatore <span class="h1-accent">VG / PG</span>',
+    intro:
+      "Strumento per miscelare liquidi per sigarette elettroniche in modo semplice e preciso.",
+    liveAria: "Stato calcolo ricetta",
+    liveTitle: "Ricetta in tempo reale",
+    liveText:
+      "VG, PG, nicotina e costo si aggiornano mentre modifichi i valori",
+    language: "Lingua",
+    costsButton: "Costi componenti",
+    closeCosts: "Chiudi costi componenti",
+    pricePanel: "Prezzi componenti",
+    currency: "Valuta",
+    bottle: "Flacone",
+    price: "Prezzo",
+    save: "Salva",
+    flavor: "Aroma",
+    flavorSub: "Concentrato in PG",
+    nicotine: "Nicotina",
+    nicotineSub: "Shot da miscelare",
+    concentration: "Concentrazione",
+    basePg: "Base neutra full PG",
+    basePgSub: "Propilene glicole",
+    basePgSubLong: "Propilene glicole · fluido",
+    baseVg: "Base neutra full VG",
+    baseVgSub: "Glicerina vegetale",
+    baseVgSubLong: "Glicerina vegetale · densa",
+    recipeSettings: "Impostazioni ricetta",
+    setGoal: "Imposta l'obiettivo",
+    totalBottle: "Totale flacone",
+    finalVolume: "Volume finale",
+    targetRatio: "Rapporto obiettivo",
+    custom: "Personalizzato",
+    customVg: "VG personalizzato (%)",
+    calculatedPg: "PG calcolato",
+    finalResult: "Risultato finale",
+    finalVg: "VG finale",
+    finalPg: "PG finale",
+    finalNicotine: "Nicotina finale",
+    totalCost: "Costo totale",
+    completePrices: "Completa prezzi",
+    targetDelta: "Scostamento target",
+    precise: "Preciso",
+    regulateComponents: "Regola i componenti",
+    quantityMl: "Quantità (ml)",
+    details: "Dettagli",
+    base: "Base",
+    purePg: "PG puro",
+    pureVg: "VG puro",
+    ratio: "Rapporto",
+    nicotineType: "Tipo nicotina",
+    bottles: "Boccette",
+    pieces: "pz",
+    shot: "Shot",
+    baseType: "Tipo base",
+    stickyNicotine: "Nicotina",
+    stickyCost: "Costo",
+    noteExact: "La composizione corrisponde al rapporto impostato.",
+    noteChanged:
+      "Hai modificato la ricetta: il totale è rispettato, mentre il rapporto finale differisce dal riferimento.",
+    stickyExact: "Preciso: composizione in linea con il target",
+    stickyChanged: "{delta}: rapporto differisce dal target",
+    errorFinalVolume: "La quantità totale deve essere maggiore di zero.",
+    errorTargetVg: "La percentuale VG deve essere compresa tra 0 e 100.",
+    errorIngredientsPositive:
+      "Le quantità dei componenti devono essere positive.",
+    errorTotal: "I componenti devono totalizzare {value}.",
+    decreaseFinalVolume: "Diminuisci volume finale",
+    increaseFinalVolume: "Aumenta volume finale",
+    decreaseVg: "Diminuisci VG",
+    increaseVg: "Aumenta VG",
+    decreaseFlavor: "Diminuisci aroma",
+    increaseFlavor: "Aumenta aroma",
+    decreaseNicotine: "Diminuisci mezza boccetta di nicotina",
+    increaseNicotine: "Aumenta mezza boccetta di nicotina",
+    decreasePgBase: "Diminuisci base PG",
+    increasePgBase: "Aumenta base PG",
+    decreaseVgBase: "Diminuisci base VG",
+    increaseVgBase: "Aumenta base VG"
+  },
+  en: {
+    documentTitle: "VG / PG Mixer",
+    heroTitle: '<span class="h1-accent">VG / PG</span> Calculator',
+    intro: "A simple, precise tool for mixing e-cigarette liquids.",
+    liveAria: "Recipe calculation status",
+    liveTitle: "Live recipe",
+    liveText: "VG, PG, nicotine and cost update as you change values",
+    language: "Language",
+    costsButton: "Component costs",
+    closeCosts: "Close component costs",
+    pricePanel: "Component prices",
+    currency: "Currency",
+    bottle: "Bottle",
+    price: "Price",
+    save: "Save",
+    flavor: "Flavor",
+    flavorSub: "PG concentrate",
+    nicotine: "Nicotine",
+    nicotineSub: "Mixing shot",
+    concentration: "Strength",
+    basePg: "Neutral full PG base",
+    basePgSub: "Propylene glycol",
+    basePgSubLong: "Propylene glycol · fluid",
+    baseVg: "Neutral full VG base",
+    baseVgSub: "Vegetable glycerin",
+    baseVgSubLong: "Vegetable glycerin · dense",
+    recipeSettings: "Recipe settings",
+    setGoal: "Set target",
+    totalBottle: "Bottle total",
+    finalVolume: "Final volume",
+    targetRatio: "Target ratio",
+    custom: "Custom",
+    customVg: "Custom VG (%)",
+    calculatedPg: "Calculated PG",
+    finalResult: "Final result",
+    finalVg: "Final VG",
+    finalPg: "Final PG",
+    finalNicotine: "Final nicotine",
+    totalCost: "Total cost",
+    completePrices: "Complete prices",
+    targetDelta: "Target delta",
+    precise: "Precise",
+    regulateComponents: "Adjust components",
+    quantityMl: "Quantity (ml)",
+    details: "Details",
+    base: "Base",
+    purePg: "Pure PG",
+    pureVg: "Pure VG",
+    ratio: "Ratio",
+    nicotineType: "Nicotine type",
+    bottles: "Bottles",
+    pieces: "pcs",
+    shot: "Shot",
+    baseType: "Base type",
+    stickyNicotine: "Nicotine",
+    stickyCost: "Cost",
+    noteExact: "The composition matches the selected ratio.",
+    noteChanged:
+      "You changed the recipe: the total is correct, but the final ratio differs from the reference.",
+    stickyExact: "Precise: composition aligned with target",
+    stickyChanged: "{delta}: ratio differs from target",
+    errorFinalVolume: "Total quantity must be greater than zero.",
+    errorTargetVg: "VG percentage must be between 0 and 100.",
+    errorIngredientsPositive: "Component quantities must be positive.",
+    errorTotal: "Components must add up to {value}.",
+    decreaseFinalVolume: "Decrease final volume",
+    increaseFinalVolume: "Increase final volume",
+    decreaseVg: "Decrease VG",
+    increaseVg: "Increase VG",
+    decreaseFlavor: "Decrease flavor",
+    increaseFlavor: "Increase flavor",
+    decreaseNicotine: "Decrease half a nicotine bottle",
+    increaseNicotine: "Increase half a nicotine bottle",
+    decreasePgBase: "Decrease PG base",
+    increasePgBase: "Increase PG base",
+    decreaseVgBase: "Decrease VG base",
+    increaseVgBase: "Increase VG base"
+  }
+};
 
 const DEFAULT_RECIPE = [
   { id: "aroma", volume: 3, pg: 100, vg: 0, nicotine: 0 },
@@ -34,10 +286,22 @@ function roundToStep(value, step) {
 }
 
 function formatInputValue(value, maximumFractionDigits = 1) {
-  return value.toLocaleString("it-IT", {
+  return value.toLocaleString(LANGUAGE_LOCALES[currentLanguage], {
     maximumFractionDigits,
     useGrouping: false
   });
+}
+
+function t(key, params = {}) {
+  const dictionary = TRANSLATIONS[currentLanguage] || TRANSLATIONS.ro;
+  const fallback = TRANSLATIONS.ro[key] || key;
+  let text = dictionary[key] || fallback;
+
+  Object.entries(params).forEach(([name, value]) => {
+    text = text.replace(`{${name}}`, value);
+  });
+
+  return text;
 }
 
 function setInputValue(input, value, maximumFractionDigits = 1) {
@@ -57,11 +321,11 @@ function hasValidRecipeSettings({ finalVolume, targetVg, nicotineRatio }) {
 
 function calculateRecipe({ finalVolume, targetVg, ingredients }) {
   if (!Number.isFinite(finalVolume) || finalVolume <= 0) {
-    throw new Error("La quantita totale deve essere maggiore di zero.");
+    throw new Error(t("errorFinalVolume"));
   }
 
   if (!Number.isFinite(targetVg) || targetVg < 0 || targetVg > 100) {
-    throw new Error("La percentuale VG deve essere compresa tra 0 e 100.");
+    throw new Error(t("errorTargetVg"));
   }
 
   const totals = ingredients.reduce(
@@ -69,7 +333,7 @@ function calculateRecipe({ finalVolume, targetVg, ingredients }) {
       const volume = parseInput(ingredient.volume);
 
       if (!Number.isFinite(volume) || volume < 0) {
-        throw new Error("Le quantita dei componenti devono essere positive.");
+        throw new Error(t("errorIngredientsPositive"));
       }
 
       result.volume += volume;
@@ -83,9 +347,7 @@ function calculateRecipe({ finalVolume, targetVg, ingredients }) {
   );
 
   if (Math.abs(totals.volume - finalVolume) > 0.011) {
-    throw new Error(
-      `I componenti devono totalizzare ${formatMl(finalVolume)}.`
-    );
+    throw new Error(t("errorTotal", { value: formatMl(finalVolume) }));
   }
 
   const actualPg = (totals.pg / finalVolume) * 100;
@@ -175,7 +437,9 @@ function updateBaseVolume(
 }
 
 function formatNumber(value, maximumFractionDigits = 2) {
-  return value.toLocaleString("it-IT", { maximumFractionDigits });
+  return value.toLocaleString(LANGUAGE_LOCALES[currentLanguage], {
+    maximumFractionDigits
+  });
 }
 
 function formatMl(value) {
@@ -209,6 +473,7 @@ function initCalculator() {
   const priceSaveButton = document.querySelector("#component-prices-save");
   const priceCurrencyInput = document.querySelector("#price-currency");
   const priceCurrencyUnits = document.querySelectorAll(".price-currency-unit");
+  const languageInput = document.querySelector("#language-select");
   const resultCost = document.querySelector("#result-cost");
   const result = document.querySelector("#result");
   const ratioVisualVg = document.querySelector("#ratio-visual-vg");
@@ -226,6 +491,190 @@ function initCalculator() {
   );
 
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
+
+  function setText(selector, key) {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = t(key);
+  }
+
+  function setTextAll(selector, key) {
+    document.querySelectorAll(selector).forEach((el) => {
+      el.textContent = t(key);
+    });
+  }
+
+  function setHtml(selector, key) {
+    const el = document.querySelector(selector);
+    if (el) el.innerHTML = t(key);
+  }
+
+  function setHeadingText(selector, key) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    const icon = el.querySelector("svg");
+    if (!icon) {
+      el.textContent = t(key);
+      return;
+    }
+
+    Array.from(el.childNodes).forEach((node) => {
+      if (node !== icon) node.remove();
+    });
+
+    el.append(` ${t(key)}`);
+  }
+
+  function setAttr(selector, attribute, key) {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute(attribute, t(key));
+  }
+
+  function setLabelText(selector, key) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    const node = Array.from(el.childNodes).find(
+      (child) => child.nodeType === Node.TEXT_NODE && child.textContent.trim()
+    );
+
+    if (node) node.textContent = `\n                  ${t(key)}\n                  `;
+  }
+
+  function setLabelTextAll(selector, key) {
+    document.querySelectorAll(selector).forEach((el) => {
+      const node = Array.from(el.childNodes).find(
+        (child) => child.nodeType === Node.TEXT_NODE && child.textContent.trim()
+      );
+
+      if (node) node.textContent = `\n                  ${t(key)}\n                  `;
+    });
+  }
+
+  function getSavedLanguage() {
+    if (typeof localStorage === "undefined") return "ro";
+
+    const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    return TRANSLATIONS[saved] ? saved : "ro";
+  }
+
+  function applyTranslations() {
+    document.documentElement.lang = currentLanguage;
+    document.title = t("documentTitle");
+
+    setHtml(".hero h1", "heroTitle");
+    setText(".hero .intro", "intro");
+    setAttr(".live-status", "aria-label", "liveAria");
+    setText(".live-status strong", "liveTitle");
+    setText(".live-status small", "liveText");
+    setText(".language-control span", "language");
+    setText("#component-prices-toggle", "costsButton");
+    setAttr("#component-prices-backdrop", "aria-label", "closeCosts");
+    setAttr("#component-prices-panel", "aria-label", "pricePanel");
+    setLabelText(".price-currency", "currency");
+    setText("#component-prices-save", "save");
+
+    setText('#target-preset option[value="custom"]', "custom");
+    setAttr(".combined-left", "aria-label", "recipeSettings");
+    setHeadingText(".combined-left .panel-title h2", "setGoal");
+    setText(".bottle-label", "totalBottle");
+    setText(".bottle-helper", "finalVolume");
+    setLabelText(".target-grid > label", "targetRatio");
+    setLabelText("#custom-target label", "customVg");
+    setText(".read-only-value span", "calculatedPg");
+
+    setHeadingText("#result h2", "finalResult");
+    setText("#result-vg-box > span:not(.component-icon)", "finalVg");
+    setText("#result-pg-box > span:not(.component-icon)", "finalPg");
+    setText(".result-details > div:nth-child(1) span", "finalNicotine");
+    setText(".result-details > div:nth-child(2) span", "totalCost");
+    setText(".result-details > div:nth-child(3) span", "targetDelta");
+
+    setAttr(".ingredients", "aria-label", "regulateComponents");
+    setHeadingText(".ingredients .panel-title h2", "regulateComponents");
+    setTextAll(".field.compact > span:first-child", "quantityMl");
+    setTextAll(".component-details summary", "details");
+
+    setComponentCopy("aroma", "flavor", "flavorSub");
+    setComponentCopy("nicotine", "nicotine", "nicotineSub");
+    setComponentCopy("basePg", "basePg", "basePgSubLong");
+    setComponentCopy("baseVg", "baseVg", "baseVgSubLong");
+    setPriceCopy("aroma", "flavor", "flavorSub");
+    setPriceCopy("nicotine", "concentration", "nicotineSub");
+    setPriceCopy("basePg", "basePg", "basePgSub");
+    setPriceCopy("baseVg", "baseVg", "baseVgSub");
+
+    setLabelTextAll(".price-field-volume", "bottle");
+    setLabelTextAll(".price-field-total", "price");
+    setLabelText(".price-field-strength", "concentration");
+    setLabelText(".nicotine-type", "nicotineType");
+    setText('[data-id="nicotine"] .field.compact > span:first-child', "bottles");
+    setText('[data-id="nicotine"] .input-with-unit b', "pieces");
+
+    setDetailCopy("aroma", "base", "purePg", "ratio");
+    setDetailCopy("basePg", "base", "purePg", "ratio");
+    setDetailCopy("baseVg", "base", "pureVg", "ratio");
+    setDetailCopy("nicotine", "shot", null, "baseType");
+
+    setText(".sticky-stat--nic .sticky-stat-label", "stickyNicotine");
+    setText(".sticky-stat--cost .sticky-stat-label", "stickyCost");
+
+    setAdjustLabels();
+  }
+
+  function setComponentCopy(id, titleKey, subtitleKey) {
+    setText(`[data-id="${id}"] .component-name strong`, titleKey);
+    setText(`[data-id="${id}"] .component-name small`, subtitleKey);
+  }
+
+  function setPriceCopy(id, titleKey, subtitleKey) {
+    setText(`[data-price-id="${id}"] .price-select strong`, titleKey);
+    setText(`[data-price-id="${id}"] .price-select small`, subtitleKey);
+  }
+
+  function setDetailCopy(id, firstLabelKey, firstValueKey, secondLabelKey) {
+    setText(
+      `[data-id="${id}"] .display-field:nth-child(1) span`,
+      firstLabelKey
+    );
+
+    if (firstValueKey) {
+      setText(
+        `[data-id="${id}"] .display-field:nth-child(1) strong`,
+        firstValueKey
+      );
+    }
+
+    setText(
+      `[data-id="${id}"] .display-field:nth-child(2) span`,
+      secondLabelKey
+    );
+  }
+
+  function setAdjustLabels() {
+    const labels = [
+      ['[data-target="final-volume"][data-delta="-10"]', "decreaseFinalVolume"],
+      ['[data-target="final-volume"][data-delta="10"]', "increaseFinalVolume"],
+      ['[data-target="target-vg"][data-delta="-1"]', "decreaseVg"],
+      ['[data-target="target-vg"][data-delta="1"]', "increaseVg"],
+      ['[data-target="aroma-amount"][data-delta="-0.1"]', "decreaseFlavor"],
+      ['[data-target="aroma-amount"][data-delta="0.1"]', "increaseFlavor"],
+      [
+        '[data-target="nicotine-bottles"][data-delta="-0.5"]',
+        "decreaseNicotine"
+      ],
+      [
+        '[data-target="nicotine-bottles"][data-delta="0.5"]',
+        "increaseNicotine"
+      ],
+      ['[data-target="base-pg-amount"][data-delta="-0.1"]', "decreasePgBase"],
+      ['[data-target="base-pg-amount"][data-delta="0.1"]', "increasePgBase"],
+      ['[data-target="base-vg-amount"][data-delta="-0.1"]', "decreaseVgBase"],
+      ['[data-target="base-vg-amount"][data-delta="0.1"]', "increaseVgBase"]
+    ];
+
+    labels.forEach(([selector, key]) => setAttr(selector, "aria-label", key));
+  }
 
   function getPriceSettings() {
     const currency = priceCurrencyInput ? priceCurrencyInput.value : "RON";
@@ -387,7 +836,7 @@ function initCalculator() {
     const cost = calculateCost();
     const text = cost.isComplete
       ? formatMoney(cost.total, cost.currency)
-      : "Completa prezzi";
+      : t("completePrices");
 
     if (resultCost) resultCost.textContent = text;
     if (stickyCost) stickyCost.textContent = text;
@@ -543,7 +992,7 @@ function initCalculator() {
       });
 
       const deltaText = calculation.isExact
-        ? "Preciso"
+        ? t("precise")
         : `${calculation.deltaVg > 0 ? "+" : ""}${formatPercent(
             calculation.deltaVg
           )} VG`;
@@ -567,8 +1016,8 @@ function initCalculator() {
         `result-note${calculation.isExact ? "" : " changed"}`;
 
       document.querySelector("#result-note").textContent = calculation.isExact
-        ? "La composizione corrisponde al rapporto impostato."
-        : "Hai modificato la ricetta: il totale e rispettato, mentre il rapporto finale differisce dal riferimento.";
+        ? t("noteExact")
+        : t("noteChanged");
 
       flashEl("#result-vg-box");
       flashEl("#result-pg-box");
@@ -587,8 +1036,8 @@ function initCalculator() {
         stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
       if (stickyNoteEl) {
         stickyNoteEl.textContent = calculation.isExact
-          ? "Preciso: composizione in linea con il target"
-          : `${deltaText}: rapporto differisce dal target`;
+          ? t("stickyExact")
+          : t("stickyChanged", { delta: deltaText });
         stickyNoteEl.className =
           "sticky-note-text" + (calculation.isExact ? "" : " changed");
       }
@@ -759,6 +1208,22 @@ function initCalculator() {
     priceCurrencyInput.addEventListener("change", render);
   }
 
+  if (languageInput) {
+    languageInput.addEventListener("change", () => {
+      currentLanguage = TRANSLATIONS[languageInput.value]
+        ? languageInput.value
+        : "ro";
+
+      if (typeof localStorage !== "undefined") {
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, currentLanguage);
+      }
+
+      applyTranslations();
+      syncInputs();
+      render();
+    });
+  }
+
   if (priceToggle && pricePanel) {
     priceToggle.addEventListener("click", () => {
       const nextOpen = pricePanel.hidden;
@@ -908,6 +1373,10 @@ function initCalculator() {
 
   form.addEventListener("submit", (event) => event.preventDefault());
 
+  currentLanguage = getSavedLanguage();
+  if (languageInput) languageInput.value = currentLanguage;
+
+  applyTranslations();
   applySavedPriceSettings();
   resetBasesAndRender();
 }
