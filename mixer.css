@@ -1094,13 +1094,13 @@ select:focus {
 }
 
 #result-vg-box {
-  background: var(--green-soft);
-  border: 1px solid #b4d9c4;
+  background: white;
+  border: 3px solid var(--green-soft);
 }
 
 #result-pg-box {
-  background: var(--blue-soft);
-  border: 1px solid #b6c9f0;
+  background: white;
+  border: 3px solid var(--blue-soft);
 }
 
 .ratio-result .component-icon {
@@ -1332,11 +1332,13 @@ select:focus {
   }
 
   .sticky-stat--vg {
-    background: var(--green-soft);
+    background: white;
+    border: 3px solid var(--green-soft);
   }
 
   .sticky-stat--pg {
-    background: var(--blue-soft);
+    background: white;
+    border: 3px solid var(--blue-soft);
   }
 
   .sticky-stat--nic {
