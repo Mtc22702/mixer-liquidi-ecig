@@ -1,6 +1,6 @@
 (function () {
   var HASH =
-    "9f8414c1ede70e3b499097e7c0b7f123eb315e7cada93370c176f5886bd83a62";
+    "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0";
 
   var overlay = document.getElementById("pin-overlay");
   if (!overlay) return;

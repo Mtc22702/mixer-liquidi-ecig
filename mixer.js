@@ -538,7 +538,8 @@ function initCalculator() {
       (child) => child.nodeType === Node.TEXT_NODE && child.textContent.trim()
     );
 
-    if (node) node.textContent = `\n                  ${t(key)}\n                  `;
+    if (node)
+      node.textContent = `\n                  ${t(key)}\n                  `;
   }
 
   function setLabelTextAll(selector, key) {
@@ -547,7 +548,8 @@ function initCalculator() {
         (child) => child.nodeType === Node.TEXT_NODE && child.textContent.trim()
       );
 
-      if (node) node.textContent = `\n                  ${t(key)}\n                  `;
+      if (node)
+        node.textContent = `\n                  ${t(key)}\n                  `;
     });
   }
 
@@ -608,7 +610,10 @@ function initCalculator() {
     setLabelTextAll(".price-field-total", "price");
     setLabelText(".price-field-strength", "concentration");
     setLabelText(".nicotine-type", "nicotineType");
-    setText('[data-id="nicotine"] .field.compact > span:first-child', "bottles");
+    setText(
+      '[data-id="nicotine"] .field.compact > span:first-child',
+      "bottles"
+    );
     setText('[data-id="nicotine"] .input-with-unit b', "pieces");
 
     setDetailCopy("aroma", "base", "purePg", "ratio");
@@ -909,8 +914,7 @@ function initCalculator() {
 
     nicotineComposition.textContent = `${nicotineRatio.vg}% VG / ${nicotineRatio.pg}% PG`;
     if (nicotineShotDetails) {
-      nicotineShotDetails.textContent =
-        `${formatMl(nicotineBottleVolume)} · ${formatNumber(nicotineStrength, 1)} mg/ml`;
+      nicotineShotDetails.textContent = `${formatMl(nicotineBottleVolume)} · ${formatNumber(nicotineStrength, 1)} mg/ml`;
     }
   }
 
@@ -948,10 +952,7 @@ function initCalculator() {
       (ingredient) => ingredient.id === "nicotine"
     );
 
-    if (
-      !Number.isFinite(aroma.volume) ||
-      !Number.isFinite(nicotine.volume)
-    ) {
+    if (!Number.isFinite(aroma.volume) || !Number.isFinite(nicotine.volume)) {
       return;
     }
 

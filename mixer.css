@@ -1770,7 +1770,7 @@ select,
   }
 
   body.price-panel-open .price-panel {
-    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(100px + env(safe-area-inset-bottom, 0px));
   }
 
   .price-currency {
