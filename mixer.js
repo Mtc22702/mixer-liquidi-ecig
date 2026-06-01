@@ -7,6 +7,8 @@ const DEFAULT_NICOTINE_BOTTLE_VOLUME = 10;
 const DEFAULT_NICOTINE_STRENGTH = 20;
 const PRICE_SETTINGS_STORAGE_KEY = "mixer-price-settings";
 const LANGUAGE_STORAGE_KEY = "mixer-language";
+const SAVED_RECIPES_STORAGE_KEY = "mixer-saved-recipes";
+const DARK_MODE_STORAGE_KEY = "mixer-dark-mode";
 
 let currentLanguage = "ro";
 
@@ -96,7 +98,20 @@ const TRANSLATIONS = {
     decreasePgBase: "Scade baza PG",
     increasePgBase: "Crește baza PG",
     decreaseVgBase: "Scade baza VG",
-    increaseVgBase: "Crește baza VG"
+    increaseVgBase: "Crește baza VG",
+    darkMode: "Mod întunecat",
+    copyRecipe: "Copiază rețeta",
+    copied: "Copiat!",
+    savedRecipes: "Rețete salvate",
+    saveRecipe: "Salvează rețeta",
+    closeSaved: "Închide rețetele salvate",
+    noRecipes: "Nicio rețetă salvată",
+    deleteRecipe: "Șterge",
+    loadRecipe: "Încarcă",
+    nicTarget: "Nicotină țintă (mg/ml)",
+    nicTargetResult: "{bottles} flacoane necesare",
+    nicTargetHeading: "Calculator nicotină",
+    costsButton: "Prețuri componente"
   },
   it: {
     documentTitle: "Mixer VG / PG",
@@ -177,7 +192,19 @@ const TRANSLATIONS = {
     decreasePgBase: "Diminuisci base PG",
     increasePgBase: "Aumenta base PG",
     decreaseVgBase: "Diminuisci base VG",
-    increaseVgBase: "Aumenta base VG"
+    increaseVgBase: "Aumenta base VG",
+    darkMode: "Modalità scura",
+    copyRecipe: "Copia ricetta",
+    copied: "Copiato!",
+    savedRecipes: "Ricette salvate",
+    saveRecipe: "Salva ricetta",
+    closeSaved: "Chiudi ricette salvate",
+    noRecipes: "Nessuna ricetta salvata",
+    deleteRecipe: "Elimina",
+    loadRecipe: "Carica",
+    nicTarget: "Nicotina obiettivo (mg/ml)",
+    nicTargetResult: "{bottles} boccette necessarie",
+    nicTargetHeading: "Calcola boccette"
   },
   en: {
     documentTitle: "VG / PG Mixer",
@@ -255,7 +282,19 @@ const TRANSLATIONS = {
     decreasePgBase: "Decrease PG base",
     increasePgBase: "Increase PG base",
     decreaseVgBase: "Decrease VG base",
-    increaseVgBase: "Increase VG base"
+    increaseVgBase: "Increase VG base",
+    darkMode: "Dark mode",
+    copyRecipe: "Copy recipe",
+    copied: "Copied!",
+    savedRecipes: "Saved recipes",
+    saveRecipe: "Save recipe",
+    closeSaved: "Close saved recipes",
+    noRecipes: "No saved recipes",
+    deleteRecipe: "Delete",
+    loadRecipe: "Load",
+    nicTarget: "Target nicotine (mg/ml)",
+    nicTargetResult: "{bottles} bottles needed",
+    nicTargetHeading: "Calculate bottles"
   }
 };
 
@@ -485,6 +524,17 @@ function initCalculator() {
   const stickyCost = document.querySelector("#sticky-cost");
   const stickyNoteEl = document.querySelector("#sticky-note");
 
+  const darkToggle = document.querySelector("#dark-mode-toggle");
+  const copyBtn = document.querySelector("#copy-recipe-btn");
+  const copyPanelBtn = document.querySelector("#copy-recipe-panel-btn");
+  const savedToggle = document.querySelector("#saved-recipes-toggle");
+  const savedBackdrop = document.querySelector("#saved-recipes-backdrop");
+  const savedPanel = document.querySelector("#saved-recipes-panel");
+  const savedList = document.querySelector("#saved-recipes-list");
+  const saveCurrentBtn = document.querySelector("#save-current-recipe");
+  const nicTargetInput = document.querySelector("#nic-target");
+  const nicTargetResultEl = document.querySelector("#nic-target-result");
+
   const BTL_LAYERS = ["baseVg", "basePg", "nicotine", "aroma"];
   const btlLiqEls = Object.fromEntries(
     BTL_LAYERS.map((id) => [id, document.querySelector(`#btl-liq-${id}`)])
@@ -595,7 +645,7 @@ function initCalculator() {
     setAttr(".ingredients", "aria-label", "regulateComponents");
     setHeadingText(".ingredients .panel-title h2", "regulateComponents");
     setTextAll(".field.compact > span:first-child", "quantityMl");
-    setTextAll(".component-details summary", "details");
+    setTextAll(".component-details summary .details-label", "details");
 
     setComponentCopy("aroma", "flavor", "flavorSub");
     setComponentCopy("nicotine", "nicotine", "nicotineSub");
@@ -625,6 +675,17 @@ function initCalculator() {
     setText(".sticky-stat--cost .sticky-stat-label", "stickyCost");
 
     setAdjustLabels();
+
+    setAttr("#dark-mode-toggle", "aria-label", "darkMode");
+    setText("#copy-recipe-btn", "copyRecipe");
+    setText("#copy-recipe-panel-btn", "copyRecipe");
+    setText("#saved-recipes-toggle", "savedRecipes");
+    setAttr("#saved-recipes-backdrop", "aria-label", "closeSaved");
+    setAttr("#saved-recipes-panel", "aria-label", "savedRecipes");
+    setText("#save-current-recipe", "saveRecipe");
+    setLabelText(".nicotine-target-label", "nicTarget");
+    setText(".nic-inverse-heading", "nicTargetHeading");
+    renderSavedList();
   }
 
   function setComponentCopy(id, titleKey, subtitleKey) {
@@ -916,6 +977,10 @@ function initCalculator() {
     if (nicotineShotDetails) {
       nicotineShotDetails.textContent = `${formatMl(nicotineBottleVolume)} · ${formatNumber(nicotineStrength, 1)} mg/ml`;
     }
+    const preview = document.querySelector("#nicotine-summary-preview");
+    if (preview) {
+      preview.textContent = `${formatMl(nicotineBottleVolume)} · ${formatNumber(nicotineStrength, 1)} mg/ml · ${nicotineRatio.vg}% VG`;
+    }
   }
 
   function syncInputs() {
@@ -1054,6 +1119,8 @@ function initCalculator() {
         stickyNoteEl.className = "sticky-note-text error";
       }
     }
+
+    renderNicTargetResult();
   }
 
   function resetBasesAndRender() {
@@ -1119,6 +1186,173 @@ function initCalculator() {
 
     syncInputs();
     render();
+  }
+
+  // ── Dark mode ──────────────────────────────────────────────────────────
+  function applyDarkMode(dark) {
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    if (darkToggle) darkToggle.setAttribute("aria-pressed", String(dark));
+    try { localStorage.setItem(DARK_MODE_STORAGE_KEY, dark ? "1" : "0"); } catch {}
+  }
+
+  // ── Copia ricetta ──────────────────────────────────────────────────────
+  function buildRecipeText() {
+    const settings = readSettings();
+    const cost = calculateCost();
+    const nicBottleVol = getNicotineBottleVolume();
+    try {
+      const calc = calculateRecipe({ finalVolume: settings.finalVolume, targetVg: settings.targetVg, ingredients });
+      const nicBottles = roundToStep(ingredients.find((i) => i.id === "nicotine").volume / nicBottleVol, 0.5);
+      const costStr = cost.isComplete ? formatMoney(cost.total, cost.currency) : "—";
+      return [
+        `${t("finalVg")}: ${formatPercent(calc.actualVg)}  ${t("finalPg")}: ${formatPercent(calc.actualPg)}`,
+        `${t("finalNicotine")}: ${formatNumber(calc.nicotineStrength)} mg/ml`,
+        `${t("totalCost")}: ${costStr}`,
+        "---",
+        `${t("flavor")}: ${formatMl(ingredients.find((i) => i.id === "aroma").volume)}`,
+        `${t("nicotine")}: ${formatMl(ingredients.find((i) => i.id === "nicotine").volume)} (${formatNumber(nicBottles, 1)} ${t("pieces")})`,
+        `${t("basePg")}: ${formatMl(ingredients.find((i) => i.id === "basePg").volume)}`,
+        `${t("baseVg")}: ${formatMl(ingredients.find((i) => i.id === "baseVg").volume)}`,
+        "---",
+        `${t("finalVolume")}: ${formatMl(settings.finalVolume)}`
+      ].join("\n");
+    } catch {
+      return "";
+    }
+  }
+
+  function doCopyRecipe(btn) {
+    const text = buildRecipeText();
+    if (!text || !navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(() => {
+      if (!btn) return;
+      const original = btn.textContent;
+      btn.textContent = t("copied");
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = t("copyRecipe");
+        btn.disabled = false;
+      }, 2000);
+    }).catch(() => {});
+  }
+
+  // ── Ricette salvate ────────────────────────────────────────────────────
+  function getSavedRecipes() {
+    try { return JSON.parse(localStorage.getItem(SAVED_RECIPES_STORAGE_KEY) || "[]"); }
+    catch { return []; }
+  }
+
+  function renderSavedList() {
+    if (!savedList) return;
+    const saved = getSavedRecipes();
+    if (saved.length === 0) {
+      savedList.innerHTML = `<p class="no-recipes">${t("noRecipes")}</p>`;
+      return;
+    }
+    savedList.innerHTML = saved.map((recipe) => {
+      const date = new Date(recipe.savedAt).toLocaleDateString(LANGUAGE_LOCALES[currentLanguage]);
+      const summary = recipe.result
+        ? `${formatPercent(recipe.result.actualVg)} VG · ${formatNumber(recipe.result.nicotineStrength)} mg/ml`
+        : "";
+      const costStr = recipe.cost ? ` · ${formatMoney(recipe.cost.total, recipe.cost.currency)}` : "";
+      return `<div class="saved-recipe-row">
+        <div class="saved-recipe-info">
+          <strong>${recipe.name}</strong>
+          <small>${summary}${costStr} · ${date}</small>
+        </div>
+        <div class="saved-recipe-actions">
+          <button type="button" class="saved-load-btn" data-id="${recipe.id}">${t("loadRecipe")}</button>
+          <button type="button" class="saved-delete-btn" data-id="${recipe.id}" aria-label="${t("deleteRecipe")}">&times;</button>
+        </div>
+      </div>`;
+    }).join("");
+
+    savedList.querySelectorAll(".saved-load-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = Number(btn.dataset.id);
+        const recipe = getSavedRecipes().find((r) => r.id === id);
+        if (recipe) loadSavedRecipe(recipe);
+      });
+    });
+
+    savedList.querySelectorAll(".saved-delete-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = Number(btn.dataset.id);
+        const saved = getSavedRecipes().filter((r) => r.id !== id);
+        try { localStorage.setItem(SAVED_RECIPES_STORAGE_KEY, JSON.stringify(saved)); } catch {}
+        renderSavedList();
+      });
+    });
+  }
+
+  function saveCurrentRecipe() {
+    const name = window.prompt(t("saveRecipe") + ":");
+    if (!name || !name.trim()) return;
+    const settings = readSettings();
+    const cost = calculateCost();
+    let calc = null;
+    try { calc = calculateRecipe({ finalVolume: settings.finalVolume, targetVg: settings.targetVg, ingredients }); } catch {}
+    const recipe = {
+      id: Date.now(),
+      name: name.trim(),
+      savedAt: new Date().toISOString(),
+      settings: {
+        finalVolume: settings.finalVolume,
+        targetPreset: targetPresetInput.value,
+        targetVg: settings.targetVg,
+        nicotineRatio: nicotineRatioInput.value
+      },
+      ingredients: ingredients.map((i) => ({ ...i })),
+      result: calc ? { actualVg: calc.actualVg, actualPg: calc.actualPg, nicotineStrength: calc.nicotineStrength } : null,
+      cost: cost.isComplete ? { total: cost.total, currency: cost.currency } : null
+    };
+    const saved = getSavedRecipes();
+    saved.unshift(recipe);
+    try { localStorage.setItem(SAVED_RECIPES_STORAGE_KEY, JSON.stringify(saved.slice(0, 20))); } catch {}
+    renderSavedList();
+  }
+
+  function loadSavedRecipe(recipe) {
+    targetPresetInput.value = recipe.settings.targetPreset || "50";
+    nicotineRatioInput.value = recipe.settings.nicotineRatio || "70vg";
+    finalVolumeInput.value = String(recipe.settings.finalVolume || 60);
+    if (recipe.settings.targetPreset === "custom") {
+      targetVgInput.value = String(recipe.settings.targetVg || 50);
+      customTarget.hidden = false;
+    } else {
+      customTarget.hidden = true;
+    }
+    ingredients = recipe.ingredients.map((i) => ({ ...i }));
+    syncComposition();
+    syncInputs();
+    render();
+    closeSavedPanel({ restoreFocus: true });
+  }
+
+  function closeSavedPanel({ restoreFocus = false } = {}) {
+    if (!savedToggle || !savedPanel) return;
+    savedPanel.hidden = true;
+    if (savedBackdrop) savedBackdrop.hidden = true;
+    savedToggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("saved-panel-open");
+    if (restoreFocus) savedToggle.focus();
+  }
+
+  // ── Calcolo inverso nicotina ───────────────────────────────────────────
+  function renderNicTargetResult() {
+    if (!nicTargetInput || !nicTargetResultEl) return;
+    const targetMg = parseInput(nicTargetInput.value);
+    const { finalVolume } = readSettings();
+    const nicBottleVol = getNicotineBottleVolume();
+    const nicStrength = getNicotineStrength();
+    if (!Number.isFinite(targetMg) || targetMg <= 0 || !Number.isFinite(finalVolume) || finalVolume <= 0 || nicStrength <= 0) {
+      nicTargetResultEl.hidden = true;
+      return;
+    }
+    const mlNeeded = (targetMg * finalVolume) / nicStrength;
+    const bottles = Math.ceil((mlNeeded / nicBottleVol) * 2) / 2;
+    nicTargetResultEl.hidden = false;
+    nicTargetResultEl.textContent = t("nicTargetResult", { bottles: formatNumber(bottles, 1) });
   }
 
   document.querySelectorAll(".amount").forEach((input) => {
@@ -1270,6 +1504,11 @@ function initCalculator() {
     });
   }
 
+  const priceCloseButton = document.querySelector("#component-prices-close");
+  if (priceCloseButton) {
+    priceCloseButton.addEventListener("click", () => closePricePanel({ restoreFocus: true }));
+  }
+
   function applyFinalVolumeChange() {
     const parsedFinalVolume = parseInput(finalVolumeInput.value);
 
@@ -1375,6 +1614,48 @@ function initCalculator() {
   });
 
   form.addEventListener("submit", (event) => event.preventDefault());
+
+  // Dark mode
+  if (darkToggle) {
+    const savedDark = localStorage.getItem(DARK_MODE_STORAGE_KEY) === "1";
+    applyDarkMode(savedDark);
+    darkToggle.addEventListener("click", () => {
+      applyDarkMode(document.documentElement.getAttribute("data-theme") !== "dark");
+    });
+  }
+
+  // Copia ricetta
+  if (copyBtn) copyBtn.addEventListener("click", () => doCopyRecipe(copyBtn));
+  if (copyPanelBtn) copyPanelBtn.addEventListener("click", () => doCopyRecipe(copyPanelBtn));
+
+  // Pannello ricette salvate
+  if (savedToggle && savedPanel) {
+    savedToggle.addEventListener("click", () => {
+      const nextOpen = savedPanel.hidden;
+      savedPanel.hidden = !nextOpen;
+      if (savedBackdrop) savedBackdrop.hidden = !nextOpen;
+      savedToggle.setAttribute("aria-expanded", String(nextOpen));
+      document.body.classList.toggle("saved-panel-open", nextOpen);
+      if (nextOpen) renderSavedList();
+    });
+
+    if (savedBackdrop) {
+      savedBackdrop.addEventListener("click", () => closeSavedPanel({ restoreFocus: true }));
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || savedPanel.hidden) return;
+      closeSavedPanel({ restoreFocus: true });
+    });
+  }
+
+  if (saveCurrentBtn) saveCurrentBtn.addEventListener("click", saveCurrentRecipe);
+
+  // Calcolo inverso nicotina
+  if (nicTargetInput) {
+    nicTargetInput.addEventListener("input", renderNicTargetResult);
+    nicTargetInput.addEventListener("blur", renderNicTargetResult);
+  }
 
   currentLanguage = getSavedLanguage();
   if (languageInput) languageInput.value = currentLanguage;

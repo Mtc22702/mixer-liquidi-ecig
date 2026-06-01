@@ -88,14 +88,80 @@
             >
           </div>
         </div>
-        <label class="language-control">
-          <span>Lingua</span>
-          <select id="language-select" class="center-select">
-            <option value="ro" selected>RO</option>
-            <option value="it">IT</option>
-            <option value="en">EN</option>
-          </select>
-        </label>
+        <div class="live-bar-utils">
+          <label class="language-control">
+            <span>Lingua</span>
+            <select id="language-select" class="center-select">
+              <option value="ro" selected>RO</option>
+              <option value="it">IT</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+          <button
+            type="button"
+            class="dark-toggle"
+            id="dark-mode-toggle"
+            aria-label="Modalità scura"
+            aria-pressed="false"
+          >
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </button>
+        </div>
+        <div class="saved-menu">
+          <button
+            type="button"
+            class="saved-menu-toggle"
+            id="saved-recipes-toggle"
+            aria-expanded="false"
+            aria-controls="saved-recipes-panel"
+          >
+            Ricette salvate
+          </button>
+          <button
+            type="button"
+            class="price-backdrop"
+            id="saved-recipes-backdrop"
+            aria-label="Chiudi ricette salvate"
+            hidden
+          ></button>
+          <div
+            class="saved-panel"
+            id="saved-recipes-panel"
+            aria-label="Ricette salvate"
+            hidden
+          >
+            <div id="saved-recipes-list" class="saved-recipes-list"></div>
+            <div class="saved-actions">
+              <button
+                type="button"
+                class="copy-recipe-btn"
+                id="copy-recipe-panel-btn"
+              >
+                Copia ricetta
+              </button>
+              <button
+                type="button"
+                class="price-save"
+                id="save-current-recipe"
+              >
+                Salva ricetta
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="price-menu">
           <button
             type="button"
@@ -104,6 +170,10 @@
             aria-expanded="false"
             aria-controls="component-prices-panel"
           >
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
             Costi componenti
           </button>
           <button
@@ -119,13 +189,35 @@
             aria-label="Prezzi componenti"
             hidden
           >
-            <label class="price-currency">
-              Valuta
-              <select id="price-currency" class="center-select">
-                <option value="RON" selected>RON</option>
-                <option value="EUR">EUR</option>
-              </select>
-            </label>
+            <div class="price-panel-header">
+              <span class="price-panel-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                  <circle cx="7" cy="7" r="1.2" fill="currentColor" stroke="none"/>
+                </svg>
+                Prezzi componenti
+              </span>
+              <div class="price-panel-header-end">
+                <label class="price-currency-inline">
+                  <span class="price-currency-label">Valuta</span>
+                  <select id="price-currency" class="center-select">
+                    <option value="RON" selected>RON</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  class="price-panel-close"
+                  id="component-prices-close"
+                  aria-label="Chiudi"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
 
             <div class="price-list">
               <div class="price-row aroma" data-price-id="aroma">
@@ -951,6 +1043,11 @@
             <p id="result-note" class="result-note">
               La composizione corrisponde al rapporto impostato.
             </p>
+            <div class="result-actions">
+              <button type="button" class="copy-recipe-btn" id="copy-recipe-btn">
+                Copia ricetta
+              </button>
+            </div>
           </section>
         </div>
 
@@ -1021,7 +1118,12 @@
               </span>
             </label>
             <details class="component-details">
-              <summary>Dettagli</summary>
+              <summary>
+                <span class="details-label">Dettagli</span>
+                <svg class="details-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
               <div class="detail-grid">
                 <div class="display-field">
                   <span>Base</span>
@@ -1093,17 +1195,45 @@
               </span>
             </label>
             <details class="component-details">
-              <summary>Dettagli</summary>
+              <summary>
+                <span class="details-label">Dettagli</span>
+                <span class="details-preview" id="nicotine-summary-preview">10 ml · 20 mg/ml · 70% VG</span>
+                <svg class="details-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
               <div class="detail-grid">
-                <div class="display-field">
-                  <span>Shot</span>
-                  <strong id="nicotine-shot-details">10 ml · 20 mg/ml</strong>
+                <div class="detail-info-row">
+                  <div class="display-field">
+                    <span>Shot</span>
+                    <strong id="nicotine-shot-details">10 ml · 20 mg/ml</strong>
+                  </div>
+                  <div class="display-field">
+                    <span>Tipo base</span>
+                    <output class="ratio" id="nicotine-composition"
+                      >70% VG / 30% PG</output
+                    >
+                  </div>
                 </div>
-                <div class="display-field">
-                  <span>Tipo base</span>
-                  <output class="ratio" id="nicotine-composition"
-                    >70% VG / 30% PG</output
-                  >
+                <div class="nic-inverse-section">
+                  <p class="nic-inverse-heading">Calcola boccette</p>
+                  <label class="nic-inverse-label nicotine-target-label">
+                    Nicotina obiettivo (mg/ml)
+                    <span class="input-with-unit">
+                      <input
+                        id="nic-target"
+                        class="center-value"
+                        type="text"
+                        inputmode="decimal"
+                        value=""
+                        min="0"
+                        step="0.1"
+                        placeholder="es. 3"
+                      />
+                      <b>mg/ml</b>
+                    </span>
+                  </label>
+                  <div class="nic-target-result" id="nic-target-result" hidden></div>
                 </div>
               </div>
             </details>
@@ -1158,7 +1288,12 @@
               </span>
             </label>
             <details class="component-details">
-              <summary>Dettagli</summary>
+              <summary>
+                <span class="details-label">Dettagli</span>
+                <svg class="details-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
               <div class="detail-grid">
                 <div class="display-field">
                   <span>Base</span>
@@ -1221,7 +1356,12 @@
               </span>
             </label>
             <details class="component-details">
-              <summary>Dettagli</summary>
+              <summary>
+                <span class="details-label">Dettagli</span>
+                <svg class="details-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
               <div class="detail-grid">
                 <div class="display-field">
                   <span>Base</span>
