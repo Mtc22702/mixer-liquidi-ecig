@@ -20,6 +20,7 @@ assert.deepEqual(
     total: 60,
     actualPg: 45.83,
     actualVg: 54.17,
+    aromaPercent: 5.83,
     nicotineStrength: 8.33,
     deltaVg: 4.17,
     isExact: false

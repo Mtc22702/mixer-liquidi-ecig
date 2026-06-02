@@ -59,6 +59,7 @@ const TRANSLATIONS = {
     finalVg: "VG final",
     finalPg: "PG final",
     finalNicotine: "Nicotină finală",
+    finalFlavor: "Aromă finală",
     totalCost: "Cost total",
     completePrices: "Completează prețurile",
     targetDelta: "Abatere obiectiv",
@@ -156,6 +157,7 @@ const TRANSLATIONS = {
     finalVg: "VG finale",
     finalPg: "PG finale",
     finalNicotine: "Nicotina finale",
+    finalFlavor: "Aroma finale",
     totalCost: "Costo totale",
     completePrices: "Completa i prezzi",
     targetDelta: "Scostamento obiettivo",
@@ -250,6 +252,7 @@ const TRANSLATIONS = {
     finalVg: "Final VG",
     finalPg: "Final PG",
     finalNicotine: "Final nicotine",
+    finalFlavor: "Final flavor",
     totalCost: "Total cost",
     completePrices: "Complete prices",
     targetDelta: "Target delta",
@@ -400,11 +403,16 @@ function calculateRecipe({ finalVolume, targetVg, ingredients }) {
 
   const actualPg = (totals.pg / finalVolume) * 100;
   const actualVg = (totals.vg / finalVolume) * 100;
+  const aroma = ingredients.find((ingredient) => ingredient.id === "aroma");
+  const aromaVolume = aroma ? parseInput(aroma.volume) : 0;
 
   return {
     total: round(totals.volume),
     actualPg: round(actualPg),
     actualVg: round(actualVg),
+    aromaPercent: round(
+      ((Number.isFinite(aromaVolume) ? aromaVolume : 0) / finalVolume) * 100
+    ),
     nicotineStrength: round(totals.nicotine / finalVolume),
     deltaVg: round(actualVg - targetVg),
     isExact: Math.abs(actualVg - targetVg) < 0.01
@@ -530,6 +538,7 @@ function initCalculator() {
   const stickyDeltaEl = document.querySelector("#sticky-delta");
   const stickyRatioVg = document.querySelector("#sticky-ratio-vg");
   const stickyNicotine = document.querySelector("#sticky-nicotine");
+  const stickyAroma = document.querySelector("#sticky-aroma");
   const stickyCost = document.querySelector("#sticky-cost");
   const stickyNoteEl = document.querySelector("#sticky-note");
 
@@ -656,8 +665,9 @@ function initCalculator() {
     setText("#result-vg-box > span:not(.component-icon)", "finalVg");
     setText("#result-pg-box > span:not(.component-icon)", "finalPg");
     setText(".result-details > div:nth-child(1) span", "finalNicotine");
-    setText(".result-details > div:nth-child(2) span", "totalCost");
-    setText(".result-details > div:nth-child(3) span", "targetDelta");
+    setText(".result-details > div:nth-child(2) span", "finalFlavor");
+    setText(".result-details > div:nth-child(3) span", "totalCost");
+    setText(".result-details > div:nth-child(4) span", "targetDelta");
 
     setAttr(".ingredients", "aria-label", "regulateComponents");
     setHeadingText(".ingredients .panel-title h2", "regulateComponents");
@@ -689,6 +699,7 @@ function initCalculator() {
     setDetailCopy("nicotine", "shot", null, "baseType");
 
     setText(".sticky-stat--nic .sticky-stat-label", "stickyNicotine");
+    setText(".sticky-stat--aroma .sticky-stat-label", "flavor");
     setText(".sticky-stat--cost .sticky-stat-label", "stickyCost");
 
     setAdjustLabels();
@@ -1171,6 +1182,10 @@ function initCalculator() {
       document.querySelector("#result-nicotine").textContent =
         `${formatNumber(calculation.nicotineStrength)} mg/ml`;
 
+      document.querySelector("#result-aroma").textContent = formatPercent(
+        calculation.aromaPercent
+      );
+
       document.querySelector("#result-delta").textContent = deltaText;
 
       document.querySelector("#result-note").className =
@@ -1195,6 +1210,8 @@ function initCalculator() {
       if (stickyRatioVg) stickyRatioVg.style.width = calculation.actualVg + "%";
       if (stickyNicotine)
         stickyNicotine.textContent = `${formatNumber(calculation.nicotineStrength)} mg/ml`;
+      if (stickyAroma)
+        stickyAroma.textContent = formatPercent(calculation.aromaPercent);
       if (stickyNoteEl) {
         stickyNoteEl.textContent = calculation.isExact
           ? t("stickyExact")
