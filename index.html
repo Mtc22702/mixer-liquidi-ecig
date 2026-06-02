@@ -143,6 +143,13 @@
             aria-label="Ricette salvate"
             hidden
           >
+            <div class="saved-panel-header">
+              <div>
+                <span class="saved-panel-kicker">Archivio rapido</span>
+                <strong id="saved-recipes-title">Ricette salvate</strong>
+              </div>
+              <span class="saved-count" id="saved-recipes-count">0 salvate</span>
+            </div>
             <div id="saved-recipes-list" class="saved-recipes-list"></div>
             <div class="saved-actions">
               <button
@@ -505,21 +512,6 @@
                           stop-opacity="0"
                         />
                       </linearGradient>
-                      <filter
-                        id="btl-fs"
-                        x="-30%"
-                        y="-4%"
-                        width="160%"
-                        height="112%"
-                      >
-                        <feDropShadow
-                          dx="1.5"
-                          dy="2"
-                          stdDeviation="2.5"
-                          flood-color="#6a9870"
-                          flood-opacity="0.22"
-                        />
-                      </filter>
                       <clipPath id="btl-clip">
                         <rect x="11" y="38" width="52" height="164" rx="15" />
                       </clipPath>
@@ -569,8 +561,37 @@
                       fill-opacity="0.75"
                       clip-path="url(#btl-clip)"
                     />
+                    <path
+                      id="btl-wave-baseVg"
+                      class="btl-wave"
+                      d=""
+                      stroke="#22c97c"
+                      clip-path="url(#btl-clip)"
+                    />
+                    <path
+                      id="btl-wave-basePg"
+                      class="btl-wave"
+                      d=""
+                      stroke="#42aaee"
+                      clip-path="url(#btl-clip)"
+                    />
+                    <path
+                      id="btl-wave-nicotine"
+                      class="btl-wave"
+                      d=""
+                      stroke="#e040b8"
+                      clip-path="url(#btl-clip)"
+                    />
+                    <path
+                      id="btl-wave-aroma"
+                      class="btl-wave"
+                      d=""
+                      stroke="#f5c020"
+                      clip-path="url(#btl-clip)"
+                    />
                     <!-- Body (glass effect) -->
                     <rect
+                      class="btl-body"
                       x="11"
                       y="38"
                       width="52"
@@ -580,10 +601,10 @@
                       fill-opacity="0.38"
                       stroke="#accab0"
                       stroke-width="1.5"
-                      filter="url(#btl-fs)"
                     />
                     <!-- Neck -->
                     <rect
+                      class="btl-neck"
                       x="24"
                       y="19"
                       width="26"
@@ -593,6 +614,7 @@
                       fill-opacity="0.38"
                     />
                     <path
+                      class="btl-neck-outline"
                       d="M24 41 L24 23 Q24 19 29 19 L45 19 Q50 19 50 23 L50 41"
                       stroke="#accab0"
                       stroke-width="1.5"
@@ -601,6 +623,7 @@
                     />
                     <!-- Cap -->
                     <rect
+                      class="btl-cap"
                       x="18"
                       y="5"
                       width="38"
@@ -609,6 +632,20 @@
                       fill="url(#btl-gc)"
                       stroke="#96ac9e"
                       stroke-width="1.5"
+                    />
+                    <path
+                      d="M21 8.5 H53"
+                      stroke="white"
+                      stroke-opacity="0.22"
+                      stroke-width="1"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M21 14.2 H53"
+                      stroke="#577463"
+                      stroke-opacity="0.2"
+                      stroke-width="1"
+                      stroke-linecap="round"
                     />
                     <ellipse
                       cx="31"
@@ -619,6 +656,17 @@
                       fill-opacity="0.24"
                     />
                     <!-- Graduation marks 100ml — 10ml→y=192, 100ml→y=48, step 16px/10ml -->
+                    <text
+                      class="btl-unit"
+                      x="37.5"
+                      y="42.5"
+                      font-family="system-ui,-apple-system,sans-serif"
+                      font-size="6"
+                      font-weight="700"
+                      text-anchor="end"
+                    >
+                      ml
+                    </text>
                     <line
                       x1="40"
                       y1="48"
@@ -1236,30 +1284,6 @@
                       >70% VG / 30% PG</output
                     >
                   </div>
-                </div>
-                <div class="nic-inverse-section">
-                  <p class="nic-inverse-heading">Calcola boccette</p>
-                  <label class="nic-inverse-label nicotine-target-label">
-                    Nicotina obiettivo (mg/ml)
-                    <span class="input-with-unit">
-                      <input
-                        id="nic-target"
-                        class="center-value"
-                        type="text"
-                        inputmode="decimal"
-                        value=""
-                        min="0"
-                        step="0.1"
-                        placeholder="es. 3"
-                      />
-                      <b>mg/ml</b>
-                    </span>
-                  </label>
-                  <div
-                    class="nic-target-result"
-                    id="nic-target-result"
-                    hidden
-                  ></div>
                 </div>
               </div>
             </details>

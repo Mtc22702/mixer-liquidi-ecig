@@ -264,7 +264,7 @@ h1 {
 
 .live-status {
   align-items: center;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(18, 104, 73, 0.12);
   border-radius: 14px;
   color: var(--green-dark);
@@ -363,22 +363,20 @@ h1 {
 
 .price-menu-toggle {
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1.5px solid rgba(18, 104, 73, 0.28);
-  border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 2px 6px rgba(18, 104, 73, 0.07);
+  background: rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(18, 104, 73, 0.16);
+  border-radius: 12px;
+  box-shadow: none;
   color: var(--green-dark);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  font-size: 13.5px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 650;
   gap: 7px;
-  height: 44px;
+  height: 40px;
   letter-spacing: -0.01em;
-  padding: 0 16px;
+  padding: 0 13px;
   transition:
     background 0.18s ease,
     box-shadow 0.18s ease,
@@ -429,10 +427,8 @@ h1 {
 
 .price-menu-toggle:hover {
   background: rgba(18, 104, 73, 0.07);
-  border-color: rgba(18, 104, 73, 0.38);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 4px 12px rgba(18, 104, 73, 0.1);
+  border-color: rgba(18, 104, 73, 0.28);
+  box-shadow: none;
 }
 
 .price-menu-toggle:active {
@@ -768,21 +764,21 @@ h1 {
 }
 
 .bottle-card {
-  align-items: start;
+  align-items: center;
   background: linear-gradient(145deg, #fbfdfc, #f2f8f4);
   border: 1px solid #d4e7db;
   border-radius: 16px;
   box-shadow: inset 0 1px 0 #fff;
-  column-gap: 12px;
+  column-gap: 14px;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 104px minmax(0, 1fr);
   height: auto;
-  padding: 9px 14px 14px 14px;
+  padding: 12px 16px 16px 12px;
 }
 
 .bottle-label {
-  color: var(--muted);
-  font-size: 12px;
+  color: var(--green-dark);
+  font-size: 12.5px;
   font-weight: 700;
   margin: 0;
   text-transform: uppercase;
@@ -791,30 +787,114 @@ h1 {
 
 .bottle-media {
   align-items: center;
-  background: #f6fbf7;
-  border-radius: 12px;
+  background: transparent;
   display: flex;
-  height: 200px;
+  height: 212px;
   justify-content: center;
   overflow: hidden;
   padding: 8px;
-  width: 92px;
+  position: relative;
+  width: 104px;
+}
+
+.bottle-media::before {
+  content: none;
 }
 
 .bottle-media img,
 .bottle-media svg {
-  height: 184px;
+  height: 204px;
   object-fit: contain;
-  width: 74px;
+  position: relative;
+  width: 82px;
+  z-index: 1;
 }
 
 .btl-liq {
-  transition: none;
+  transition:
+    height 0.22s ease,
+    y 0.22s ease;
+}
+
+.btl-wave {
+  fill: none;
+  opacity: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 0.92;
+  stroke-width: 1.7;
+  transition:
+    d 0.22s ease,
+    opacity 0.16s ease;
+}
+
+#bottle-svg.liquid-moving .btl-wave {
+  animation: btl-wave-slosh 0.82s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#bottle-svg.liquid-moving #btl-wave-basePg {
+  animation-delay: 0.04s;
+}
+
+#bottle-svg.liquid-moving #btl-wave-nicotine {
+  animation-delay: 0.08s;
+}
+
+#bottle-svg.liquid-moving #btl-wave-aroma {
+  animation-delay: 0.12s;
+}
+
+@keyframes btl-wave-slosh {
+  0%,
+  100% {
+    stroke-opacity: 0.92;
+    stroke-width: 1.7;
+  }
+  20% {
+    stroke-opacity: 1;
+    stroke-width: 2.15;
+  }
+  45% {
+    stroke-opacity: 0.84;
+    stroke-width: 1.45;
+  }
+  70% {
+    stroke-opacity: 0.96;
+    stroke-width: 1.9;
+  }
+}
+
+#bottle-svg .btl-body,
+#bottle-svg .btl-neck {
+  fill-opacity: 0.44;
+}
+
+#bottle-svg line {
+  stroke: #2f7a4e;
+}
+
+#bottle-svg line[stroke-width="1"] {
+  stroke: #63a977;
+}
+
+#bottle-svg text {
+  fill: #133f2d;
+  paint-order: stroke;
+  stroke: rgba(255, 255, 255, 0.88);
+  stroke-linejoin: round;
+  stroke-width: 2.6px;
+}
+
+#bottle-svg .btl-unit {
+  fill: #4f755f;
+  font-size: 6.4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .bottle-controls {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   justify-items: center;
   min-width: 0;
   text-align: center;
@@ -834,8 +914,8 @@ h1 {
 }
 
 .bottle-input input {
-  font-size: 18px;
-  height: 44px;
+  font-size: 20px;
+  height: 46px;
   padding: 0 27px 0 7px;
 }
 
@@ -952,13 +1032,13 @@ select {
 }
 
 .bottle-stepper {
-  gap: 5px;
+  gap: 6px;
   justify-content: center;
 }
 
 .bottle-stepper .adjust {
-  height: 44px;
-  width: 75px;
+  height: 46px;
+  width: 76px;
 }
 
 .bottle-stepper .input-with-unit b {
@@ -1768,7 +1848,7 @@ select:focus {
     background: linear-gradient(145deg, #fbfdfc, #f4faf6);
     border-radius: 17px;
     column-gap: 10px;
-    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-columns: 92px minmax(0, 1fr);
     justify-self: stretch;
     min-height: 0;
     padding: 8px 10px 12px 8px;
@@ -1776,13 +1856,13 @@ select:focus {
 
   .bottle-media {
     padding: 6px;
-    width: 86px;
+    width: 90px;
   }
 
   .bottle-media img,
   .bottle-media svg {
-    height: 146px;
-    width: 54px;
+    height: 154px;
+    width: 60px;
   }
 
   input,
@@ -1933,39 +2013,50 @@ select,
 
 @media (prefers-reduced-motion: reduce) {
   .live-dot,
-  .value-flash {
+  .value-flash,
+  .btl-liq,
+  .btl-wave {
     animation: none;
+    transition: none;
   }
 }
 
 @media (min-width: 901px) {
   /* Bottle card: bigger bottle, refined layout */
   .bottle-card {
-    column-gap: 16px;
-    grid-template-columns: 120px minmax(0, 1fr);
-    padding: 14px 18px 18px;
+    column-gap: 20px;
+    grid-template-columns: 148px minmax(0, 1fr);
+    padding: 16px 20px 20px 16px;
     align-items: center;
   }
 
   .bottle-media {
-    height: 236px;
-    width: 120px;
+    height: 278px;
+    width: 148px;
   }
 
   .bottle-media img,
   .bottle-media svg {
-    height: 218px;
-    width: 88px;
+    height: 268px;
+    width: 108px;
   }
 
   .bottle-controls {
-    gap: 10px;
-    padding-top: 4px;
+    gap: 11px;
+    padding-top: 2px;
+  }
+
+  .bottle-label {
+    font-size: 13px;
+  }
+
+  .bottle-helper {
+    font-size: 11.5px;
   }
 
   .bottle-ratio-wrap {
-    margin-top: 8px;
-    padding-top: 16px;
+    margin-top: 10px;
+    padding-top: 17px;
   }
 
   /* VG/PG result boxes */
@@ -2366,7 +2457,45 @@ select,
 }
 
 [data-theme="dark"] .bottle-media {
-  background: #192e20;
+  background: transparent;
+}
+
+[data-theme="dark"] .bottle-media::before {
+  content: none;
+}
+
+[data-theme="dark"] #bottle-svg .btl-body,
+[data-theme="dark"] #bottle-svg .btl-neck {
+  fill: #d9f7df;
+  fill-opacity: 0.26;
+  stroke: #b6e9c4;
+}
+
+[data-theme="dark"] #bottle-svg .btl-neck-outline {
+  stroke: #b6e9c4;
+}
+
+[data-theme="dark"] #bottle-svg .btl-cap {
+  fill: #9fc6aa;
+  stroke: #c3edd0;
+}
+
+[data-theme="dark"] #bottle-svg line {
+  stroke: #d7ffe7;
+}
+
+[data-theme="dark"] #bottle-svg line[stroke-width="1"] {
+  stroke: #8bd9a8;
+}
+
+[data-theme="dark"] #bottle-svg text {
+  fill: #f2fff7;
+  stroke: rgba(8, 18, 14, 0.94);
+  stroke-width: 3px;
+}
+
+[data-theme="dark"] #bottle-svg .btl-unit {
+  fill: #b7f5d2;
 }
 
 [data-theme="dark"] .price-panel,
@@ -2403,11 +2532,9 @@ select,
 }
 
 [data-theme="dark"] .price-menu-toggle {
-  background: rgba(22, 40, 30, 0.6);
-  border-color: rgba(46, 196, 126, 0.25);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 2px 6px rgba(46, 196, 126, 0.08);
+  background: rgba(22, 40, 30, 0.36);
+  border-color: rgba(46, 196, 126, 0.18);
+  box-shadow: none;
   color: var(--green-dark);
 }
 
@@ -2544,20 +2671,18 @@ select,
 
 .saved-menu-toggle {
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1.5px solid rgba(18, 104, 73, 0.22);
-  border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 2px 6px rgba(18, 104, 73, 0.06);
+  background: rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(18, 104, 73, 0.14);
+  border-radius: 12px;
+  box-shadow: none;
   color: var(--green-dark);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  font-size: 13.5px;
-  font-weight: 600;
-  height: 44px;
-  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 650;
+  height: 40px;
+  padding: 0 13px;
   transition:
     background 0.16s ease,
     border-color 0.16s ease,
@@ -2566,8 +2691,8 @@ select,
 }
 
 [data-theme="dark"] .saved-menu-toggle {
-  background: rgba(22, 40, 30, 0.6);
-  border-color: rgba(46, 196, 126, 0.22);
+  background: rgba(22, 40, 30, 0.36);
+  border-color: rgba(46, 196, 126, 0.18);
   color: var(--green-dark);
 }
 
@@ -2594,10 +2719,8 @@ select,
 
 .saved-menu-toggle:hover {
   background: rgba(18, 104, 73, 0.07);
-  border-color: rgba(18, 104, 73, 0.3);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 4px 12px rgba(18, 104, 73, 0.1);
+  border-color: rgba(18, 104, 73, 0.26);
+  box-shadow: none;
 }
 
 .saved-panel {

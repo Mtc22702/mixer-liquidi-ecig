@@ -536,11 +536,18 @@ function initCalculator() {
   const nicTargetResultEl = document.querySelector("#nic-target-result");
 
   const BTL_LAYERS = ["baseVg", "basePg", "nicotine", "aroma"];
+  const bottleSvg = document.querySelector("#bottle-svg");
   const btlLiqEls = Object.fromEntries(
     BTL_LAYERS.map((id) => [id, document.querySelector(`#btl-liq-${id}`)])
   );
+  const btlWaveEls = Object.fromEntries(
+    BTL_LAYERS.map((id) => [id, document.querySelector(`#btl-wave-${id}`)])
+  );
 
   let ingredients = DEFAULT_RECIPE.map((ingredient) => ({ ...ingredient }));
+  let lastBottleSignature = "";
+  let bottleMotionTimer = null;
+  let bottleWaveFrame = null;
 
   function setText(selector, key) {
     const el = document.querySelector(selector);
@@ -913,6 +920,68 @@ function initCalculator() {
     });
   }
 
+  function clampBottleWaveY(value) {
+    return clamp(value, 40, 200);
+  }
+
+  function buildBottleWavePath(y, phase = 0, amplitude = 1.25) {
+    const top = clampBottleWaveY(Number(y));
+    const waveY = (offset) =>
+      clampBottleWaveY(top + Math.sin(phase + offset) * amplitude).toFixed(2);
+
+    return [
+      `M 13 ${waveY(0)}`,
+      `C 17 ${waveY(0.9)} 21 ${waveY(1.8)} 25 ${waveY(2.7)}`,
+      `S 34 ${waveY(3.6)} 39 ${waveY(4.5)}`,
+      `S 48 ${waveY(5.4)} 53 ${waveY(6.3)}`,
+      `S 59 ${waveY(7.2)} 61 ${waveY(8.1)}`
+    ].join(" ");
+  }
+
+  function animateBottleWaves() {
+    if (bottleWaveFrame) cancelAnimationFrame(bottleWaveFrame);
+    const duration = 820;
+    const startedAt = performance.now();
+
+    function frame(now) {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const amplitude = 2.3 * (1 - easeOut) + 1.05;
+      const phase = progress * Math.PI * 4.8;
+
+      BTL_LAYERS.forEach((id, index) => {
+        const wave = btlWaveEls[id];
+        if (!wave || wave.style.opacity === "0") return;
+        const baseY = parseFloat(wave.dataset.baseY || wave.getAttribute("data-base-y"));
+        if (!Number.isFinite(baseY)) return;
+        wave.setAttribute(
+          "d",
+          buildBottleWavePath(baseY, phase + index * 0.75, amplitude)
+        );
+      });
+
+      if (progress < 1) {
+        bottleWaveFrame = requestAnimationFrame(frame);
+      } else {
+        bottleWaveFrame = null;
+      }
+    }
+
+    bottleWaveFrame = requestAnimationFrame(frame);
+  }
+
+  function triggerBottleMotion() {
+    if (!bottleSvg) return;
+    bottleSvg.classList.remove("liquid-moving");
+    void bottleSvg.getBoundingClientRect();
+    bottleSvg.classList.add("liquid-moving");
+    animateBottleWaves();
+    clearTimeout(bottleMotionTimer);
+    bottleMotionTimer = setTimeout(() => {
+      bottleSvg.classList.remove("liquid-moving");
+    }, 900);
+  }
+
   function updateBottleFill() {
     const BODY_BOTTOM = 208;
     const BODY_HEIGHT = 160;
@@ -920,8 +989,10 @@ function initCalculator() {
     const totalFillH =
       totalVol > 0 ? Math.min(totalVol / 100, 1) * BODY_HEIGHT : 0;
     let currentBottom = BODY_BOTTOM;
+    const signatureParts = [];
     for (const id of BTL_LAYERS) {
       const el = btlLiqEls[id];
+      const wave = btlWaveEls[id];
       if (!el) continue;
       const ing = ingredients.find((i) => i.id === id);
       const vol = ing && Number.isFinite(ing.volume) ? ing.volume : 0;
@@ -931,8 +1002,19 @@ function initCalculator() {
       el.setAttribute("height", segH);
       el.style.y = yVal + "px";
       el.style.height = segH + "px";
+      if (wave) {
+        wave.setAttribute("d", buildBottleWavePath(yVal));
+        wave.dataset.baseY = String(yVal);
+        wave.style.opacity = segH > 1.5 ? "1" : "0";
+      }
+      signatureParts.push(`${id}:${yVal.toFixed(2)}:${segH.toFixed(2)}`);
       currentBottom -= segH;
     }
+    const nextSignature = signatureParts.join("|");
+    if (lastBottleSignature && nextSignature !== lastBottleSignature) {
+      triggerBottleMotion();
+    }
+    lastBottleSignature = nextSignature;
   }
 
   function flashEl(id) {
