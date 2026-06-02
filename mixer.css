@@ -319,7 +319,9 @@ h1 {
   gap: 2px;
   padding: 5px 8px;
   text-align: center;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .language-control:hover {
@@ -406,7 +408,9 @@ h1 {
   margin-left: 2px;
   opacity: 0.6;
   transform: rotate(-45deg) translate(-1px, 1px);
-  transition: transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.18s ease;
+  transition:
+    transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1),
+    opacity 0.18s ease;
   width: 6px;
 }
 
@@ -549,7 +553,10 @@ h1 {
   height: 32px;
   justify-content: center;
   padding: 0;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
   width: 32px;
 }
 
@@ -1207,7 +1214,9 @@ select:focus {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2.2;
-  transition: transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.18s ease;
+  transition:
+    transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1),
+    opacity 0.18s ease;
   width: 14px;
 }
 
@@ -1280,7 +1289,11 @@ select:focus {
 
 /* ── Nicotine inverse calculator ─────────────────────────────────────── */
 .nic-inverse-section {
-  background: linear-gradient(135deg, rgba(18, 104, 73, 0.06) 0%, rgba(18, 104, 73, 0.03) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(18, 104, 73, 0.06) 0%,
+    rgba(18, 104, 73, 0.03) 100%
+  );
   border-top: 1px solid rgba(18, 104, 73, 0.1);
   display: grid;
   gap: 8px;
@@ -2195,11 +2208,15 @@ select,
 
 [data-theme="dark"] .hero {
   background:
-    linear-gradient(90deg, rgba(18,40,28,0.92) 0%, rgba(14,32,22,0.88) 100%),
+    linear-gradient(
+      90deg,
+      rgba(18, 40, 28, 0.92) 0%,
+      rgba(14, 32, 22, 0.88) 100%
+    ),
     url("mixer-assets/steam-hero.jpg");
   background-position: center 42%;
   background-size: cover;
-  border-color: rgba(46,196,126,0.18);
+  border-color: rgba(46, 196, 126, 0.18);
 }
 
 [data-theme="dark"] .hero h1 {
@@ -2213,15 +2230,19 @@ select,
 
 [data-theme="dark"] .live-bar {
   background:
-    linear-gradient(135deg, rgba(22,32,25,0.98), rgba(18,40,28,0.96)),
-    radial-gradient(circle at 16% 20%, rgba(46,196,126,0.12), transparent 28%);
-  border-color: rgba(46,196,126,0.22);
+    linear-gradient(135deg, rgba(22, 32, 25, 0.98), rgba(18, 40, 28, 0.96)),
+    radial-gradient(
+      circle at 16% 20%,
+      rgba(46, 196, 126, 0.12),
+      transparent 28%
+    );
+  border-color: rgba(46, 196, 126, 0.22);
 }
 
 [data-theme="dark"] .live-status,
 [data-theme="dark"] .language-control {
-  background: rgba(22,32,25,0.8);
-  border-color: rgba(46,196,126,0.15);
+  background: rgba(22, 32, 25, 0.8);
+  border-color: rgba(46, 196, 126, 0.15);
   color: var(--green-dark);
 }
 
@@ -2246,7 +2267,7 @@ select,
 [data-theme="dark"] input:focus,
 [data-theme="dark"] select:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(46,196,126,0.18);
+  box-shadow: 0 0 0 3px rgba(46, 196, 126, 0.18);
 }
 
 [data-theme="dark"] .adjust {
@@ -2297,8 +2318,12 @@ select,
 }
 
 [data-theme="dark"] .nic-inverse-section {
-  background: linear-gradient(135deg, rgba(46,196,126,0.07), rgba(46,196,126,0.03));
-  border-top-color: rgba(46,196,126,0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(46, 196, 126, 0.07),
+    rgba(46, 196, 126, 0.03)
+  );
+  border-top-color: rgba(46, 196, 126, 0.12);
 }
 
 [data-theme="dark"] .nic-inverse-heading {
@@ -2373,7 +2398,7 @@ select,
 }
 
 [data-theme="dark"] .price-actions {
-  background: linear-gradient(180deg, rgba(22,32,25,0.9), #162019 42%);
+  background: linear-gradient(180deg, rgba(22, 32, 25, 0.9), #162019 42%);
   border-color: var(--border);
 }
 
@@ -2387,8 +2412,12 @@ select,
 }
 
 [data-theme="dark"] .price-panel-header {
-  background: linear-gradient(135deg, rgba(25,48,40,0.9), rgba(22,40,30,0.7));
-  border-bottom-color: rgba(46,196,126,0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(25, 48, 40, 0.9),
+    rgba(22, 40, 30, 0.7)
+  );
+  border-bottom-color: rgba(46, 196, 126, 0.12);
 }
 
 [data-theme="dark"] .price-panel-close:hover {
@@ -2404,7 +2433,7 @@ select,
 
 [data-theme="dark"] .component-details[open] summary {
   background: var(--green-soft);
-  border-color: rgba(46,196,126,0.2);
+  border-color: rgba(46, 196, 126, 0.2);
 }
 
 [data-theme="dark"] .display-field {
@@ -2412,12 +2441,16 @@ select,
 }
 
 [data-theme="dark"] .sticky-result {
-  background: linear-gradient(180deg, rgba(22,32,25,0.97), rgba(18,28,22,0.99));
-  border-color: rgba(46,196,126,0.2);
+  background: linear-gradient(
+    180deg,
+    rgba(22, 32, 25, 0.97),
+    rgba(18, 28, 22, 0.99)
+  );
+  border-color: rgba(46, 196, 126, 0.2);
 }
 
 [data-theme="dark"] .sticky-stat {
-  border-color: rgba(46,196,126,0.12);
+  border-color: rgba(46, 196, 126, 0.12);
 }
 
 [data-theme="dark"] .sticky-stat--vg {
@@ -2439,7 +2472,7 @@ select,
 }
 
 [data-theme="dark"] .sticky-note-text {
-  background: rgba(46,196,126,0.12);
+  background: rgba(46, 196, 126, 0.12);
   color: var(--green);
 }
 
@@ -2451,8 +2484,8 @@ select,
 /* ── Dark mode toggle button ─────────────────────────────────────────── */
 .dark-toggle {
   align-items: center;
-  background: rgba(255,255,255,0.7);
-  border: 1px solid rgba(18,104,73,0.12);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(18, 104, 73, 0.12);
   border-radius: 12px;
   color: var(--green-dark);
   cursor: pointer;
@@ -2461,18 +2494,20 @@ select,
   height: 36px;
   justify-content: center;
   padding: 0;
-  transition: background 0.16s ease, border-color 0.16s ease;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease;
   width: 36px;
 }
 
 [data-theme="dark"] .dark-toggle {
-  background: rgba(22,32,25,0.8);
-  border-color: rgba(46,196,126,0.15);
+  background: rgba(22, 32, 25, 0.8);
+  border-color: rgba(46, 196, 126, 0.15);
 }
 
 .dark-toggle:hover {
-  background: rgba(18,104,73,0.1);
-  border-color: rgba(18,104,73,0.25);
+  background: rgba(18, 104, 73, 0.1);
+  border-color: rgba(18, 104, 73, 0.25);
 }
 
 .dark-toggle svg {
@@ -2487,11 +2522,19 @@ select,
 }
 
 /* sun icon in dark mode, moon icon in light mode */
-.dark-toggle .icon-moon { display: block; }
-.dark-toggle .icon-sun  { display: none; }
+.dark-toggle .icon-moon {
+  display: block;
+}
+.dark-toggle .icon-sun {
+  display: none;
+}
 
-[data-theme="dark"] .dark-toggle .icon-moon { display: none; }
-[data-theme="dark"] .dark-toggle .icon-sun  { display: block; }
+[data-theme="dark"] .dark-toggle .icon-moon {
+  display: none;
+}
+[data-theme="dark"] .dark-toggle .icon-sun {
+  display: block;
+}
 
 /* ── Saved recipes ────────────────────────────────────────────────────── */
 .saved-menu {
@@ -2504,7 +2547,9 @@ select,
   background: rgba(255, 255, 255, 0.7);
   border: 1.5px solid rgba(18, 104, 73, 0.22);
   border-radius: 14px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 2px 6px rgba(18,104,73,0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 2px 6px rgba(18, 104, 73, 0.06);
   color: var(--green-dark);
   cursor: pointer;
   display: inline-flex;
@@ -2513,13 +2558,16 @@ select,
   font-weight: 600;
   height: 44px;
   padding: 0 14px;
-  transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
   white-space: nowrap;
 }
 
 [data-theme="dark"] .saved-menu-toggle {
   background: rgba(22, 40, 30, 0.6);
-  border-color: rgba(46,196,126,0.22);
+  border-color: rgba(46, 196, 126, 0.22);
   color: var(--green-dark);
 }
 
@@ -2533,7 +2581,9 @@ select,
   margin-left: 6px;
   opacity: 0.45;
   transform: rotate(-45deg) translate(-1px, 1px);
-  transition: transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.18s ease;
+  transition:
+    transform 0.22s cubic-bezier(0.34, 1.2, 0.64, 1),
+    opacity 0.18s ease;
   width: 6px;
 }
 
@@ -2543,16 +2593,18 @@ select,
 }
 
 .saved-menu-toggle:hover {
-  background: rgba(18,104,73,0.07);
-  border-color: rgba(18,104,73,0.3);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 4px 12px rgba(18,104,73,0.1);
+  background: rgba(18, 104, 73, 0.07);
+  border-color: rgba(18, 104, 73, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 4px 12px rgba(18, 104, 73, 0.1);
 }
 
 .saved-panel {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: 0 22px 50px rgba(18,42,30,0.18);
+  box-shadow: 0 22px 50px rgba(18, 42, 30, 0.18);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2564,7 +2616,9 @@ select,
   z-index: 30;
 }
 
-.saved-panel[hidden] { display: none; }
+.saved-panel[hidden] {
+  display: none;
+}
 
 .saved-recipes-list {
   display: flex;
@@ -2619,7 +2673,7 @@ select,
 
 .saved-load-btn {
   background: var(--green-soft);
-  border: 1px solid rgba(18,104,73,0.2);
+  border: 1px solid rgba(18, 104, 73, 0.2);
   border-radius: 8px;
   color: var(--green-dark);
   cursor: pointer;
@@ -2632,12 +2686,12 @@ select,
 }
 
 .saved-load-btn:hover {
-  background: rgba(18,104,73,0.14);
+  background: rgba(18, 104, 73, 0.14);
 }
 
 [data-theme="dark"] .saved-load-btn {
-  background: rgba(46,196,126,0.15);
-  border-color: rgba(46,196,126,0.25);
+  background: rgba(46, 196, 126, 0.15);
+  border-color: rgba(46, 196, 126, 0.25);
 }
 
 .saved-delete-btn {
@@ -2655,7 +2709,9 @@ select,
   justify-content: center;
   line-height: 1;
   padding: 0;
-  transition: background 0.16s ease, color 0.16s ease;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
   width: 32px;
 }
 
@@ -2673,7 +2729,7 @@ select,
 }
 
 .saved-actions {
-  background: linear-gradient(180deg, rgba(255,255,255,0.88), #fff 42%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), #fff 42%);
   border-top: 1px solid var(--border);
   display: flex;
   gap: 8px;
@@ -2683,7 +2739,7 @@ select,
 }
 
 [data-theme="dark"] .saved-actions {
-  background: linear-gradient(180deg, rgba(22,32,25,0.9), #162019 42%);
+  background: linear-gradient(180deg, rgba(22, 32, 25, 0.9), #162019 42%);
   border-color: var(--border);
 }
 
@@ -2707,12 +2763,15 @@ select,
   font-weight: 600;
   height: 36px;
   padding: 0 13px;
-  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease;
 }
 
 .copy-recipe-btn:hover {
   background: var(--green-soft);
-  border-color: rgba(18,104,73,0.25);
+  border-color: rgba(18, 104, 73, 0.25);
   color: var(--green-dark);
 }
 
@@ -2721,7 +2780,6 @@ select,
   color: var(--green-dark);
   cursor: default;
 }
-
 
 /* ── Mobile adjustments for saved menu ──────────────────────────────── */
 @media (max-width: 740px) {
