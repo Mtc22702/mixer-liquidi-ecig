@@ -61,7 +61,7 @@ const TRANSLATIONS = {
     finalNicotine: "Nicotină finală",
     totalCost: "Cost total",
     completePrices: "Completează prețurile",
-    targetDelta: "Abatere target",
+    targetDelta: "Abatere obiectiv",
     precise: "Precis",
     regulateComponents: "Reglează componentele",
     quantityMl: "Cantitate (ml)",
@@ -80,8 +80,8 @@ const TRANSLATIONS = {
     noteExact: "Compoziția corespunde raportului setat.",
     noteChanged:
       "Ai modificat rețeta: totalul este respectat, dar raportul final diferă de referință.",
-    stickyExact: "Precis: compoziție aliniată cu targetul",
-    stickyChanged: "{delta}: raportul diferă de target",
+    stickyExact: "Precis: compoziție aliniată cu obiectivul",
+    stickyChanged: "{delta}: raportul diferă de obiectiv",
     errorFinalVolume: "Cantitatea totală trebuie să fie mai mare decât zero.",
     errorTargetVg: "Procentul VG trebuie să fie între 0 și 100.",
     errorIngredientsPositive:
@@ -102,7 +102,10 @@ const TRANSLATIONS = {
     darkMode: "Mod întunecat",
     copyRecipe: "Copiază rețeta",
     copied: "Copiat!",
+    savedArchive: "Arhivă rapidă",
     savedRecipes: "Rețete salvate",
+    savedCountOne: "1 salvată",
+    savedCountOther: "{count} salvate",
     saveRecipe: "Salvează rețeta",
     closeSaved: "Închide rețetele salvate",
     noRecipes: "Nicio rețetă salvată",
@@ -155,7 +158,7 @@ const TRANSLATIONS = {
     finalNicotine: "Nicotina finale",
     totalCost: "Costo totale",
     completePrices: "Completa i prezzi",
-    targetDelta: "Scostamento target",
+    targetDelta: "Scostamento obiettivo",
     precise: "Preciso",
     regulateComponents: "Regola i componenti",
     quantityMl: "Quantità (ml)",
@@ -174,8 +177,8 @@ const TRANSLATIONS = {
     noteExact: "La composizione corrisponde al rapporto impostato.",
     noteChanged:
       "Hai modificato la ricetta: il totale è rispettato, mentre il rapporto finale differisce dal riferimento.",
-    stickyExact: "Preciso: composizione in linea con il target",
-    stickyChanged: "{delta}: rapporto differisce dal target",
+    stickyExact: "Preciso: composizione in linea con l'obiettivo",
+    stickyChanged: "{delta}: rapporto differisce dall'obiettivo",
     errorFinalVolume: "La quantità totale deve essere maggiore di zero.",
     errorTargetVg: "La percentuale VG deve essere compresa tra 0 e 100.",
     errorIngredientsPositive:
@@ -196,7 +199,10 @@ const TRANSLATIONS = {
     darkMode: "Modalità scura",
     copyRecipe: "Copia ricetta",
     copied: "Copiato!",
+    savedArchive: "Archivio rapido",
     savedRecipes: "Ricette salvate",
+    savedCountOne: "1 salvata",
+    savedCountOther: "{count} salvate",
     saveRecipe: "Salva ricetta",
     closeSaved: "Chiudi ricette salvate",
     noRecipes: "Nessuna ricetta salvata",
@@ -286,7 +292,10 @@ const TRANSLATIONS = {
     darkMode: "Dark mode",
     copyRecipe: "Copy recipe",
     copied: "Copied!",
+    savedArchive: "Quick archive",
     savedRecipes: "Saved recipes",
+    savedCountOne: "1 saved",
+    savedCountOther: "{count} saved",
     saveRecipe: "Save recipe",
     closeSaved: "Close saved recipes",
     noRecipes: "No saved recipes",
@@ -531,6 +540,7 @@ function initCalculator() {
   const savedBackdrop = document.querySelector("#saved-recipes-backdrop");
   const savedPanel = document.querySelector("#saved-recipes-panel");
   const savedList = document.querySelector("#saved-recipes-list");
+  const savedCount = document.querySelector("#saved-recipes-count");
   const saveCurrentBtn = document.querySelector("#save-current-recipe");
   const nicTargetInput = document.querySelector("#nic-target");
   const nicTargetResultEl = document.querySelector("#nic-target-result");
@@ -689,6 +699,8 @@ function initCalculator() {
     setText("#saved-recipes-toggle", "savedRecipes");
     setAttr("#saved-recipes-backdrop", "aria-label", "closeSaved");
     setAttr("#saved-recipes-panel", "aria-label", "savedRecipes");
+    setText(".saved-panel-kicker", "savedArchive");
+    setText("#saved-recipes-title", "savedRecipes");
     setText("#save-current-recipe", "saveRecipe");
     setLabelText(".nicotine-target-label", "nicTarget");
     setText(".nic-inverse-heading", "nicTargetHeading");
@@ -1349,6 +1361,13 @@ function initCalculator() {
   function renderSavedList() {
     if (!savedList) return;
     const saved = getSavedRecipes();
+    if (savedCount) {
+      savedCount.textContent = t(
+        saved.length === 1 ? "savedCountOne" : "savedCountOther",
+        { count: saved.length }
+      );
+    }
+
     if (saved.length === 0) {
       savedList.innerHTML = `<p class="no-recipes">${t("noRecipes")}</p>`;
       return;
