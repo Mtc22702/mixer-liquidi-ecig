@@ -1,16 +1,16 @@
-const CACHE_NAME = "vg-mixer-v28.1";
+const CACHE_NAME = "vg-mixer-v28.3";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./mixer.css",
-  "./pin.css",
-  "./pin.js",
-  "./mixer.js",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./mixer-assets/steam-hero.jpg",
-  "./mixer-assets/flacone-graduato-60ml.svg"
+  "./assets/css/mixer.css",
+  "./assets/css/pin.css",
+  "./assets/js/pin.js",
+  "./assets/js/mixer.js",
+  "./assets/manifest.json",
+  "./assets/img/icon-192.png",
+  "./assets/img/icon-512.png",
+  "./assets/img/steam-hero.jpg",
+  "./assets/img/svg/flacone-graduato-60ml.svg"
 ];
 
 self.addEventListener("install", (event) => {

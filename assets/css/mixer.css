@@ -53,7 +53,7 @@ body {
       rgba(255, 255, 255, 0.08) 48%,
       rgba(255, 255, 255, 0) 72%
     ),
-    url("mixer-assets/steam-hero.jpg");
+    url("../img/steam-hero.jpg");
   background-position: center 42%;
   background-size: cover;
   border: 1px solid rgba(107, 183, 151, 0.28);
@@ -2338,7 +2338,7 @@ select,
       rgba(18, 40, 28, 0.92) 0%,
       rgba(14, 32, 22, 0.88) 100%
     ),
-    url("mixer-assets/steam-hero.jpg");
+    url("../img/steam-hero.jpg");
   background-position: center 42%;
   background-size: cover;
   border-color: rgba(46, 196, 126, 0.18);

@@ -9,15 +9,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="mixer.css" />
-    <link rel="stylesheet" href="pin.css" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="assets/css/mixer.css" />
+    <link rel="stylesheet" href="assets/css/pin.css" />
+    <link rel="manifest" href="assets/manifest.json" />
     <meta name="theme-color" content="#126849" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="VG Mixer" />
-    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link rel="apple-touch-icon" href="assets/img/icon-192.png" />
     <title>Mixer VG / PG</title>
   </head>
   <body>
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <script src="pin.js"></script>
+    <script src="assets/js/pin.js"></script>
     <main class="page">
       <header class="hero">
         <div class="hero-copy">
@@ -1466,12 +1466,12 @@
         <p id="sticky-note" class="sticky-note-text">–</p>
       </div>
     </main>
-    <script src="mixer.js"></script>
+    <script src="assets/js/mixer.js"></script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("./service-worker.js", { updateViaCache: "none" })
+            .register("service-worker.js", { updateViaCache: "none" })
             .catch(() => {});
         });
       }
